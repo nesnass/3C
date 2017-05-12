@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>kioskSettings</key>
+	<array>
+	
+	<!--Compatible with Kiosk Pro Plus 5.0, updated July 11, 2014, more information available at http://www.kioskproapp.com -->
+		
+	<!--Before making changes to this .xml file please note the following:
+		1. Do not add spaces or line breaks before <?xml version="1.0" encoding="UTF-8"?> at the top of the file.
+		2. Any values with the tags <integer> or <real> cannot be left blank; they must have an entry. 
+		3. If you do not wish to control a specific setting remotely, you can delete the entire entry from (and including) the opening <dict> tag to (and including) the closing </dict> tag.
+		4. Ampersands ('&') are a reserved character in XML. If your url uses one, you will need to instead use the unit code "&amp;" -->
+
+		
+	<!--Settings Menu-->
+	
+		<!--Homepage-->
+		<dict>
+			<key>Key</key><string>homePage</string>
+			<key>Value</key><string>ark.uio.im/#/group04</string>
+		</dict>
+		
+		<!--Remote Settings Control-->
+		<!--Enable-->
+		<dict>
+			<key>Key</key><string>remoteSettingsEnabled</string>
+			<key>Value</key><true/>
+		</dict>
+		<!--XML File Location, once the homepage is set, the rest of the settings are loaded -->
+		<dict>
+			<key>Key</key><string>externalSettingsFile</string>
+			<key>Value</key><string>ark.uio.im/kiosk/maintenance.xml</string>
+		</dict>
+		<!--Update Period (minutes)-->
+		<dict>
+			<key>Key</key><string>localSettingsUpdatePeriod</string>
+			<key>Value</key><string>1</string>
+		</dict>
+
+
+		
+	</array>
+</dict>
+</plist>

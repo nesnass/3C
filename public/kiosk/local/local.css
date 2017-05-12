@@ -1,0 +1,324 @@
+@font-face {
+    font-family: VerlagBold;
+    src: url(Verlag-Bold.otf);
+}
+
+@font-face {
+    font-family: AGaramondProBold;
+    src: url(GaramondPremrPro-Capt.otf);
+}
+
+@font-face {
+    font-family: AGaramondProRegular;
+    src: url(GaramondPremrPro.otf);
+}
+
+body {
+    margin:0;
+    height:100%;
+    width:100%;
+}
+
+span {
+    display: inline-block;
+    line-height: normal;
+}
+
+p {
+    margin: 0;
+}
+
+hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+#info-timeout {
+    background-color: white;
+    width: 1024px;
+    height: 768px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#graphicarea {
+    position: relative;
+    float:left;
+    width:670px;
+    height:670px;
+    left: 0;
+}
+
+#graphicarea img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.fader-animation {
+    -webkit-transition:1s linear all;
+    transition:1s linear all;
+    opacity: 1;
+}
+
+.fader-animation.hidden {
+    opacity: 0;
+}
+
+#whiteBackground {
+    background-color: #FFFFFF;
+    height: 100vh;
+    width: 100vw;
+}
+
+.hashTagDiv {
+    padding-top: 383px;
+}
+
+.instgramTag {
+    font-family: VerlagBold;
+    font-size: 100pt;
+    text-align: center;
+    color: #000000;
+    margin: 0;
+    -webkit-margin-before: 0;
+    padding-top: 20px;
+}
+
+.overlayLine1 {
+    font-family: VerlagBold;
+    font-size: 20pt;
+    padding-top: 64px;
+    text-align: left;
+}
+
+.overlayLine2 {
+    font-family: AGaramondProRegular;
+    font-size: 20pt;
+    text-align: left;
+}
+
+#wrapper {
+    margin:0 auto;
+    width:1024px;
+    height: 768px;
+    position:relative;
+    overflow:hidden;
+    text-align:left;
+    background:#fff;
+}
+
+#instagramEntryContainer {
+    position: relative;
+    padding: 49px 27px 49px 49px;
+    float:left;
+}
+
+#metaarea {
+    float:left;
+    position:relative;
+    left: 27px;
+    width: 256px;
+}
+
+#lefttext {
+    clear:left;
+    float:left;
+    width:256px;
+    margin-bottom: 27px;
+}
+
+#masked-image {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+#user-grouping {
+    margin-top : 27px;
+}
+#username {
+    font-family: VerlagBold;
+    font-size: 24pt;
+    word-wrap: break-word;
+}
+#location {
+    font-family: AGaramondProBold;
+    font-size: 18pt;
+    word-wrap: break-word;
+    color: #576766;
+}
+.caption {
+    font-family: AGaramondProRegular;
+    font-size: 18pt;
+    word-wrap: break-word;
+    overflow: hidden;
+    color: #576766;
+    clear:left;
+    float:left;
+    width: 250px;
+    height: 530px;
+}
+
+.tags {
+    font-family: AGaramondProBold;
+    font-size: 18pt;
+    color: #000000;
+    font-weight: 900;
+}
+
+#info-overlay {
+    background-color: white;
+    width: 1024px;
+    height: 768px;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.instgramTagNO {
+    font-family: VerlagBold;
+    font-size: 75pt;
+    text-align: center;
+    padding-top: 50px;
+}
+
+.instgramTagEN {
+    font-family: VerlagBold;
+    font-size: 75pt;
+    text-align: center;
+    color: #576766;
+}
+
+.heightadjusted {
+    top: -20px;
+}
+
+#bottom_fade {
+    width: 670px;
+    height: 80px;
+    z-index: 99;
+    position: fixed;
+    bottom: 0px;
+    background: url("bottom-fadeL.png") bottom center no-repeat;
+}
+
+
+@media all and (max-width:768px) {
+    .hashTitleDiv {
+        height: 200px;
+        margin-top: 200px;
+    }
+
+    .hashTagDiv {
+
+    }
+
+    /* portrait mode */
+    #wrapper {
+        width:768px;
+        height:1024px;
+    }
+    #instagramEntryContainer {
+        padding: 49px 27px 49px 49px;
+        left: 0;
+    }
+    #graphicarea {
+        float:left;
+        width:670px;
+        height:670px;
+        position:relative;
+    }
+    #graphicarea img {
+        position: absolute;
+        width: 670px;
+        height: 670px;
+        left: 0;
+    }
+    #metaarea {
+        clear:left;
+        float:left;
+        width:670px;
+        left: 0;
+    }
+    #lefttext {
+        position:relative;
+        width: 670px;
+        margin-top: 27px;
+    }
+    #masked-image {
+        position: relative;
+        width: 64px;
+        height: 64px;
+        border-radius: 50px;
+        display: inline-block;
+        left: 0;
+        top: 8px;
+    }
+    #user-grouping {
+        position: relative;
+        display: inline-block;
+        padding-left: 20px;
+        margin-top : 0;
+        margin-bottom: 0;
+    }
+    #username {
+        font-family: VerlagBold;
+        font-size: 24pt;
+        word-wrap: break-word;
+        vertical-align: text-top;
+        position: relative;
+        height: 100%;
+    }
+    #location {
+        font-family: AGaramondProBold;
+        color: #576766;
+        font-size: 18pt;
+        word-wrap: break-word;
+    }
+    .caption {
+        display: inline-block;
+        font-family: AGaramondProRegular;
+        font-size: 18pt;
+        word-wrap: break-word;
+        overflow: hidden;
+        clear:none;
+        width: 670px;
+        height: 150px;
+        position:relative;
+    }
+    #info-overlay {
+        background-color: white;
+        width: 768px;
+        height: 1024px;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    #info-timeout {
+        background-color: white;
+        width: 768px;
+        height: 1024px;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    #bottom_fade {
+        width: 670px;
+        height: 50px;
+        z-index: 99;
+        position: fixed;
+        bottom: 0;
+        background: url("bottom-fade.png") bottom center no-repeat;
+    }
+}

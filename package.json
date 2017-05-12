@@ -1,0 +1,28 @@
+{
+  "name": "3C Participation",
+  "version": "0.1.0",
+  "author": "Richard Nesnass <richarne@uv.uio.no>",
+  "description": "3C project participation experiment",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/engagelab/talkwall"
+  },
+  "dependencies": {
+    "body-parser": "1.17.x",
+    "express": "4.15.x",
+    "method-override": "2.3.x",
+    "mongoose": "4.9.x",
+    "morgan": "1.8.x",
+    "q": "1.5.x",
+    "newrelic": "1.39.x",
+    "requestify": "0.2.x",
+    "socket.io": "2.0.x",
+    "jquery": "3.2.x",
+    "angular": "1.6.x",
+    "angular-route": "1.6.x",
+    "angular-touch": "1.6.x",
+    "socket.io-client": "2.0.x",
+    "angular-animate": "1.6.x"
+  }
+}

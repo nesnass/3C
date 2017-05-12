@@ -1,0 +1,52 @@
+<div id="wrapper" ng-click="showOverlayOnTap()" ng-hide="showTimeoutInfo">
+    <div class="instagramEntryContainer">
+        <div id="graphicarea">
+            <img ng-src="{{ photo03one }}" ng-class="{hidden:hideImage1}" class="fader-animation"/>
+            <img ng-src="{{ photo03two }}" ng-class="{hidden:hideImage2}" class="fader-animation"/>
+        </div>
+        <div id="metaarea">
+            <div id="lefttext">
+                <div id="masked-image">
+                    <img ng-src="{{ group03Text.user_profile_picture }}" width="64" height="64"/>
+                </div>
+                <div id="user-grouping" ng-class="{heightadjusted: heightadjust()}">
+                    <div id="username">
+                        <span>{{ group03Text.user_username }}</span>
+                    </div>
+                    <div id="location" ng-show="group03Text.location_name">
+                        <span>{{ group03Text.location_name }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="caption">
+                <hr/><br />
+                <span ng-bind-html="getFormattedCaption(group03Text.caption_text) | unsafe"></span>
+                <div id="bottom_fade"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="info-overlay" ng-show="showInfo" ng-click="showOverlayOnTap()">
+    <div class="instagramEntryContainer">
+        <div class="hashTagDiv">
+            <hr/>
+            <p class="overlayLine1">Klarte ikke la være å trykke?</p>
+            <p class="overlayLine2">For å se samlingen søk på @bjercheogeliasen og #byggekunst på Instagram</p>
+            <p></p>
+            <p class="overlayLine1">You had to touch didnt you?</p>
+            <p class="overlayLine2">To see the collection browse @bjercheogeliasen og #byggekunst using Instagram</p>
+        </div>
+    </div>
+</div>
+
+<!-- Enabling this div, it will show when the connection timeout passes -->
+<div id="info-timeout" ng-show="showTimeoutInfo">
+    <div class="instagramEntryContainer">
+        <div class="hashTagDiv">
+            <hr/>
+            <p class="instgramTagNO">waiting for byggekunst...</p>
+            <p class="instgramTagEN"></p>
+        </div>
+    </div>
+</div>

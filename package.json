@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/engagelab/talkwall"
+    "url": "git+https://github.com/engagelab/3C"
   },
   "dependencies": {
     "body-parser": "1.17.x",

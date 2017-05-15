@@ -23,7 +23,7 @@ var contributionSchema = Schema({
 			username:               { type: String },
 			profile_picture:        { type: String },
 			id:                     { type: String },
-			full_name:              { type: String }
+			//full_name:              { type: String }
 		},
 		images: {
 			thumbnail: {

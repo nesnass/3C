@@ -6,4 +6,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: '3C' });
 });
 
+/* GET privacy page. */
+router.get('/privacy', function(req, res, next) {
+	res.render('privacy');
+});
+
 module.exports = router;

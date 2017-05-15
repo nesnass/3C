@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+  ul
+    for c in contributions
+      li
+        img(src= c.instagram_data.images.standard_resolution.url)

@@ -1,8 +1,7 @@
 "use strict";
 
 exports.Constants = {
-    ACCESS_TOKEN: "",
-    MAIN_TAG: "3C",
+    MAIN_TAG: "exterior",
     INSTAGRAM_REFRESH_INTERVAL_SECONDS: 10
 };
 

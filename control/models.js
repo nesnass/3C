@@ -7,6 +7,11 @@ var Schema = mongoose.Schema;
 
 var contributionSchema = Schema({
 	type:                           { type: String },           // "instagram", "sms", "mms", ...etc
+	mms_data: {
+		from:                       { type: String },
+		message:                    { type: String },
+		images:                     [ { type: String } ]
+	},
 	instagram_data: {
 		id:                         { type: String },
 		tags:                       [ { type: String } ],

@@ -2,7 +2,7 @@
 
 exports.Constants = {
     MAIN_TAG: "exterior",
-    INSTAGRAM_REFRESH_INTERVAL_SECONDS: 10
+    INSTAGRAM_REFRESH_INTERVAL_SECONDS: 600
 };
 
 exports.StatusMessages = {

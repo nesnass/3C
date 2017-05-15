@@ -3,7 +3,7 @@
  */
 
 var request = require('request');
-var common = require('common.js');
+var common = require('./common.js');
 var Contribution = require('./models.js').Contribution;
 
 var mostRecentContributionIds = [];
@@ -12,6 +12,7 @@ var mostRecentContributionIds = [];
  * Run upon startup, determine the most recent contributions already added to our database
  */
 exports.startEngine = function() {
+	/*
 	Contribution.find({})
 		.limit(20)
 		.sort({"instagram_data.id": 'desc'})
@@ -26,6 +27,7 @@ exports.startEngine = function() {
 				setInterval(collectFromInstagramByRecentTag, common.Constants.INSTAGRAM_REFRESH_INTERVAL_SECONDS * 1000)
 			}
 		});
+	*/
 };
 
 

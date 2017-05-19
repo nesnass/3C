@@ -58,7 +58,7 @@ app.use(function(err, req, res, next) {
 
 
 //Define the database, either using MongoLab (Heroku) or local
-var uristring = process.env.MONGOLAB_URI || 'mongodb://localhost/3c';
+var uristring = process.env.MONGODB_URI || 'mongodb://localhost/3c';
 
 // MongoDB configuration
 mongoose.connect(uristring, function (error, result) {

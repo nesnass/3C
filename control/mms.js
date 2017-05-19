@@ -42,7 +42,7 @@ router.get('/sveve', function(req, res, next) {
 				} else {
 					// Respond to thank the MMS sender
 					var randomIndex = Math.floor(Math.random() * common.MMSResponseMessages.length);
-					res.status(200).json({ data: common.MMSResponseMessages[randomIndex] })
+					res.status(200).json(common.MMSResponseMessages[randomIndex])
 				}
 			});
 

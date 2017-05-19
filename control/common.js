@@ -18,5 +18,6 @@ exports.StatusMessages = {
 
 
 exports.MMSResponseMessages = [
-	"Takk for meldingen din! Thank you for your message!"
+	"Takk fra 3C for meldingen din!",
+	"Flott! Sjekk participation-3c.herokuapp.com/testList for å se ditt bidrag"
 ];

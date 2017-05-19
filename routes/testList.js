@@ -5,6 +5,7 @@ var Contribution = require('../control/models.js').Contribution;
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	Contribution.find({})
+		.sort({"created": 'desc'})
 		.lean()
 		.exec(function (error, items) {
 			if (error || items === null) {

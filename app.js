@@ -16,6 +16,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var testList = require('./routes/testList');
 var engine = require('./control/engine');
+var mms = require('./control/mms');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/testlist', testList);
+app.use('/mms', mms);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

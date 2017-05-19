@@ -1,8 +1,12 @@
 "use strict";
 
+exports.serverData = {
+	mostRecentInstagramIds : []
+};
+
 exports.Constants = {
     MAIN_TAG: "exterior",
-    INSTAGRAM_REFRESH_INTERVAL_SECONDS: 600
+    INSTAGRAM_REFRESH_INTERVAL_SECONDS: 10
 };
 
 exports.StatusMessages = {
@@ -11,3 +15,8 @@ exports.StatusMessages = {
         message: "Server alive"
     }
 };
+
+
+exports.MMSResponseMessages = [
+	"Takk for meldingen din! Thank you for your message!"
+];

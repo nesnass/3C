@@ -2,11 +2,11 @@
  * Created by richardnesnass on 15/05/2017.
  */
 
+var Contribution = require('./models.js').Contribution;
 var request = require('request');
 var common = require('./common.js');
-var Contribution = require('./models.js').Contribution;
+var serverData = common.serverData;
 
-var mostRecentContributionIds = [];
 
 /**
  * Run upon startup, determine the most recent contributions already added to our database
@@ -20,7 +20,7 @@ exports.startEngine = function() {
 			if (error || contributions === null) {
 				console.log("Setup error building recent contributions");
 			} else {
-				mostRecentContributionIds = contributions.map(function (contribution) {
+				serverData.mostRecentInstagramIds = contributions.map(function (contribution) {
 					return contribution.instagram_data.id;
 				});
 				setInterval(collectFromInstagramByRecentTag, common.Constants.INSTAGRAM_REFRESH_INTERVAL_SECONDS * 1000)
@@ -46,18 +46,22 @@ function collectFromInstagramByRecentTag() {
 
 				// Determine which new items are not in our DB
 				receivedItems.forEach( function(item) {
-					if (item.type === "image" && mostRecentContributionIds.indexOf(item.id) === -1) {
+					if (item.type === "image" && serverData.mostRecentInstagramIds.indexOf(item.id) === -1) {
 						createItems.push(item);
 					}
 				});
 
+				if (createItems.length > 0) {
+					console.log('Adding ' + createItems.length + ' new Instagram contributions');
+				}
+
 				// Add those items to our DB
 				createItems.forEach( function(item) {
-					Contribution.create({ type: "instagram", instagram_data: item }, function (error, contribution) {
+					Contribution.create({ origin: "instagram", instagram_data: item }, function (error, contribution) {
 						if (error) {
 							console.log("Error saving new contribution" + error);
 						} else {
-							mostRecentContributionIds.unshift(item.id);
+							serverData.mostRecentInstagramIds.unshift(item.id);
 						}
 					})
 				});

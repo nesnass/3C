@@ -39,7 +39,7 @@ function collectFromInstagramByRecentTag() {
 		},
 		function (error, response, body) {
 			if (error || response.statusCode !== 200) {
-				console.log("Error getting results from Instagram: " + error.toString() );
+				console.log("Error getting results from Instagram. status " + response.statusCode );
 			} else {
 				var receivedItems = JSON.parse(body).data;
 				var createItems = [];

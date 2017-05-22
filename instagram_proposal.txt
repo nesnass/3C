@@ -1,3 +1,5 @@
+# Brief
+
 Investigating the use of information technology to improve participation in the city planning process.
 
 Various stakeholder groups use Instagram as a source of input for ideas and inspiration, contributing to discussion on planning in their local city area. Experts respond alike, and in this way we hope to improve participation and transparency in city planning process.
@@ -22,10 +24,10 @@ http://www.uv.uio.no/iped/english/research/projects/3c/index.html
 
 # Technology
 
-Utilising social media, we are attempting to create 'low threshold' avenues to participation that encourage stakeholders who might otherwise feel withheld by a lack of subject expertise. That means allowing regular users of public spaces to post ideas and inspiration into a collection using readily available and commonly held tools, such as Instagram and MMS. 
+Utilising social media, we are attempting to create 'low threshold' avenues that encourage stakeholders who might otherwise feel reluctant to participate. That means allowing regular users of public spaces to post ideas and inspiration into a collection using readily available and commonly held tools, such as Instagram and MMS. 
 The audience is broad including the general public, politicians, architects, and other expert groups.
 
-Our service will combine the contribution channels and complement the data with features such as localisation, prioritisation, sub-categorisation and also interactions such as voting or discussing, with views on the data presentable in different contexts such as public areas, stakeholder offices or the local government web site.
+Our service will combine contribution channels and complement the gathered data with features such as localisation, prioritisation, sub-categorisation and also interactions such as voting or discussion, with views on the data presentable in different contexts such as public spaces, stakeholder offices or the local government web site.
 
 
 
@@ -44,11 +46,11 @@ and
 	'helps broadcasters and publishers discover content'
  	Where 'broadcasters' include all of stakeholders involved.
 
-Overall, Instagram posts can express an opinion about the planning process that is more valuable than text alone.
+Overall, Instagram posts can express a rich opinion about the planning process that is more valuable than text alone.
 
 
-This design is intended to be used across multiple projects and has an intrinsic need for access to public content. Though we are currently in a development phase, the project relies heavily on input from multiple, varied users to provide any real meaning. Entering as we are in the midst of the NTNU planning timeline, our work will develop alongside it.
+This design is intended to be used across multiple projects and has an intrinsic need for access to public content. Though we are currently in a development phase, the project relies heavily on input from multiple, varied users to provide real meaning. Entering as we are in the midst of the NTNU planning timeline, our work will develop alongside it.
 
-The presentation of material at present is limited to a time-ordered list of images that match the hashtag.
+The presentation of material at present is limited to a time-ordered list of owner attributed images that match the hashtag #framtidscampus.
 
-The first project's working page can be seen here:   http://framtidscampus.no
+The first project's working page can be seen here:   http://www.framtidscampus.no/

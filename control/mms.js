@@ -49,7 +49,7 @@ router.get('/sveve', function(req, res, next) {
 						res.status(500).json({ message: error });
 					} else {
 						// Respond to thank the MMS sender
-						res.status(200).json(responseText);
+						res.status(200).send(responseText);
 
 						//var randomIndex = Math.floor(Math.random() * common.MMSResponseMessages.length);
 						//res.status(200).json(common.MMSResponseMessages[randomIndex])

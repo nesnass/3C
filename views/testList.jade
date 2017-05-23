@@ -10,9 +10,10 @@ block content
       if c.origin === 'instagram'
         img(src= c.instagram_data.images.standard_resolution.url)
         p #{c.instagram_data.caption.text}
-        div(style='text-align: right')
           span
-            b #{c.instagram_data.user.username}
+            b &nbsp;#{c.instagram_data.user.username}
       else if c.origin === 'mms'
         img(src= c.message_data.images[0].url)
         p #{c.message_data.msg}
+          span
+            b &nbsp;(sent via MMS)

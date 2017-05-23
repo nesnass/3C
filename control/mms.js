@@ -6,7 +6,6 @@ var router = express.Router();
 var request = require('request');
 var Contribution = require('./models.js').Contribution;
 var common = require('./common.js');
-var serverData = common.serverData;
 
 
 /**
@@ -35,16 +34,31 @@ router.get('/sveve', function(req, res, next) {
 
 			newContribution.message_data.images.push(image);
 
-			newContribution.save(function (error, contribution) {
-				if (error || contribution === null) {
-					console.log("Error saving new contribution" + error);
-					res.status(500).json({ message: error });
-				} else {
-					// Respond to thank the MMS sender
-					var randomIndex = Math.floor(Math.random() * common.MMSResponseMessages.length);
-					res.status(200).json(common.MMSResponseMessages[randomIndex])
+			// Determine if a contribution has been made by this number already
+			Contribution.find({'message_data.number': newContribution.message_data.number }).limit(1).exec(function (error, exists) {
+				var responseText = common.MMSResponseMessages[2];
+				if (error) {
+					console.log("Error checking for existence of MMS record" + error);
+				} else if (exists.length === 0) {
+					responseText = common.MMSResponseMessages[3];
 				}
+
+				newContribution.save(function (error, contribution) {
+					if (error || contribution === null) {
+						console.log("Error saving new contribution" + error);
+						res.status(500).json({ message: error });
+					} else {
+						// Respond to thank the MMS sender
+						res.status(200).json(responseText);
+
+						//var randomIndex = Math.floor(Math.random() * common.MMSResponseMessages.length);
+						//res.status(200).json(common.MMSResponseMessages[randomIndex])
+					}
+				});
+
 			});
+
+
 
 		})
 
@@ -71,6 +85,9 @@ function getImageBinariesFromSveve(mmsids) {
 						uri: uri
 					},
 					function (error, response, body) {
+						if (error) {
+							reject(error);
+						}
 						resolve({ url: uri, blob: body });
 					}
 				)

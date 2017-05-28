@@ -1,9 +1,7 @@
-var express = require('express');
-var router = express.Router();
 var Contribution = require('../control/models.js').Contribution;
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+/* GET contribution listing */
+exports.getContributionListing = function(req, res) {
 	Contribution.find({})
 		.sort({"created": 'desc'})
 		.lean()
@@ -16,6 +14,4 @@ router.get('/', function(req, res, next) {
         res.status(200).json({ data: items });
 			}
 		});
-});
-
-module.exports = router;
+};

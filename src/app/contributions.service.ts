@@ -8,7 +8,7 @@ import {Contribution} from "./models";
 @Injectable()
 export class ContributionsService {
 
-  apiUrl = "http://localhost:8000/";
+  apiUrl = "/";
 
   constructor(private http: Http) { }
 

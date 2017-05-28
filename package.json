@@ -1,16 +1,22 @@
 {
   "name": "three-c",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
+  "author": "richarne@uv.uio.no",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "startng": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "engines": {
+    "node": "6.10.x",
+    "npm": "4.3.x"
+  },
   "private": true,
+  "main": "app.js",
   "dependencies": {
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
@@ -55,5 +61,6 @@
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
     "typescript": "~2.2.0"
-  }
+  },
+  "postinstall": "ng build"
 }

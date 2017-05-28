@@ -47,15 +47,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')));
 
-/*
-app.use('/users', users);
-app.use('/mms', mms);
-app.use('/', index);
-*/
-app.get('/', function(req, res){
-  res.sendfile('index.html');
-});
-app.use('/testlist', testList);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -75,6 +66,15 @@ app.use(function(err, req, res, next) {
   //res.render('error');
 });
 
+/*
+ app.use('/users', users);
+ app.use('/mms', mms);
+ app.use('/', index);
+ */
+app.get('/', function(req, res){
+  res.sendFile(path.join(__dirname + '/index.html'));
+});
+app.use('/testlist', testList);
 
 //Define the database, either using MongoLab (Heroku) or local
 var uristring = process.env.MONGODB_URI || 'mongodb://localhost/3c';

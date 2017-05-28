@@ -1,5 +1,23 @@
 # Created by .ignore support plugin (hsz.mobi)
 
 .env
-.idea/
+
+dist/
 node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# IDEs
+jsconfig.json
+.vscode/
+.idea/
+
+# Typings file.
+typings/
+
+# Misc
+tmp/
+
+# Mac OSX Finder files.
+**/.DS_Store
+.DS_Store

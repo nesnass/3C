@@ -1,0 +1,22 @@
+<!--div fxLayout="row" fxFlex >
+  <div fxFlex *ngFor="let contribution of contributions" >
+    <app-contribution [contribution]="contribution"></app-contribution>
+  </div>
+</div-->
+
+<div id="freewall" class="freewall" fxLayout="column" fxLayoutAlign="center none">
+
+  <!--div class="brick" style="background-image: url('../../assets/img/1.jpg');"></div>
+  <div class="brick" style="background-image: url('../../assets/img/2.jpg');"></div>
+  <div class="brick" style="background-image: url('../../assets/img/3.jpg');"></div>
+  <div class="brick" style="background-image: url('../../assets/img/4.jpg');"></div>
+  <div class="brick" style="background-image: url('../../assets/img/5.jpg');"></div-->
+
+
+
+  <app-contribution *ngFor="let contribution of contributions; let last = last"
+                    [contribution]="contribution">
+  </app-contribution>
+
+
+</div>

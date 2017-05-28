@@ -10,8 +10,10 @@ router.get('/', function(req, res, next) {
 		.exec(function (error, items) {
 			if (error || items === null) {
 				console.log("Setup error building recent contributions");
+				res.status(500);
 			} else {
-				res.render('testList', { title: '3C Contribution Listing', contributions: items });
+				//res.render('testList', { title: '3C Contribution Listing', contributions: items });
+        res.status(200).json({ data: items });
 			}
 		});
 });

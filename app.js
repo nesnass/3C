@@ -52,6 +52,9 @@ app.use('/users', users);
 app.use('/mms', mms);
 app.use('/', index);
 */
+app.get('/', function(req, res){
+  res.sendfile('index.html');
+});
 app.use('/testlist', testList);
 
 // catch 404 and forward to error handler

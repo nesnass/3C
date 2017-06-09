@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {ContributionsService} from "./contributions.service";
+import {LocationStrategy, PathLocationStrategy} from "@angular/common";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers: [
-    ContributionsService
+    ContributionsService, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}
   ]
 })
 export class AppComponent implements OnInit {
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit {
     this.contributionService.startServerPolling();
   }
 
-  toggleDetail($event) {
+  toggleDetail() {
     this.showCarousel = false;
     this.showDetail = true;
 

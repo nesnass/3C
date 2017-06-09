@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable'; import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Contribution } from "./models";
+import { LocationStrategy } from "@angular/common";
 
 @Injectable()
 export class ContributionsService {
@@ -18,11 +19,19 @@ export class ContributionsService {
       contributions: Contribution[];
   };
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private locationStrategy: LocationStrategy) {
     this.dataStore = {
       contributions: []
     };
     this._contributions = <BehaviorSubject<Contribution[]>>new BehaviorSubject([]);
+
+    // Switch server address for local development..
+    let currentLocation = (<any>locationStrategy)._platformLocation.location.href;
+    if (currentLocation === 'http://localhost:4200/') {
+      this.apiUrl = "http://localhost:8000/";
+    } else {
+      this.apiUrl = "/";
+    }
   }
 
   get contributions() {

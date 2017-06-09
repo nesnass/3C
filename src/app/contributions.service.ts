@@ -46,7 +46,7 @@ export class ContributionsService {
   }
 
   private requestContributionsFromServer(): Observable<Contribution[]> {
-    return this.http.get(this.apiUrl + 'testlist').map(this.extractData).catch(ContributionsService.handleError);
+    return this.http.get(this.apiUrl + 'contributions').map(this.extractData).catch(ContributionsService.handleError);
   }
 
   /**

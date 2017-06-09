@@ -1,11 +1,9 @@
-
 const util = require('util');
-
+var Contribution = require('../control/models.js').Contribution;
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-var Contribution = require('./models.js').Contribution;
-var common = require('./common.js');
+var common = require('../control/common.js');
 
 
 /**
@@ -57,8 +55,6 @@ router.get('/sveve', function(req, res, next) {
 				});
 
 			});
-
-
 
 		})
 

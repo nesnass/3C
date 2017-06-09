@@ -1,1 +1,1 @@
-<img class="main-image" *ngIf="selectedContribution !== null" [src]="selectedContribution.image.url">
+<img class="main-image" [@carouselImageState]="imageActive" *ngIf="selectedContribution !== null" [src]="selectedContribution.image.url">

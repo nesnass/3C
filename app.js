@@ -2,7 +2,6 @@
 /********* load environment variables locally *********/
 require('dotenv').config({ silent: process.env.NODE_ENV === 'production' });
 
-
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -12,20 +11,16 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 mongoose.Promise = require('q').Promise;
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var testList = require('./routes/testList');
 var engine = require('./control/engine');
-var mms = require('./control/mms');
+var static_pages = require('./routes/static');
+var listings = require('./routes/listings');
+var mms = require('./routes/mms');
 
 var app = express();
 
 // view engine setup
-/*
+app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-*/
-
 
 app.all('*', function(req, res, next) {
   res.set('Access-Control-Allow-Origin', '*');
@@ -33,7 +28,7 @@ app.all('*', function(req, res, next) {
   res.set('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
   res.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Authorization');
   res.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.set('Expires', '-1');
+  //res.set('Expires', '-1');
   res.set('Pragma', 'no-cache');
   if ('OPTIONS' === req.method) return res.status(200).end();
   next();
@@ -46,7 +41,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')));
-app.get('/testlist', testList.getContributionListing);
+app.use('/', static_pages);
+app.use('/mms', mms);
+app.use('/contributions', listings);
 //app.use('/', express.static(__dirname + '/dist'));
 
 // catch 404 and forward to error handler
@@ -69,9 +66,9 @@ app.use(function(err, req, res, next) {
 
 /*
  app.use('/users', users);
- app.use('/mms', mms);
  app.use('/', index);
  */
+
 
 
 //Define the database, either using MongoLab (Heroku) or local

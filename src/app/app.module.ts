@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { ContributionGridComponent } from './contribution-grid/contribution-grid.component';
@@ -20,6 +21,7 @@ import { CarouselComponent } from './carousel/carousel.component';
     BrowserModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
     FlexLayoutModule
   ],
   providers: [

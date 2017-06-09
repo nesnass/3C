@@ -1,9 +1,10 @@
 .main-image {
-  width: 68vw;
+  height: 90vh;
 }
 
 @media all and (max-width: 1024px) {
   .main-image {
     width: 100%;
+    height: auto;
   }
 }

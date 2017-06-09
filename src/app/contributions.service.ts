@@ -1,49 +1,50 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable'; import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map';
-
-import {ContributionComponent} from "./contribution/contribution.component";
-import {Contribution} from "./models";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Contribution } from "./models";
 
 @Injectable()
 export class ContributionsService {
 
-  apiUrl = "/";
+  private apiUrl = "http://localhost:8000/";
+  private serverRefreshIntervalSeconds = 10;
 
-  constructor(private http: Http) { }
+  private _contributions: BehaviorSubject<Contribution[]>;
+  private requestContributionsInterval = null;
+  private errorMessage: any;
 
-  getContributions(): Promise<ContributionComponent[]> {
-
-    let newContributions = [];
-
-    /* Mock data for initial testing */
-    let cData = {
-      origin: "instagram",
-      created: Date.now(),
-      image: {
-        originalWidth: 100,
-        originalHeight: 200,
-        url: ""
-      },
-      user : {
-        profile_picture: "",
-        username: ""
-      }
-    };
-
-    for(let i=0; i < 11; i++) {
-      let c = new Contribution(cData);
-      cData.user.username = i.toString();
-      newContributions.push(c);
-    }
-
-    return Promise.resolve(newContributions);
+  private dataStore: {
+      contributions: Contribution[];
   };
 
-  getContributionsFromServer(): Observable<Contribution[]> {
-    return this.http.get(this.apiUrl + 'testlist').map(this.extractData).catch(this.handleError);
+  constructor(private http: Http) {
+    this.dataStore = {
+      contributions: []
+    };
+    this._contributions = <BehaviorSubject<Contribution[]>>new BehaviorSubject([]);
   }
 
+  get contributions() {
+    return this._contributions.asObservable();
+  }
+
+  startServerPolling() {
+    this.requestContributionsInterval = setInterval(() => {
+      this.refreshContributions();
+    }, this.serverRefreshIntervalSeconds * 1000);
+    this.refreshContributions();
+  }
+
+  private requestContributionsFromServer(): Observable<Contribution[]> {
+    return this.http.get(this.apiUrl + 'testlist').map(this.extractData).catch(ContributionsService.handleError);
+  }
+
+  /**
+   * Extract Contribution data from the server result
+   * @param res
+   * @returns {Array|{}}
+   */
   private extractData(res: Response) {
     let body = res.json();
     let newContributions = [];
@@ -56,7 +57,12 @@ export class ContributionsService {
     return newContributions || {};
   }
 
-  private handleError (error: Response | any) { // In a real world app, you might use a remote logging infrastructure
+  /**
+   * General handler for server call errors
+   * @param error
+   * @returns {any}
+   */
+  static handleError (error: Response | any) { // In a real world app, you might use a remote logging infrastructure
     let errMsg: string;
     if (error instanceof Response) {
       const body = error.json() || '';
@@ -68,5 +74,24 @@ export class ContributionsService {
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
+
+  /**
+   * Called after timeout to check for new contributions
+   */
+  refreshContributions() {
+    this.requestContributionsFromServer().subscribe(
+      contributions => {
+        // Are there new contributions available? If so, update the collection
+        if (contributions.length > 0 && ((this.dataStore.contributions.length > 0 && this.dataStore.contributions[0]._id !== contributions[0]._id) || (this.dataStore.contributions.length === 0) )) {
+          this.dataStore.contributions = contributions;
+          this._contributions.next(Object.assign({}, this.dataStore).contributions);
+        }
+      },
+      error => {
+        this.errorMessage = <any>error;
+      }
+    );
+  }
+
 
 }

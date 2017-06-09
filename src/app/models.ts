@@ -1,5 +1,6 @@
 
 export class Contribution {
+  _id: string;
   origin: string;
   created: Date;
   image: {
@@ -18,6 +19,7 @@ export class Contribution {
   }
 
   setContribution(cData) {
+    this._id = cData._id;
     this.origin = cData.origin;
     this.created = new Date(cData.created);
     let data = {};

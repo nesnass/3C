@@ -13,11 +13,20 @@
   <p class="text-footnote">*#framtidscampus er del av  ere medvirkningstiltak i arbeidet med bycampus, og et sammarbeid mellom <a href="http://www.bycampus.no" target="none">Trondheim Kommune</a>,
     <a href="https://www.ntnu.no/campusutvikling" target="none">NTNU</a> og forskningsprosjektet <a href="http://www.uv.uio.no/iped/forskning/prosjekter/3c/index.html">3C - Co-constructing City Futures</a>.</p>
   <br>
-  <app-contribution-grid></app-contribution-grid>
+  <div app-contribution-grid id="freewall" class="freewall"></div>
+  <!--app-contribution-grid id="freewall" class="freewall" fxLayout="column" fxLayoutAlign="center none"></app-contribution-grid-->
 
 </div>
 
 
-<div *ngIf="showCarousel" (click)="toggleDetail($event)">
-  Carousel
+<div class="carouselContainer" *ngIf="showCarousel">
+  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center none">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <p class="carousel-text" fxFlex >#framtidscampus</p>
+      <div fxFlex="20" (click)="toggleDetail($event)">
+        <img src="assets/img/questionmark.png" class="carousel-questionmark">
+      </div>
+    </div>
+    <div app-carousel></div>
+  </div>
 </div>

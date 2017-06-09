@@ -1,0 +1,9 @@
+.main-image {
+  width: 60vw;
+}
+
+@media all and (max-width: 1024px) {
+  .main-image {
+    width: 100%;
+  }
+}

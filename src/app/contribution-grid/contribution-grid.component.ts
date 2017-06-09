@@ -4,39 +4,24 @@ import { ContributionsService } from '../contributions.service';
 // import the Freewall provider
 import {Freewall} from '../freewallRef';
 import {Contribution} from "../models";
+import {Observable} from "rxjs/Observable";
 
 declare let jQuery:any;
 
 @Component({
-  selector: 'app-contribution-grid',
+  selector: '[app-contribution-grid]',
   templateUrl: './contribution-grid.component.html',
-  styleUrls: ['./contribution-grid.component.css'],
-  providers: [
-    ContributionsService
-  ]
+  styleUrls: ['./contribution-grid.component.css']
 })
 export class ContributionGridComponent implements OnInit {
 
-  contributions: Contribution[] = [];
-  errorMessage: any;
+  contributions: Observable<Contribution[]>;
   wall: any;
 
   constructor(private contributionService: ContributionsService,
               private freewall: Freewall) { }
 
   ngOnInit() {
-    this.contributionService.getContributionsFromServer().subscribe(
-      contributions => {
-        this.contributions = contributions;
-        setTimeout(() => {
-          this.wall.fitWidth();
-        }, 1000);
-      },
-      error => {
-        this.errorMessage = <any>error
-      }
-    );
-
     this.wall = this.freewall.freewall;
     this.wall.fitWidth();
     this.wall.reset({
@@ -48,6 +33,16 @@ export class ContributionGridComponent implements OnInit {
         this.wall.fitWidth();
       }
     });
+
+    this.contributions = this.contributionService.contributions;
+    this.contributionService.contributions.subscribe(
+      x => {
+        setTimeout(() => {
+          this.wall.fitWidth();
+        }, 100);
+      }
+    )
+
   }
 
 

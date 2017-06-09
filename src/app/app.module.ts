@@ -5,16 +5,16 @@ import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
-import { ContributionComponent } from './contribution/contribution.component';
 import { ContributionGridComponent } from './contribution-grid/contribution-grid.component';
 import { ContributionsService } from "./contributions.service";
 import {Freewall} from "./freewallRef";
+import { CarouselComponent } from './carousel/carousel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContributionComponent,
-    ContributionGridComponent
+    ContributionGridComponent,
+    CarouselComponent
   ],
   imports: [
     BrowserModule,

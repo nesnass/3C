@@ -5,7 +5,7 @@ exports.serverData = {
 };
 
 exports.Constants = {
-    MAIN_TAG: "exterior",
+    MAIN_TAG: "framtidscampus",
     INSTAGRAM_REFRESH_INTERVAL_SECONDS: 10
 };
 

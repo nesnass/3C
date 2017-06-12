@@ -1,25 +1,28 @@
-# Installation Guidelines
+# ThreeC
 
-## Install
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.6.
 
-```
+## Development server
 
-# update npm to the latest stable release
-$ sudo n stable
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-# install dependencies listed in package.json
-$ npm install
-Note: These files will be downloaded in a new folder called "node_modules" (this folder should NOT be added to the GIT repository)
+## Code scaffolding
 
-```
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
 
-## Running in development mode
+## Build
 
-> In a Terminal, cd to the root of the application
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-> If you are running it on your on machine, don't forget to update the socket connection path to locahost in /public/js/factories.js
+## Running unit tests
 
-```sh
-# start web server
-$ node app.js
-```
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Before running the tests make sure you are serving the app via `ng serve`.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

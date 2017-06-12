@@ -1,0 +1,98 @@
+body {
+  font-family: Helvetica, Helvetica, sans-serif;
+  color: black;
+  background: white;
+  font-size: 1em;
+}
+
+p, span {
+  font-family: Helvetica, Helvetica, sans-serif;
+  margin: 0;
+}
+
+@font-face{
+  font-family:"HelveticaNeueW02-45Light";
+  src:url("../fonts/HelveticaNeueW02-45Light/HelveticaNeueW02-45Light.eot?#iefix");
+  src:url("../fonts/HelveticaNeueW02-45Light/HelveticaNeueW02-45Light.eot?#iefix") format("eot"),url("../fonts/HelveticaNeueW02-45Light/HelveticaNeueW02-45Light.woff2") format("woff2"),url("../fonts/HelveticaNeueW02-45Light/HelveticaNeueW02-45Light.woff") format("woff"),url("../fonts/HelveticaNeueW02-45Light/HelveticaNeueW02-45Light.ttf") format("truetype"),url("../fonts/HelveticaNeueW02-45Light/HelveticaNeueW02-45Light.svg#48d599a6-92b5-4d43-a4ac-8959f6971853") format("svg");
+}
+
+@font-face{
+  font-family:"HelveticaNeueW02-75Bold";
+  src:url("../fonts/HelveticaNeueW02-75Bold/HelveticaNeueW02-75Bold.eot?#iefix");
+  src:url("../fonts/HelveticaNeueW02-75Bold/HelveticaNeueW02-75Bold.eot?#iefix") format("eot"),url("../fonts/HelveticaNeueW02-75Bold/HelveticaNeueW02-75Bold.woff2") format("woff2"),url("../fonts/HelveticaNeueW02-75Bold/HelveticaNeueW02-75Bold.woff") format("woff"),url("../fonts/HelveticaNeueW02-75Bold/HelveticaNeueW02-75Bold.ttf") format("truetype"),url("../fonts/HelveticaNeueW02-75Bold/HelveticaNeueW02-75Bold.svg#25e09910-ffc3-4fc4-b0d1-db9a95dface8") format("svg");
+}
+
+@font-face{
+  font-family:"HelveticaNeueW02-UltLight";
+  src:url("../fonts/HelveticaNeueW02-UltLight/HelveticaNeueW02-UltLight.eot?#iefix");
+  src:url("../fonts/HelveticaNeueW02-UltLight/HelveticaNeueW02-UltLight.eot?#iefix") format("eot"),url("../fonts/HelveticaNeueW02-UltLight/HelveticaNeueW02-UltLight.woff2") format("woff2"),url("../fonts/HelveticaNeueW02-UltLight/HelveticaNeueW02-UltLight.woff") format("woff"),url("../fonts/HelveticaNeueW02-UltLight/HelveticaNeueW02-UltLight.ttf") format("truetype"),url("../fonts/HelveticaNeueW02-UltLight/HelveticaNeueW02-UltLight.svg#6dfe33a4-0ad5-4c85-8e01-f48ecfe3c167") format("svg");
+}
+
+.detailContainer {
+  margin: auto;
+  padding: 5% 10%;
+  max-width:  800px;
+}
+
+.carouselContainer {
+  margin: auto;
+  padding: 2% 0;
+}
+
+.text-mainHeading {
+  font-family:"HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 4em;
+  text-align: center;
+  width: 100%;
+  margin: 20px;
+}
+
+.text-subHeading {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 1.5em;
+  margin: 20px 0;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-footnote {
+  font-size: 0.75em;
+}
+
+.freewall {
+  width: 100%;
+  margin: auto;
+  display: inline-block;
+}
+
+.carousel-text {
+  height: 50%;
+  padding: 40% 10%;
+  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 2.5em;
+}
+
+.carousel-questionmark {
+  width: 60px;
+}
+
+
+@media all and (max-width: 1024px) {
+  .text-mainHeading {
+    font-size: 2em;
+    margin: 10px 5px;
+  }
+
+  .carousel-text {
+    padding: 5% 3%;
+    font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+    font-size: 2em;
+  }
+
+  .carousel-questionmark {
+    width: 60px;
+    padding-bottom: 30%;
+  }
+}

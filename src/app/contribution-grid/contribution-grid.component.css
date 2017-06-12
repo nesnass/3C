@@ -1,0 +1,33 @@
+.brick {
+  position: relative;
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.brick img {
+  height: 200px;
+  width: 200px;
+}
+
+.brick-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 2px 5px;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.brick-caption {
+  font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  font-size: 0.8em;
+  color: white;
+}
+
+.brick-username {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 0.8em;
+  color: white;
+}

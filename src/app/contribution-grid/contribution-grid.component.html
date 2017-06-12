@@ -1,0 +1,9 @@
+<div *ngFor="let contribution of contributions | async">
+  <div class="brick">
+    <img [src]="contribution.image.url">
+    <div class="brick-details">
+      <span class="brick-caption">{{contribution.caption}}</span><br>
+      <span class="brick-username">{{contribution.user.username}}</span>
+    </div>
+  </div>
+</div>

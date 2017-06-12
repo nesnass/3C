@@ -1,0 +1,58 @@
+# Brief
+
+Investigating the use of information technology to improve participation in the city planning process.
+
+Various stakeholder groups use Instagram as a source of input for ideas and inspiration, contributing to discussion on planning in their local city area. Experts respond alike, and in this way we hope to improve participation and transparency in city planning process.
+
+You can read a broad description about 3C project here:
+http://www.uv.uio.no/iped/english/research/projects/3c/index.html
+
+
+
+#  The need for public_content
+
+As our system does not run directly on user devices and has the goal of low threshold contribution, we need public_content to obtain Instagram posts without requiring each user to explicitly approve access.
+We are relying heavily on input from multiple, varied users across the general public to provide real meaning to the service.
+
+
+
+# Introduction
+
+Co-constructing city futures (3C) is a Norwegian collaboration between Norwegian University of Science and Technology (NTNU), Norwegian Public Roads Administration (Statens vegvesen), Norwegian Institute for Air Research (NILU), Peace Research Institute Oslo (PRIO), and the Department of Education, University of Oslo. We aim to investigate the use of information technology to improve participation in the city planning process.
+
+You can read a broad description about 3C project here:
+http://www.uv.uio.no/iped/english/research/projects/3c/index.html
+
+
+
+# Technology
+
+Utilising social media, we are attempting to create 'low threshold' avenues that encourage stakeholders who might otherwise feel reluctant to participate in the planning process. That means allowing regular users of public spaces to post ideas and inspiration into a collection using readily available and commonly held tools, including Instagram and MMS. It also aims to close the feedback loop by allowing 'expert' politicians and architects to respond at the same level.
+The audience is broad encompassing the general public, politicians, architects, and other groups.
+
+Our service will combine contribution channels and complement the gathered data with features like localisation, prioritisation, sub-categorisation and also interactions such as voting or discussion, with views on the data presentable in different contexts such as public spaces, stakeholder offices or the local government web site.
+
+This design is intended to be used across multiple projects and has an intrinsic need for access to public content. Entering as we are in the midst of the NTNU planning timeline, our work (particularly the front end interface) will develop alongside it during 2017.
+
+We see 3C's use of Instagram fitting primarily into this category:
+	'helping advertisers understand and manage their audience'
+Where 'advertisers' in our case describe the expert groups such as architects and politicians and where 'audience' in our case describes the general public
+
+As participation objects, Instagram posts will help to express a rich opinion about the planning process that is more valuable than text alone.
+
+Our first project involves the re-development of Norwegian University of Science and Technology city campus in Trondheim, working with both the university and Trondheim City Council.
+Thus the hashtag will be  #framtidscampus
+Specific details of that planning project can be found here:  http://www.bycampus.no
+
+The Instagram endpoint `/tags/{tag-name}/media/recent` is be searched for recent media matching the project specific hashtag.
+Resulting posts will be combined with results collected from other sources.
+The presentation of material is currently limited to a time-ordered list of owner attributed images that match the hashtag #framtidscampus.
+In any view presented, each post will be properly attributed with its original owner's details.
+
+
+
+
+
+
+
+The first project's working page (under development) can be seen here:   http://www.framtidscampus.no

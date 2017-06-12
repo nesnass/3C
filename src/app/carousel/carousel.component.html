@@ -1,1 +1,7 @@
-<img class="main-image" [@carouselImageState]="imageActive" *ngIf="selectedContribution !== null" [src]="selectedContribution.image.url">
+<div [@carouselImageState]="imageActive" class="carousel">
+  <img class="main-image" *ngIf="selectedContribution !== null" [src]="selectedContribution.image.url">
+  <div class="carousel-details">
+    <span class="carousel-caption">{{selectedContribution.caption}}</span><br>
+    <span class="carousel-username">{{selectedContribution.user.username}}</span>
+  </div>
+</div>

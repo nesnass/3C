@@ -8,3 +8,26 @@
     height: auto;
   }
 }
+
+.carousel {
+  position: relative;
+}
+
+.carousel-details {
+  position: absolute;
+  bottom: 30px;
+  padding: 2px 30px;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.carousel-caption {
+  font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  font-size: 0.8em;
+  color: white;
+}
+
+.carousel-username {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 0.8em;
+  color: white;
+}

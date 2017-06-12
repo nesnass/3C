@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  Contribution.find({ "origin": "instagram" })
+  Contribution.find({})
     .sort({"created": 'desc'})
     .lean()
     .exec(function (error, items) {

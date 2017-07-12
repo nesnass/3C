@@ -27,30 +27,38 @@ http://www.uv.uio.no/iped/english/research/projects/3c/index.html
 
 # Technology
 
-Utilising social media, we are attempting to create 'low threshold' avenues that encourage stakeholders who might otherwise feel reluctant to participate in the planning process. That means allowing regular users of public spaces to post ideas and inspiration into a collection using readily available and commonly held tools, including Instagram and MMS. It also aims to close the feedback loop by allowing 'expert' politicians and architects to respond at the same level.
-The audience is broad encompassing the general public, politicians, architects, and other groups.
 
-Our service will combine contribution channels and complement the gathered data with features like localisation, prioritisation, sub-categorisation and also interactions such as voting or discussion, with views on the data presentable in different contexts such as public spaces, stakeholder offices or the local government web site.
 
-This design is intended to be used across multiple projects and has an intrinsic need for access to public content. Entering as we are in the midst of the NTNU planning timeline, our work (particularly the front end interface) will develop alongside it during 2017.
+
+
+
+
+The Instagram endpoint `/tags/{tag-name}/media/recent` is searched for recent media matching a project specific hashtag.
+Resulting posts will be combined with results collected from other sources e.g. MMS, Facebook, email, etc.
 
 We see 3C's use of Instagram fitting primarily into this category:
 	'helping advertisers understand and manage their audience'
-Where 'advertisers' in our case describe the expert groups such as architects and politicians and where 'audience' in our case describes the general public
+Where 'advertisers' in our case describe the expert groups such as architects and politicians and where 'audience' in our case describes the general public.
 
-As participation objects, Instagram posts will help to express a rich opinion about the planning process that is more valuable than text alone.
+Utilising social media, we are attempting to create 'low threshold' avenues that encourage stakeholders who might otherwise feel reluctant to participate in the planning process. That means allowing regular users of public spaces to post ideas and inspiration into a collection using readily available and commonly held tools, including Instagram and MMS. It also aims to close the feedback loop by allowing 'expert' politicians and architects to respond at the same level.
+The audience is broad encompassing the general public, politicians, architects, and other groups.
+Our service will combine contribution channels and complement the gathered data with features like localisation, prioritisation, sub-categorisation and also interactions such as voting or discussion, trending issues, with views on the data presentable in different contexts such as public spaces, stakeholder offices or the local government web site.
+
+As one type of participation objects, Instagram posts will help community members and professionals express a rich opinion about the planning process that is more valuable than textual feedback alone.
 
 Our first project involves the re-development of Norwegian University of Science and Technology city campus in Trondheim, working with both the university and Trondheim City Council.
-Thus the hashtag will be  #framtidscampus
-Specific details of that planning project can be found here:  http://www.bycampus.no
+The specific hashtag used will be  #framtidscampus
+Details of that planning project can be found here:  http://www.bycampus.no
 
-The Instagram endpoint `/tags/{tag-name}/media/recent` is be searched for recent media matching the project specific hashtag.
-Resulting posts will be combined with results collected from other sources.
-The presentation of material is currently limited to a time-ordered list of owner attributed images that match the hashtag #framtidscampus.
-In any view presented, each post will be properly attributed with its original owner's details.
+This design is intended to be used across multiple projects and has an intrinsic need for access to public content. Entering as we are in the midst of the NTNU planning timeline, our work (particularly the front end interface) will develop further during 2017.
+However, the Instagram API is only needed to obtain posts intended specifically for the project, by using a well defined project hashtag.
+
+Presentation of material is limited to a time-ordered list of owner attributed images that match the hashtag #framtidscampus. However we plan to augment submissions by encouraging discussion and prioritising important or trending issues.
+In any view presented, each post will be properly attributed with its original owner's details, and the images linked back to their creator at Instagram.
 
 
-
+# videocast
+https://youtu.be/E7tIqBHsUk0
 
 
 

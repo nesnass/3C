@@ -1,3 +1,7 @@
+/*
+    Server and Angular App should be started by calling 'node ./bin/www' or 'ng serve'
+ */
+
 
 /********* load environment variables locally *********/
 require('dotenv').config({ silent: process.env.NODE_ENV === 'production' });
@@ -13,7 +17,7 @@ mongoose.Promise = require('q').Promise;
 
 var engine = require('./control/engine');
 var static_pages = require('./routes/static');
-var listings = require('./routes/listings');
+var contributions = require('./routes/contributions');
 var mms = require('./routes/mms');
 
 var app = express();
@@ -40,10 +44,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));    // Compile app using 'ng build' to update dist directory
 app.use('/', static_pages);
 app.use('/mms', mms);
-app.use('/contributions', listings);
+app.use('/contributions', contributions);
 //app.use('/', express.static(__dirname + '/dist'));
 
 // catch 404 and forward to error handler
@@ -83,6 +87,9 @@ mongoose.connect(uristring, function (error, result) {
 	}
 });
 
+if (app.get('env') === 'development') {
+  app.locals.pretty = true;
+}
 
 module.exports = app;
 engine.startEngine();

@@ -6,7 +6,7 @@ exports.serverData = {
 
 exports.Constants = {
     MAIN_TAG: "framtidscampus",
-    INSTAGRAM_REFRESH_INTERVAL_SECONDS: 10
+    CRAWLER_REFRESH_INTERVAL_SECONDS: 60
 };
 
 exports.StatusMessages = {

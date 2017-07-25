@@ -5,8 +5,20 @@
 var Contribution = require('./models.js').Contribution;
 var request = require('request');
 var common = require('./common.js');
-var serverData = common.serverData;
+var ASYNC = require('async');
+var URL = require('url');
+var FB = require('fb');
 
+var serverData = common.serverData;
+var timerInterval = null;
+
+process.on('SIGINT', function () {
+  console.log('Got SIGINT.  Press Control-D to exit.');
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
+  timerInterval = null;
+});
 
 /**
  * Run upon startup, determine the most recent contributions already added to our database
@@ -23,10 +35,100 @@ exports.startEngine = function() {
 				serverData.mostRecentInstagramIds = contributions.map(function (contribution) {
 					return contribution.instagram_data.id;
 				});
-				setInterval(collectFromInstagramByRecentTag, common.Constants.INSTAGRAM_REFRESH_INTERVAL_SECONDS * 1000)
+				// setInterval(collectFromInstagramByRecentTag, common.Constants.INSTAGRAM_REFRESH_INTERVAL_SECONDS * 1000)
+        // timerInterval = setInterval(collectFromFacebook, common.Constants.CRAWLER_REFRESH_INTERVAL_SECONDS * 1000)
+
+
+        // *********** testing ************
+        getFacebookAuthToken(function(error) {
+          if (error) {
+            console.error("Failed to acquire Facebook Token: %s", error.message);
+          } else {
+            console.log("Got Facebook auth token");
+            collectFromFacebookFeed("SBSWorldNewsAustralia/feed", function(error, results) {
+              if (error) {
+                console.error("Failed to get Facebook Feed: %s", error.message);
+              } else {
+                results.forEach(function(i) {
+                  var headline = i.message || i.name;
+                  // If it's an embedded video, possible there's no headline
+                  if (headline) {
+                    console.log(headline);
+                  }
+                })
+              }
+            })
+          }
+        })
+
+
+
 			}
 		});
 };
+
+
+function getFacebookAuthToken(callbackFn) {
+  FB.napi('oauth/access_token', {
+    client_id: process.env.FB_APP_ID,
+    client_secret: process.env.FB_APP_SECRET,
+    grant_type: 'client_credentials'
+  }, function (error, result) {
+    if (!error) {
+      // Store the access token for later queries to use
+      FB.setAccessToken(result.access_token);
+    }
+    if (callbackFn) callbackFn(error);
+  });
+}
+
+function facebookLoginCallback() {
+
+}
+
+
+function collectFromFacebookFeed(feed, callbackFn) {
+
+  var done = false;
+  var results = [];
+  var params = {
+    fields: 'message,name',
+    limit: 100
+  };
+
+  ASYNC.doUntil(function(callbackFn) {
+    FB.napi(feed, params, function(error, result) {   // Call Facebook API to get a page of results for the requested feed
+      if (error) {
+        callbackFn(error);
+      }
+      results = results.concat(result.data);
+      if (!result.paging.next || results.length >= 1000) {
+        done = true;
+      } else {
+        params = URL.parse(result.paging.next, true).query;
+      }
+      callbackFn();
+    })
+  }, function() {   // Truth test to determine when to stop processing pages
+    return done;
+  }, function(error) {    // Final callback to run at the end of the loop
+    if (error && error.type === 'OAuthException') {
+      console.error('Need to reauthenticate with Facebook: %s', err.message);
+      getFacebookAuthToken(function (err) {         // the access token has expired since we acquired it, so get it again
+        if (!err) {
+          setImmediate(function() {  // Now try again (n.b. setImmediate requires Node v10)
+            collectFromFacebookFeed(callbackFn);
+          });
+        } else if (callbackFn) {
+          callbackFn(err);
+        }
+      });
+    } else if (callbackFn) {
+      callbackFn(null, results);
+    }
+  })
+
+}
 
 
 /**

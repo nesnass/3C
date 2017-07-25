@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var contributionSchema = Schema({
-	origin:                         { type: String },           // "instagram", "sms", "mms", ...etc
+	origin:                         { type: String },           // "instagram", "sms", "mms", "facebook" ...etc
 	created:                        { type: Date, default: Date.now },
 	message_data: {
 		number :                    { type: String },           // The sender's mobile number
@@ -21,6 +21,10 @@ var contributionSchema = Schema({
 			blob:                   { type: Buffer }
 		} ]
 	},
+  facebook_data: {
+    id:                         { type: String },
+
+  },
 	instagram_data: {
 		id:                         { type: String },
 		tags:                       [ { type: String } ],

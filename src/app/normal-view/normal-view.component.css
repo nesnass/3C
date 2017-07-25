@@ -1,0 +1,69 @@
+
+.detailContainer {
+  margin: auto;
+  padding: 5% 10%;
+  max-width:  800px;
+}
+
+.carouselContainer {
+  margin: auto;
+  padding: 2% 0;
+}
+
+.text-mainHeading {
+  font-family:"HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 4em;
+  text-align: center;
+  width: 100%;
+  margin: 20px;
+}
+
+.text-subHeading {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 1.5em;
+  margin: 20px 0;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-footnote {
+  font-size: 0.75em;
+}
+
+.freewall {
+  width: 100%;
+  margin: auto;
+  display: inline-block;
+}
+
+.carousel-text {
+  height: 50%;
+  padding: 40% 10%;
+  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 2.5em;
+}
+
+.carousel-questionmark {
+  width: 60px;
+}
+
+
+@media all and (max-width: 1024px) {
+  .text-mainHeading {
+    font-size: 2em;
+    margin: 10px 5px;
+  }
+
+  .carousel-text {
+    padding: 5% 3%;
+    font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+    font-size: 2em;
+  }
+
+  .carousel-questionmark {
+    width: 60px;
+    padding-bottom: 30%;
+  }
+}

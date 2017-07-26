@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable'; import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import {Contribution, Options} from './models';
+import {Contribution, Grouping, GroupingsResponse, Options} from './models';
 import { LocationStrategy } from '@angular/common';
 
 @Injectable()
@@ -12,11 +13,13 @@ export class ContributionsService {
   private serverRefreshIntervalSeconds = 10;
 
   private _contributions: BehaviorSubject<Contribution[]>;
+  private _groupings: BehaviorSubject<Grouping[]>;
   private requestContributionsInterval = null;
   private errorMessage: any;
 
   private dataStore: {
       contributions: Contribution[];
+      groupings: Grouping[];
       options: Options
   };
 
@@ -38,9 +41,10 @@ export class ContributionsService {
     return Observable.throw(errMsg);
   }
 
-  constructor(private http: Http, private locationStrategy: LocationStrategy) {
+  constructor(private http: HttpClient, private locationStrategy: LocationStrategy) {
     this.dataStore = {
       contributions: [],
+      groupings: [],
       options: {
         viewMode: 'standard'
       }
@@ -55,8 +59,16 @@ export class ContributionsService {
     }
   }
 
-  get contributions() {
+  get contributionsAsObservable() {
     return this._contributions.asObservable();
+  }
+
+  get contributionsAsValue() {
+    return this._contributions.getValue();
+  }
+
+  get groupingsAsValue() {
+    return this._groupings.getValue();
   }
 
   get options(): Options {
@@ -75,7 +87,19 @@ export class ContributionsService {
   }
 
   private requestContributionsFromServer(): Observable<Contribution[]> {
-    return this.http.get(this.apiUrl + 'contributions').map(this.extractData).catch(ContributionsService.handleError);
+    return this.http.get(this.apiUrl + 'listings/contributions/data').map(this.extractData).catch(ContributionsService.handleError);
+  }
+
+  updateGroupingsToServer(grouping) {
+    this.http.post(this.apiUrl + 'groupings', grouping).subscribe();
+  }
+
+  getGroupingsFromServer() {
+    this.http.get<GroupingsResponse>( this.apiUrl + 'listings/groupings/').catch(ContributionsService.handleError).subscribe(
+      data => {
+        this._groupings = data.results;
+      }
+    );
   }
 
   /**
@@ -108,8 +132,13 @@ export class ContributionsService {
           this._contributions.next(Object.assign({}, this.dataStore).contributions);
         }
       },
-      error => {
-        this.errorMessage = <any>error;
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message);
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+          this.errorMessage = <any>err;
+        }
       }
     );
   }

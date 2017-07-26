@@ -17,7 +17,7 @@ mongoose.Promise = require('q').Promise;
 
 var engine = require('./control/engine');
 var static_pages = require('./routes/static');
-var contributions = require('./routes/contributions');
+var listings = require('./routes/listings');
 var mms = require('./routes/mms');
 
 var app = express();
@@ -47,7 +47,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')));    // Compile app using 'ng build' to update dist directory
 app.use('/', static_pages);
 app.use('/mms', mms);
-app.use('/contributions', contributions);
+app.use('/listings', listings);
 //app.use('/', express.static(__dirname + '/dist'));
 
 // catch 404 and forward to error handler

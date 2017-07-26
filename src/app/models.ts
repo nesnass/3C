@@ -60,5 +60,19 @@ export class Options {
 
 export class DataStore {
   contributions: Contribution[];
+  groupings: Grouping[];
   options: Options;
+}
+
+export class Grouping {
+  _id: string;
+  urlSlug: string;
+  contributions: Contribution[];
+  categoryTitle: string;
+  categorySubtitle: string;
+  created: Date;
+}
+
+export interface GroupingsResponse {
+  results: Grouping[];
 }

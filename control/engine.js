@@ -45,7 +45,12 @@ exports.startEngine = function() {
             console.error("Failed to acquire Facebook Token: %s", error.message);
           } else {
             console.log("Got Facebook auth token");
-            collectFromFacebookFeed("SBSWorldNewsAustralia/feed", function(error, results) {
+
+            var params = {
+              fields: "name"
+            };
+
+            collectFromFacebookFeed("162128781027502/feed", params, function(error, results) {
               if (error) {
                 console.error("Failed to get Facebook Feed: %s", error.message);
               } else {
@@ -87,27 +92,25 @@ function facebookLoginCallback() {
 }
 
 
-function collectFromFacebookFeed(feed, callbackFn) {
+function collectFromFacebookFeed(feed, params, callbackFn) {
 
   var done = false;
   var results = [];
-  var params = {
-    fields: 'message,name',
-    limit: 100
-  };
+  params['limit'] = 100;
 
   ASYNC.doUntil(function(callbackFn) {
     FB.napi(feed, params, function(error, result) {   // Call Facebook API to get a page of results for the requested feed
       if (error) {
         callbackFn(error);
-      }
-      results = results.concat(result.data);
-      if (!result.paging.next || results.length >= 1000) {
-        done = true;
       } else {
-        params = URL.parse(result.paging.next, true).query;
+        results = results.concat(result.data);
+        if (!result.paging.next || results.length >= 1000) {
+          done = true;
+        } else {
+          params = URL.parse(result.paging.next, true).query;
+        }
+        callbackFn();
       }
-      callbackFn();
     })
   }, function() {   // Truth test to determine when to stop processing pages
     return done;

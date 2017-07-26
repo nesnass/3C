@@ -2,13 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import {ContributionsService} from '../contributions.service';
 import {Contribution} from '../models';
 
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
 @Component({
@@ -45,7 +39,7 @@ export class CarouselComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.contributionService.contributions.subscribe(
+    this.contributionService.contributionsAsObservable.subscribe(
       contributions => {
         this.contributions = contributions;
 

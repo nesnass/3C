@@ -23,33 +23,56 @@ export class Contribution {
     this.origin = cData.origin;
     this.created = new Date(cData.created);
     let data = {};
-    switch(this.origin) {
-      case "instagram":
-        data = cData["instagram_data"];
+    switch (this.origin) {
+      case 'instagram':
+        data = cData['instagram_data'];
         this.image = {
-          originalWidth: data["images"]["standard_resolution"]["width"],
-          originalHeight: data["images"]["standard_resolution"]["height"],
-          url: data["images"]["standard_resolution"]["url"]
+          originalWidth: data['images']['standard_resolution']['width'],
+          originalHeight: data['images']['standard_resolution']['height'],
+          url: data['images']['standard_resolution']['url']
         };
-        this.caption = data["caption"]["text"];
+        this.caption = data['caption']['text'];
         this.user = {
-          profile_picture: data["user"]["profile_picture"],
-          username: data["user"]["username"]
+          profile_picture: data['user']['profile_picture'],
+          username: data['user']['username']
         };
         break;
-      case "mms":
-        data = cData["message_data"];
+      case 'mms':
+        data = cData['message_data'];
         this.image = {
           originalWidth: 200,
           originalHeight: 200,
-          url: data["images"][0]["url"]
+          url: data['images'][0]['url']
         };
-        this.caption = data["msg"];
+        this.caption = data['msg'];
         this.user = {
-          profile_picture: "",
-          username: "Sent by MMS"
+          profile_picture: '',
+          username: 'Sent by MMS'
         };
         break;
     }
   }
+}
+
+export class Options {
+  viewMode: string;
+}
+
+export class DataStore {
+  contributions: Contribution[];
+  groupings: Grouping[];
+  options: Options;
+}
+
+export class Grouping {
+  _id: string;
+  urlSlug: string;
+  contributions: Contribution[];
+  categoryTitle: string;
+  categorySubtitle: string;
+  created: Date;
+}
+
+export interface GroupingsResponse {
+  results: Grouping[];
 }

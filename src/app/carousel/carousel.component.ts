@@ -1,18 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {ContributionsService} from "../contributions.service";
-import {Contribution} from "../models";
+import {ContributionsService} from '../contributions.service';
+import {Contribution} from '../models';
 
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition
-} from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 
 @Component({
-  selector: '[app-carousel]',
+  selector: 'app-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css'],
   animations: [
@@ -38,11 +32,14 @@ export class CarouselComponent implements OnInit {
   contributions: Contribution[];
   timeoutPointer = null;
   imageActive = 'active';
+  viewMode = 'standard';
 
-  constructor(private contributionService: ContributionsService) { }
+  constructor(private contributionService: ContributionsService) {
+    this.viewMode = this.contributionService.options.viewMode;
+  }
 
   ngOnInit() {
-    this.contributionService.contributions.subscribe(
+    this.contributionService.contributionsAsObservable.subscribe(
       contributions => {
         this.contributions = contributions;
 

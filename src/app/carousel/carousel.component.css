@@ -2,6 +2,10 @@
   height: 90vh;
 }
 
+.main-image-smaller {
+  height: 30vh;
+}
+
 @media all and (max-width: 1024px) {
   .main-image {
     width: 100%;

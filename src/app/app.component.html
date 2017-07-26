@@ -1,32 +1,6 @@
-
-<div *ngIf="showDetail" class="detailContainer">
-
-  <p class="text-mainHeading">#framtidscampus*</p>
-  <p class="text-subHeading">BOR, STUDERER ELLER JOBBER DU I ELGESETER-BYDELEN?
-    ER DU OPPTATT AV HVORDAN BYDELEN SKAL BLI?</p>
-  <p>Del observasjoner, forslag og inspirasjon som campusprosjektet kan ta med seg videre. Ditt bidrag vil bli synlig i arbeidet
-    med campusutviklingen – i debatter, utstillinger, etc. – fremover. </p>
-  <p class="text-subHeading">SLIK DELER DU:</p>
-  <p><span class="text-bold"> > INSTAGRAM </span> // Del bilder via åpen Instagram-pro l, merket med #framtidscampus<br>
-    <span class="text-bold"> > MMS </span> // Send MMS med kodeord TST og bildetekst til 1963. Bidrag legges ut på www.framtidscampus.no.
-    (Prisen per MMS er gitt av ditt eget mobilabonnement.)</p><br>
-  <p class="text-footnote">*#framtidscampus er del av  ere medvirkningstiltak i arbeidet med bycampus, og et sammarbeid mellom <a href="http://www.bycampus.no" target="none">Trondheim Kommune</a>,
-    <a href="https://www.ntnu.no/campusutvikling" target="none">NTNU</a> og forskningsprosjektet <a href="http://www.uv.uio.no/iped/forskning/prosjekter/3c/index.html">3C - Co-constructing City Futures</a>.</p>
-  <br>
-  <div app-contribution-grid id="freewall" class="freewall"></div>
-  <!--app-contribution-grid id="freewall" class="freewall" fxLayout="column" fxLayoutAlign="center none"></app-contribution-grid-->
-
-</div>
-
-
-<div class="carouselContainer" *ngIf="showCarousel">
-  <div fxLayout="row" fxLayout.lt-md="column">
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <p class="carousel-text" fxFlex >#framtidscampus</p>
-      <div fxFlex="20" (click)="toggleDetail($event)">
-        <img src="assets/img/questionmark.png" class="carousel-questionmark">
-      </div>
-    </div>
-    <div app-carousel></div>
-  </div>
-</div>
+<h1>Angular Router</h1>
+<nav>
+  <a routerLink="/" routerLinkActive="active">Standard View</a>
+  <a routerLink="/smaller" routerLinkActive="active">Smaller View</a>
+</nav>
+<router-outlet></router-outlet>

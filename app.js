@@ -41,8 +41,8 @@ app.all('*', function(req, res, next) {
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist')));    // Compile app using 'ng build' to update dist directory
 app.use('/', static_pages);
@@ -76,7 +76,7 @@ app.use(function(err, req, res, next) {
 
 
 //Define the database, either using MongoLab (Heroku) or local
-var uristring = process.env.MONGODB_URI || 'mongodb://localhost/3c';
+var uristring = process.env.MONGODB_URI || 'mongodb://localhost/3C';
 
 // MongoDB configuration
 mongoose.connect(uristring, function (error, result) {

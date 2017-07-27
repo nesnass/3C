@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {ContributionsService} from '../contributions.service';
+import { Component, OnInit } from '@angular/core';
 import {Contribution} from '../models';
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import {ListingService} from '../services/listing.service';
 
 
 @Component({
@@ -34,12 +34,12 @@ export class CarouselComponent implements OnInit {
   imageActive = 'active';
   viewMode = 'standard';
 
-  constructor(private contributionService: ContributionsService) {
-    this.viewMode = this.contributionService.options.viewMode;
+  constructor(private listingService: ListingService) {
+    this.viewMode = this.listingService.options.viewMode;
   }
 
   ngOnInit() {
-    this.contributionService.contributionsAsObservable.subscribe(
+    this.listingService.contributions.subscribe(
       contributions => {
         this.contributions = contributions;
 

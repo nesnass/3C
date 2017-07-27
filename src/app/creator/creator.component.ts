@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Grouping, Contribution } from '../models';
-import {ContributionsService} from '../contributions.service';
+import { ListingService } from '../services/listing.service';
 
 @Component({
   selector: 'app-creator',
@@ -9,15 +9,31 @@ import {ContributionsService} from '../contributions.service';
 })
 export class CreatorComponent implements OnInit {
   itemToEdit: number = -1;
-  groupings: Grouping[];
-  contributions: Contribution[];
+  newGroupingModel: Grouping;
 
-  constructor(private contributionService: ContributionsService) {
-    this.contributions = contributionService.contributionsAsValue;
-    this.groupings = this.contributionService.groupingsAsValue;
+  constructor(private listingService: ListingService) {
+    this.newGroupingModel = new Grouping();
   }
 
   ngOnInit() {
+    // this.contributions = this.contributionService.contributionsAsValue;
+    // this.groupings = this.contributionService.groupingsAsValue;
+  }
+
+  updateToServer(grouping: Grouping) {
+    this.listingService.updateGrouping(grouping);
+  }
+
+  addGrouping() {
+
+    // Testing!!
+    this.newGroupingModel.categoryTitle = 'Testing 1';
+    this.newGroupingModel.categorySubtitle = 'Subtitle 1';
+    this.newGroupingModel.contributions = [];
+    this.newGroupingModel.urlSlug = 'testSlug';
+
+    this.listingService.addGrouping(this.newGroupingModel);
+    this.newGroupingModel = new Grouping();
   }
 
 

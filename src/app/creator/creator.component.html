@@ -1,17 +1,31 @@
+<p>Creator works!</p>
 <md-tab-group>
+
+  <ul id="todo-list">
+    <li *ngFor="let grouping of listingService.groupings | async">
+      <div class="view">
+        <input class="toggle" type="checkbox">
+        <label>{{grouping.categoryTitle}}</label>
+        <button>none</button>
+      </div>
+    </li>
+  </ul>
+
+  <button (click)="addGrouping()">New Test Grouping</button>
+
 
   <md-tab label="Groupings">
     <md-list>
-      <md-list-item *ngFor="let grouping of groupings; let i=index;">
+      <md-list-item *ngFor="let grouping of listingService.groupings | async; let i=index;">
         <p md-line> {{grouping.categoryTitle}} </p>
         <p md-line> {{grouping.categorySubtitle}} </p>
-        <button md-button (click)="editGrouping(grouping)" *ngIf="itemToEdit !== $index">Edit</button>
-        <div *ngIf="groupingToEdit === grouping">
+        <button md-button (click)="editGrouping(grouping)" *ngIf="itemToEdit !== i">Edit</button>
+        <div *ngIf="itemToEdit === i">
           <md-input-container>
             <input mdInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle">
             ToDo: Remove this:{{grouping.categoryTitle}}
           </md-input-container>
-          <button md-button (click)="itemToEdit = -1">Done</button>
+          <button md-button (click)="updateToServer(grouping); itemToEdit = -1">Done</button>
         </div>
       </md-list-item>
     </md-list>
@@ -20,7 +34,7 @@
 
   <md-tab label="Contributions">
     <md-list>
-      <md-list-item *ngFor="let contribution of contributions">
+      <md-list-item *ngFor="let contribution of listingService.contributions | async">
         <img md-list-avatar [src]="contribution.image.url" alt="Preview of this image">
         <p md-line> {{contribution.caption}} </p>
       </md-list-item>

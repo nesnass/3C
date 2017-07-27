@@ -7,7 +7,7 @@ var router = express.Router();
 /**
  * Return Grouping(s) data
  */
-router.get('/groupings/:id?', function(req, res, next) {
+router.get('/groupings/:id?', function(req, res) {
   var query;
   if (req.params.id) {   // Find one contrigution by ID
     query = Grouping.find({_id : req.params.id })
@@ -16,7 +16,7 @@ router.get('/groupings/:id?', function(req, res, next) {
   }
 
   query.exec(function (error, foundSet) {
-      if (error || items === null) {
+      if (error || foundSet === null) {
         console.log("Error finding Groupings");
         res.status(500);
       } else {
@@ -26,11 +26,51 @@ router.get('/groupings/:id?', function(req, res, next) {
 });
 
 /**
+ * Update Grouping data (supply id in body)
+ */
+router.put('/groupings', function(req, res) {
+  Grouping.findOne({_id : req.body.id }, function (error, foundItem) {
+    if (error || foundItem === null) {
+      console.log("Error finding Groupings");
+      res.status(500);
+    } else {
+      foundItem.urlSlug = req.body.urlSlug;
+      foundItem.contributions = req.body.contributions;
+      foundItem.categoryTitle = req.body.categoryTitle;
+      foundItem.categorySubtitle = req.body.categorySubtitle;
+      foundItem.save();
+      res.status(200).json({ data: foundItem });
+    }
+  });
+});
+
+/**
+ * Create Grouping
+ */
+router.post('/groupings', function(req, res) {
+  var grouping = new Grouping({
+    urlSlug: req.body.urlSlug,
+    contributions: req.body.contributions,
+    categoryTitle: req.body.categoryTitle,
+    categorySubtitle: req.body.categorySubtitle
+  });
+
+  grouping.save(function (error, newGrouping) {
+    if (error || newGrouping === null) {
+      console.log("Error saving new grouping" + error);
+      res.status(500).json({ message: error });
+    } else {
+      res.status(200).send({ data: newGrouping });
+    }
+  });
+});
+
+/**
  * Return Contribution(s) as data, or a single formatted contribution that is suitable for Facebook
  * mode: 'data' or 'render'
  * id: (optional) id of a particular contribution
  */
-router.get('/contributions/:mode/:id?', function(req, res, next) {
+router.get('/contributions/:mode/:id?', function(req, res) {
   var query;
   if (req.params.id) {   // Find one contrigution by ID
     query = Contribution.find({ _id : req.params.id })
@@ -43,7 +83,7 @@ router.get('/contributions/:mode/:id?', function(req, res, next) {
       res.status(500);
     } else {
       if (req.params.mode === 'render' && foundSet.length === 1) {
-        res.render('share_public', {contribution: foundSet});
+        res.render('share_public', { data: foundSet} );
       } else if (req.params.mode === 'data') {
         res.status(200).json({ data: foundSet });
       }

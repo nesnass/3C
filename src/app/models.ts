@@ -1,3 +1,4 @@
+import { Response } from '@angular/http';
 
 export class Contribution {
   _id: string;
@@ -58,21 +59,34 @@ export class Options {
   viewMode: string;
 }
 
-export class DataStore {
-  contributions: Contribution[];
-  groupings: Grouping[];
-  options: Options;
-}
-
 export class Grouping {
   _id: string;
   urlSlug: string;
-  contributions: Contribution[];
+  contributions: string[];
   categoryTitle: string;
   categorySubtitle: string;
   created: Date;
+
+  constructor(cData?: {}) {
+    if (typeof cData !== 'undefined' && cData !== null) {
+      this.setGrouping(cData);
+    }
+  }
+
+  setGrouping(gData) {
+    this._id = gData._id;
+    this.urlSlug = gData.urlSlug;
+    this.created = new Date(gData.created);
+    this.contributions = gData.contributions;
+    this.categoryTitle = gData.categoryTitle;
+    this.categorySubtitle = gData.categorySubtitle;
+  }
 }
 
-export interface GroupingsResponse {
-  results: Grouping[];
+export interface GroupingsResponse extends Response {
+  data: Grouping[];
+}
+
+export interface ContributionsResponse extends Response {
+  data: Contribution[];
 }

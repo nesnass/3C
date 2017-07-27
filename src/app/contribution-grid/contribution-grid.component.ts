@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ContributionsService } from '../contributions.service';
 
 // import the Freewall provider
 import {Freewall} from '../freewallRef';
 import {Contribution} from '../models';
 import {Observable} from 'rxjs/Observable';
+import {ListingService} from '../services/listing.service';
 
 declare const jQuery: any;
 
@@ -18,7 +18,7 @@ export class ContributionGridComponent implements OnInit {
   contributions: Observable<Contribution[]>;
   wall: any;
 
-  constructor(private contributionService: ContributionsService,
+  constructor(private listingService: ListingService,
               private freewall: Freewall) { }
 
   ngOnInit() {
@@ -34,8 +34,8 @@ export class ContributionGridComponent implements OnInit {
       }
     });
 
-    this.contributions = this.contributionService.contributionsAsObservable;
-    this.contributionService.contributionsAsObservable.subscribe(
+    this.contributions = this.listingService.contributions;
+    this.listingService.contributions.subscribe(
       () => {
         setTimeout(() => {
           this.wall.fitWidth();

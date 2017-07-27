@@ -12,7 +12,8 @@ import {MdInputModule, MdListModule, MdButtonModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ContributionGridComponent } from './contribution-grid/contribution-grid.component';
-import { ContributionsService } from './contributions.service';
+import { ListingBackendService } from './services/listingBackend.service';
+import { ListingService } from './services/listing.service';
 import { Freewall } from './freewallRef';
 import { CarouselComponent } from './carousel/carousel.component';
 import { SmallerViewComponent } from './smaller-view/smaller-view.component';
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
     MdButtonModule
   ],
   providers: [
-    ContributionsService,
+    ListingBackendService,
+    ListingService,
     Freewall
   ],
   bootstrap: [AppComponent]

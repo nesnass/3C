@@ -8,7 +8,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import 'hammerjs';
 
-import {MdInputModule, MdListModule, MdButtonModule} from '@angular/material';
+import {MdInputModule, MdListModule, MdButtonModule, MdTabsModule, MdIconModule, MdCardModule, MdChipsModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ContributionGridComponent } from './contribution-grid/contribution-grid.component';
@@ -47,7 +47,11 @@ const appRoutes: Routes = [
     FlexLayoutModule,
     MdInputModule,
     MdListModule,
-    MdButtonModule
+    MdButtonModule,
+    MdTabsModule,
+    MdIconModule,
+    MdCardModule,
+    MdChipsModule
   ],
   providers: [
     ListingBackendService,

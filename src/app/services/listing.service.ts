@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Contribution, Grouping, Options} from '../models';
+import {Contribution, Grouping, GroupingResponse, Options} from '../models';
 import { LocationStrategy } from '@angular/common';
 import {ListingBackendService} from './listingBackend.service';
 import {Observable} from 'rxjs/Observable';
@@ -16,6 +16,7 @@ export class ListingService {
 
   private _contributions: BehaviorSubject<Contribution[]> = <BehaviorSubject<Contribution[]>>new BehaviorSubject([]);
   private _groupings: BehaviorSubject<Grouping[]> = <BehaviorSubject<Grouping[]>>new BehaviorSubject([]);
+  private _chips: string[];
   private requestContributionsInterval = null;
   private errorMessage: any;
   private _options: Options;
@@ -25,7 +26,13 @@ export class ListingService {
     this.options = {
         viewMode: 'standard'
     };
+    this.getChips();
     this.refreshContributions();
+    this.refreshGroupings();
+  }
+
+  get chips() {
+    return this._chips;
   }
 
   get contributions() {
@@ -40,28 +47,41 @@ export class ListingService {
     return this._groupings.asObservable();
   }
 
+  get groupingsReverseSortedByCreationDate() {
+    return this._groupings.asObservable().map((data) => {
+      data.sort((a, b) => {
+        return a.created.getTime() < b.created.getTime() ? -1 : 1;
+      });
+      return data;
+    });
+  }
+
   get groupingsAsValue() {
     return this._groupings.getValue();
   }
 
-  addGrouping(newGrouping: Grouping): Observable<Grouping> {
+  addGrouping(newGrouping: Grouping): Observable<GroupingResponse> {
     const obs = this.listingBackendService.createGrouping(newGrouping);
     obs.subscribe(
       res => {
         const newGroupingList: Grouping[] = this._groupings.getValue();
-        newGroupingList.push(res);                // Response Grouping will contain _id created at server
+        newGroupingList.push(res.data);                // Response Grouping will contain _id created at server
         this._groupings.next(newGroupingList);
       });
 
     return obs;
   }
 
-  updateGrouping(grouping: Grouping): Observable<Grouping> {
-    const obs = this.listingBackendService.updateGrouping(grouping);
+  updateGrouping(grouping: Grouping): void {
+    this.listingBackendService.updateGrouping(grouping).subscribe();
+  }
+
+  deleteGrouping(grouping: Grouping): Observable<Grouping> {
+    const obs = this.listingBackendService.deleteGrouping(grouping);
     obs.subscribe(
       res => {
         const newGroupingList: Grouping[] = this._groupings.getValue();
-        newGroupingList.push(res);                // Response Grouping will contain _id created at server
+        newGroupingList.splice(newGroupingList.indexOf(grouping), 1);
         this._groupings.next(newGroupingList);
       });
 
@@ -85,6 +105,17 @@ export class ListingService {
     this.requestContributionsInterval = setInterval(() => {
       this.refreshContributions();
     }, this.serverRefreshIntervalSeconds * 1000);
+  }
+
+  /**
+   * Retrieve 'chips' from the server
+   */
+  getChips() {
+    this.listingBackendService.getChips().subscribe(
+      res => {
+        this._chips = res.data.split(',');
+      }
+    );
   }
 
   /**
@@ -120,7 +151,7 @@ export class ListingService {
   refreshGroupings() {
     this.listingBackendService.getAllGroupings().subscribe(
       res => {
-        const newGroupings = (<Object[]>res.json()).map((grouping: any) => new Grouping(grouping));
+        const newGroupings = (<Object[]>res.data).map((grouping: any) => new Grouping(grouping));
         this._groupings.next(newGroupings);
       },
       (err: HttpErrorResponse) => {

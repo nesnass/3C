@@ -86,6 +86,9 @@ export class Grouping {
 export interface GroupingsResponse extends Response {
   data: Grouping[];
 }
+export interface GroupingResponse extends Response {
+  data: Grouping;
+}
 
 export interface ContributionsResponse extends Response {
   data: Contribution[];

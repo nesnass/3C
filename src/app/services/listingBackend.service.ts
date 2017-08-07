@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import { Response } from '@angular/http';
+import {Headers, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/share';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {ContributionsResponse, Grouping, GroupingsResponse} from '../models';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse} from '../models';
 import {LocationStrategy} from '@angular/common';
 
 @Injectable()
@@ -61,24 +61,28 @@ export class ListingBackendService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
-    return this.http.put(this.apiUrl + 'listings/groupings', JSON.stringify(newGrouping), {headers}).share();
+    return this.http.put(this.apiUrl + 'listings/groupings', newGrouping, {headers}).share();
   }
 
-  createGrouping(newGrouping: Grouping): Observable<Grouping> {
+  createGrouping(newGrouping: Grouping): Observable<GroupingResponse> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
     return this.http.post(this.apiUrl + 'listings/groupings', newGrouping, {headers});
   }
 
-/*
   deleteGrouping(deletedGrouping: Grouping) {
-    const params = new HttpParams();
-    params.append('id', '' + deletedGrouping._id );
-
-    return this.http.delete('', { params }).share();
+    const reqOpts = {
+      params: new HttpParams().set('id', deletedGrouping._id)
+    };
+    return this.http.delete(this.apiUrl + 'listings/groupings', reqOpts).share();
   }
-*/
+
+  // Chips
+
+  getChips() {
+    return this.http.get(this.apiUrl + 'listings/chips').catch(ListingBackendService.handleError);
+  }
 
 
 }

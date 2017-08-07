@@ -6,7 +6,8 @@ exports.serverData = {
 
 exports.Constants = {
     MAIN_TAG: "framtidscampus",
-    CRAWLER_REFRESH_INTERVAL_SECONDS: 60
+    CRAWLER_REFRESH_INTERVAL_SECONDS: 60,
+    CHIPS: "all, location1, location2"
 };
 
 exports.StatusMessages = {

@@ -9,10 +9,8 @@ import { ListingService } from '../services/listing.service';
 })
 export class CreatorComponent implements OnInit {
   itemToEdit: number = -1;
-  newGroupingModel: Grouping;
 
   constructor(private listingService: ListingService) {
-    this.newGroupingModel = new Grouping();
   }
 
   ngOnInit() {
@@ -24,16 +22,13 @@ export class CreatorComponent implements OnInit {
     this.listingService.updateGrouping(grouping);
   }
 
+  deleteAtServer(grouping: Grouping) {
+    this.listingService.deleteGrouping(grouping);
+  }
+
   addGrouping() {
-
-    // Testing!!
-    this.newGroupingModel.categoryTitle = 'Testing 1';
-    this.newGroupingModel.categorySubtitle = 'Subtitle 1';
-    this.newGroupingModel.contributions = [];
-    this.newGroupingModel.urlSlug = 'testSlug';
-
-    this.listingService.addGrouping(this.newGroupingModel);
-    this.newGroupingModel = new Grouping();
+    this.listingService.addGrouping(new Grouping());
+    this.itemToEdit = this.listingService.groupingsAsValue.length;
   }
 
 

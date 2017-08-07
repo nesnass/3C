@@ -1,34 +1,61 @@
-<p>Creator works!</p>
 <md-tab-group>
 
-  <ul id="todo-list">
-    <li *ngFor="let grouping of listingService.groupings | async">
-      <div class="view">
-        <input class="toggle" type="checkbox">
-        <label>{{grouping.categoryTitle}}</label>
-        <button>none</button>
-      </div>
-    </li>
-  </ul>
-
-  <button (click)="addGrouping()">New Test Grouping</button>
-
-
   <md-tab label="Groupings">
-    <md-list>
-      <md-list-item *ngFor="let grouping of listingService.groupings | async; let i=index;">
-        <p md-line> {{grouping.categoryTitle}} </p>
-        <p md-line> {{grouping.categorySubtitle}} </p>
-        <button md-button (click)="editGrouping(grouping)" *ngIf="itemToEdit !== i">Edit</button>
-        <div *ngIf="itemToEdit === i">
-          <md-input-container>
-            <input mdInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle">
-            ToDo: Remove this:{{grouping.categoryTitle}}
-          </md-input-container>
-          <button md-button (click)="updateToServer(grouping); itemToEdit = -1">Done</button>
+
+    <div fxLayout="row wrap">
+      <md-card *ngFor="let grouping of listingService.groupingsReverseSortedByCreationDate | async; let i=index;" class="grouping-card">
+
+        <div *ngIf="itemToEdit !== i">
+          <md-card-header>
+            <div md-card-avatar>
+              <md-icon md-list-icon>folder</md-icon>
+            </div>
+            <md-card-title>{{grouping.categoryTitle}}</md-card-title>
+            <md-card-subtitle>{{grouping.categorySubtitle}}</md-card-subtitle>
+          </md-card-header>
+          <md-card-content>
+            <p>/{{grouping.urlSlug}}</p>
+            <md-chip-list>
+              <md-chip *ngFor="let chip of listingService.chips">{{chip}}</md-chip>
+            </md-chip-list>
+          </md-card-content>
+          <md-card-actions>
+            <button md-line md-button (click)="itemToEdit = i">Edit</button>
+            <button md-line md-button color="red" (click)="deleteAtServer(grouping)">Delete</button>
+          </md-card-actions>
         </div>
-      </md-list-item>
-    </md-list>
+
+        <div *ngIf="itemToEdit === i">
+          <md-card-content fxLayout="column">
+            <md-input-container>
+              <input mdInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle" autofocus>
+            </md-input-container>
+            <md-input-container>
+              <input mdInput placeholder="Category Subtitle" [(ngModel)]="grouping.categorySubtitle">
+            </md-input-container>
+            <md-input-container>
+              <input mdInput placeholder="URL" [(ngModel)]="grouping.urlSlug">
+            </md-input-container>
+          </md-card-content>
+
+          <md-card-actions>
+            <button md-button (click)="updateToServer(grouping); itemToEdit = -1">Done</button>
+          </md-card-actions>
+        </div>
+
+      </md-card>
+
+      <md-card class="grouping-card">
+        <md-card-header>
+          <div md-card-avatar>
+            <md-icon md-list-icon>add</md-icon>
+          </div>
+          <md-card-title><a md-button (click)="addGrouping()">New Grouping</a></md-card-title>
+        </md-card-header>
+        <md-card-content></md-card-content>
+      </md-card>
+
+    </div>
   </md-tab>
 
 

@@ -1,5 +1,6 @@
 var Contribution = require('../control/models.js').Contribution;
 var Grouping = require('../control/models.js').Grouping;
+var Common = require('../control/common');
 var express = require('express');
 var router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/groupings/:id?', function(req, res) {
   if (req.params.id) {   // Find one contrigution by ID
     query = Grouping.find({_id : req.params.id })
   } else {    // Get all contributions
-    query = Contribution.find({}).sort({"created": 'desc'});
+    query = Grouping.find({}).sort({"created": 'desc'});
   }
 
   query.exec(function (error, foundSet) {
@@ -26,10 +27,17 @@ router.get('/groupings/:id?', function(req, res) {
 });
 
 /**
+ * Return Chips
+ */
+router.get('/chips', function(req, res) {
+  res.status(200).json({ data: Common.Constants.CHIPS });
+});
+
+/**
  * Update Grouping data (supply id in body)
  */
 router.put('/groupings', function(req, res) {
-  Grouping.findOne({_id : req.body.id }, function (error, foundItem) {
+  Grouping.findOne({_id : req.body._id }, function (error, foundItem) {
     if (error || foundItem === null) {
       console.log("Error finding Groupings");
       res.status(500);
@@ -39,6 +47,21 @@ router.put('/groupings', function(req, res) {
       foundItem.categoryTitle = req.body.categoryTitle;
       foundItem.categorySubtitle = req.body.categorySubtitle;
       foundItem.save();
+      res.status(200).json({ data: foundItem });
+    }
+  });
+});
+
+/**
+ * Delete grouping data (supply id in params)
+ */
+router.delete('/groupings', function(req, res) {
+  Grouping.findOne({_id : req.query.id }, function (error, foundItem) {
+    if (error || foundItem === null) {
+      console.log("Error finding Groupings");
+      res.status(500);
+    } else {
+      foundItem.remove();
       res.status(200).json({ data: foundItem });
     }
   });

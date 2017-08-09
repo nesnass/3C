@@ -14,9 +14,11 @@
             <md-card-subtitle>{{grouping.categorySubtitle}}</md-card-subtitle>
           </md-card-header>
           <md-card-content>
-            <p>/{{grouping.urlSlug}}</p>
+            <p>'position' URL:</p>
+            <p><strong>&nbsp;/{{grouping.urlSlug}}</strong></p>
+            <p>Show content tagged with:</p>
             <md-chip-list>
-              <md-chip *ngFor="let chip of listingService.chips">{{chip}}</md-chip>
+              <md-chip *ngFor="let chip of listingService.chips" [selected]="grouping.chips.indexOf(chip._id) > -1" (click)="toggleChip(grouping, 'Grouping', chip)">{{chip.label}}</md-chip>
             </md-chip-list>
           </md-card-content>
           <md-card-actions>
@@ -39,7 +41,7 @@
           </md-card-content>
 
           <md-card-actions>
-            <button md-button (click)="updateToServer(grouping); itemToEdit = -1">Done</button>
+            <button md-button (click)="updateToServer(grouping, 'Grouping'); itemToEdit = -1">Done</button>
           </md-card-actions>
         </div>
 
@@ -47,10 +49,7 @@
 
       <md-card class="grouping-card">
         <md-card-header>
-          <div md-card-avatar>
-            <md-icon md-list-icon>add</md-icon>
-          </div>
-          <md-card-title><a md-button (click)="addGrouping()">New Grouping</a></md-card-title>
+          <md-card-title><a md-button (click)="addGrouping()"><md-icon md-list-icon>add</md-icon>New Grouping</a></md-card-title>
         </md-card-header>
         <md-card-content></md-card-content>
       </md-card>
@@ -60,12 +59,24 @@
 
 
   <md-tab label="Contributions">
-    <md-list>
-      <md-list-item *ngFor="let contribution of listingService.contributions | async">
-        <img md-list-avatar [src]="contribution.image.url" alt="Preview of this image">
-        <p md-line> {{contribution.caption}} </p>
-      </md-list-item>
-    </md-list>
+
+    <div fxLayout="row wrap">
+      <md-card *ngFor="let contribution of listingService.contributions | async" class="contribution-card">
+        <md-card-header>
+          <div md-card-avatar class="contribution-card-header-image" [ngStyle]="{'background-image': 'url(\'' + contribution.user.profile_picture + '\')' }"></div>
+          <md-card-title>{{contribution.user.username}}</md-card-title>
+          <md-card-subtitle>{{contribution.created.toString()}}</md-card-subtitle>
+        </md-card-header>
+        <img md-card-image [src]="contribution.image.url" alt="The contributed image">
+        <md-card-content>
+          <p>{{contribution.caption}}</p>
+          <md-chip-list>
+            <md-chip *ngFor="let chip of listingService.chips" [selected]="contribution.chips.indexOf(chip._id) > -1" (click)="toggleChip(contribution, 'Contribution', chip)">{{chip.label}}</md-chip>
+          </md-chip-list>
+        </md-card-content>
+      </md-card>
+    </div>
+
   </md-tab>
 
 </md-tab-group>

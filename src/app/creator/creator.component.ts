@@ -18,8 +18,12 @@ export class CreatorComponent implements OnInit {
     // this.groupings = this.contributionService.groupingsAsValue;
   }
 
-  updateToServer(grouping: Grouping) {
-    this.listingService.updateGrouping(grouping);
+  updateToServer(item, type) {
+    if (type === 'Grouping') {
+      this.listingService.updateGrouping(item);
+    } else {
+      this.listingService.updateContribution(item);
+    }
   }
 
   deleteAtServer(grouping: Grouping) {
@@ -31,5 +35,14 @@ export class CreatorComponent implements OnInit {
     this.itemToEdit = this.listingService.groupingsAsValue.length;
   }
 
+  toggleChip(item, type, chip) {
+    const i = item.chips.indexOf(chip._id);
+    if (i === -1) {
+      item.chips.push(chip._id);
+    } else {
+      item.chips.splice(i, 1);
+    }
+    this.updateToServer(item, type);
+  }
 
 }

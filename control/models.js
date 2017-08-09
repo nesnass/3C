@@ -6,8 +6,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var contributionSchema = Schema({
-  origin:                       { type: String },           // "instagram", "sms", "mms", "facebook" ...etc
+  origin:                       { type: String },           // "instagram", "sms", "mms", "facebook", "facebook-curated" ...etc
   created:                      { type: Date, default: Date.now },
+  chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
 	message_data: {
 		number :                    { type: String },           // The sender's mobile number
 		msg :                       { type: String },           // Received message text
@@ -22,7 +23,21 @@ var contributionSchema = Schema({
 		} ]
 	},
   facebook_data: {
-    id:                         { type: String }
+    photo_id:                   { type: String },
+    album_id:                   { type: String },
+    user: {
+      username:                 { type: String },
+      profile_picture:          { type: String },
+      id:                       { type: String }
+    },
+    images: {
+      width:                    { type: Number },
+      height:                   { type: Number },
+      url:                      { type: String }
+    },
+    caption: {
+      text:                     { type: String }
+    }
   },
 	instagram_data: {
 		id:                         { type: String },
@@ -77,11 +92,22 @@ var contributionSchema = Schema({
 module.exports.Contribution = mongoose.model('Contribution', contributionSchema);
 
 var groupingSchema = Schema({
-  urlSlug: String,
-  contributions: [{type: Schema.ObjectId, ref: 'Contribution'}],
-  categoryTitle: String,
-  categorySubtitle: String,
-  created:                        { type: Date, default: Date.now }
+  urlSlug:                      { type: String },
+  contributions:                [ { type: Schema.ObjectId, ref: 'Contribution' } ],
+  categoryTitle:                { type: String },
+  categorySubtitle:             { type: String },
+  chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
+  created:                      { type: Date, default: Date.now }
 });
 
 module.exports.Grouping = mongoose.model('Grouping', groupingSchema);
+
+// 'Chips' are used to match Groupings with Contributions
+// They should be labelled by the source album, location or timeframe
+var chipSchema = Schema({
+  origin_id:                    { type: String },         // e.g. Facebook Album ID
+  origin:                       { type: String },         // e.g. "instagram", "sms", "mms", "facebook" ...etc
+  label:                        { type: String }          // e.g. "Album 1", "Location 25" ...etc
+});
+
+module.exports.Chip = mongoose.model('Chip', chipSchema);

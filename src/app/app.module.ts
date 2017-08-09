@@ -21,7 +21,7 @@ import { NormalViewComponent } from './normal-view/normal-view.component';
 import { CreatorComponent } from './creator/creator.component';
 
 const appRoutes: Routes = [
-  { path: 'display', component: NormalViewComponent },
+  { path: 'display/:position', component: NormalViewComponent },
   { path: 'smaller', component: SmallerViewComponent },
   { path: 'creator', component: CreatorComponent },
 ];

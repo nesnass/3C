@@ -4,6 +4,7 @@ export class Contribution {
   _id: string;
   origin: string;
   created: Date;
+  chips: string[];
   image: {
     originalWidth: number;
     originalHeight: number;
@@ -16,6 +17,7 @@ export class Contribution {
   caption: string;
 
   constructor(cData: {}) {
+    this.chips = [];
     this.setContribution(cData);
   }
 
@@ -23,6 +25,7 @@ export class Contribution {
     this._id = cData._id;
     this.origin = cData.origin;
     this.created = new Date(cData.created);
+    this.chips = cData.chips || [];
     let data = {};
     switch (this.origin) {
       case 'instagram':
@@ -31,6 +34,19 @@ export class Contribution {
           originalWidth: data['images']['standard_resolution']['width'],
           originalHeight: data['images']['standard_resolution']['height'],
           url: data['images']['standard_resolution']['url']
+        };
+        this.caption = data['caption']['text'];
+        this.user = {
+          profile_picture: data['user']['profile_picture'],
+          username: data['user']['username']
+        };
+        break;
+      case 'facebook-curated':
+        data = cData['facebook_data'];
+        this.image = {
+          originalWidth: data['images']['width'],
+          originalHeight: data['images']['height'],
+          url: data['images']['url']
         };
         this.caption = data['caption']['text'];
         this.user = {
@@ -65,11 +81,15 @@ export class Grouping {
   contributions: string[];
   categoryTitle: string;
   categorySubtitle: string;
+  chips: string[];
   created: Date;
 
-  constructor(cData?: {}) {
-    if (typeof cData !== 'undefined' && cData !== null) {
-      this.setGrouping(cData);
+  constructor(gData?: {}) {
+    this.contributions = [];
+    this.chips = [];
+    this.created = new Date();
+    if (typeof gData !== 'undefined' && gData !== null) {
+      this.setGrouping(gData);
     }
   }
 
@@ -80,7 +100,15 @@ export class Grouping {
     this.contributions = gData.contributions;
     this.categoryTitle = gData.categoryTitle;
     this.categorySubtitle = gData.categorySubtitle;
+    this.chips = gData.chips;
   }
+}
+
+export class Chip {
+  _id: string;
+  origin_id: string;
+  origin: string;
+  label: string;
 }
 
 export interface GroupingsResponse extends Response {

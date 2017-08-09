@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/filter';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import {Contribution, Grouping, GroupingResponse, Options} from '../models';
-import { LocationStrategy } from '@angular/common';
+import {Chip, Contribution, Grouping, GroupingResponse, Options} from '../models';
 import {ListingBackendService} from './listingBackend.service';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
@@ -16,7 +15,8 @@ export class ListingService {
 
   private _contributions: BehaviorSubject<Contribution[]> = <BehaviorSubject<Contribution[]>>new BehaviorSubject([]);
   private _groupings: BehaviorSubject<Grouping[]> = <BehaviorSubject<Grouping[]>>new BehaviorSubject([]);
-  private _chips: string[];
+  private _chips: Chip[];
+  private _selectedGrouping: Grouping = null;
   private requestContributionsInterval = null;
   private errorMessage: any;
   private _options: Options;
@@ -26,7 +26,7 @@ export class ListingService {
     this.options = {
         viewMode: 'standard'
     };
-    this.getChips();
+    this.retrieveChips();
     this.refreshContributions();
     this.refreshGroupings();
   }
@@ -36,11 +36,25 @@ export class ListingService {
   }
 
   get contributions() {
-    return this._contributions.asObservable();
+    return this.getContributionsFilteredByGrouping();
   }
 
   get contributionsAsValue() {
     return this._contributions.getValue();
+  }
+
+  getContributionsFilteredByGrouping() {
+    if (this._selectedGrouping === null) {
+      return this._contributions.asObservable();
+    } else {
+      return this._contributions.asObservable().map((contributions) => {
+        return contributions.filter((c) => {
+          return c.chips.forEach((chip) => {
+            return this._selectedGrouping.chips.indexOf(chip) > -1;
+          });
+        });
+      });
+    }
   }
 
   get groupings() {
@@ -50,6 +64,9 @@ export class ListingService {
   get groupingsReverseSortedByCreationDate() {
     return this._groupings.asObservable().map((data) => {
       data.sort((a, b) => {
+        if (typeof a.created === 'string' || typeof b.created === 'string' ) {
+          return;
+        }
         return a.created.getTime() < b.created.getTime() ? -1 : 1;
       });
       return data;
@@ -60,12 +77,16 @@ export class ListingService {
     return this._groupings.getValue();
   }
 
+  set grouping(grouping: Grouping) {
+    this._selectedGrouping = grouping;
+  }
+
   addGrouping(newGrouping: Grouping): Observable<GroupingResponse> {
     const obs = this.listingBackendService.createGrouping(newGrouping);
     obs.subscribe(
       res => {
         const newGroupingList: Grouping[] = this._groupings.getValue();
-        newGroupingList.push(res.data);                // Response Grouping will contain _id created at server
+        newGroupingList.push(new Grouping(res.data));                // Response Grouping will contain _id created at server
         this._groupings.next(newGroupingList);
       });
 
@@ -74,6 +95,10 @@ export class ListingService {
 
   updateGrouping(grouping: Grouping): void {
     this.listingBackendService.updateGrouping(grouping).subscribe();
+  }
+
+  updateContribution(contribution: Contribution): void {
+    this.listingBackendService.updateContribution(contribution).subscribe();
   }
 
   deleteGrouping(grouping: Grouping): Observable<Grouping> {
@@ -110,10 +135,10 @@ export class ListingService {
   /**
    * Retrieve 'chips' from the server
    */
-  getChips() {
+  retrieveChips() {
     this.listingBackendService.getChips().subscribe(
       res => {
-        this._chips = res.data.split(',');
+        this._chips = res.data;
       }
     );
   }

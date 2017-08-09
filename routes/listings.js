@@ -1,9 +1,28 @@
 var Contribution = require('../control/models.js').Contribution;
 var Grouping = require('../control/models.js').Grouping;
+var Chip = require('../control/models.js').Chip;
 var Common = require('../control/common');
 var express = require('express');
 var router = express.Router();
 
+
+// ************************* Chips ****************************
+
+/**
+ * Return all Chips
+ */
+router.get('/chips', function(req, res) {
+  Chip.find({}, function(error, foundSet) {
+    if (error || foundSet === null) {
+      console.log("Error finding Chips");
+      res.status(500);
+    } else {
+      res.status(200).json({ data: foundSet });
+    }
+  })
+});
+
+// ************************* Groupings ****************************
 
 /**
  * Return Grouping(s) data
@@ -27,13 +46,6 @@ router.get('/groupings/:id?', function(req, res) {
 });
 
 /**
- * Return Chips
- */
-router.get('/chips', function(req, res) {
-  res.status(200).json({ data: Common.Constants.CHIPS });
-});
-
-/**
  * Update Grouping data (supply id in body)
  */
 router.put('/groupings', function(req, res) {
@@ -46,6 +58,7 @@ router.put('/groupings', function(req, res) {
       foundItem.contributions = req.body.contributions;
       foundItem.categoryTitle = req.body.categoryTitle;
       foundItem.categorySubtitle = req.body.categorySubtitle;
+      foundItem.chips = req.body.chips;
       foundItem.save();
       res.status(200).json({ data: foundItem });
     }
@@ -88,6 +101,12 @@ router.post('/groupings', function(req, res) {
   });
 });
 
+
+
+
+// ************************* Contributions ****************************
+
+
 /**
  * Return Contribution(s) as data, or a single formatted contribution that is suitable for Facebook
  * mode: 'data' or 'render'
@@ -110,6 +129,22 @@ router.get('/contributions/:mode/:id?', function(req, res) {
       } else if (req.params.mode === 'data') {
         res.status(200).json({ data: foundSet });
       }
+    }
+  });
+});
+
+/**
+ * Update Contribution data (supply id in body)
+ */
+router.put('/contributions', function(req, res) {
+  Contribution.findOne({_id : req.body._id }, function (error, foundItem) {
+    if (error || foundItem === null) {
+      console.log("Error finding Contribution");
+      res.status(500);
+    } else {
+      foundItem.chips = req.body.chips;
+      foundItem.save();
+      res.status(200).json({ data: foundItem });
     }
   });
 });

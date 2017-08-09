@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
         this.listingService.options = newOptions;
       }
     });
-    // this.contributionService.startServerPolling();
+    this.listingService.startServerPolling();
   }
 
 }

@@ -15,7 +15,8 @@ var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 mongoose.Promise = require('q').Promise;
 
-var engine = require('./control/engine');
+var facebookEngine = require('./routes/facebook');
+var instagramEngine = require('./routes/instagram');
 var static_pages = require('./routes/static');
 var listings = require('./routes/listings');
 var mms = require('./routes/mms');
@@ -92,4 +93,8 @@ if (app.get('env') === 'development') {
 }
 
 module.exports = app;
-engine.startEngine();
+
+// Activate service crawlers here
+
+facebookEngine.startEngine();
+// instagramEngine.startEngine();

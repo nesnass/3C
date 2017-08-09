@@ -15,7 +15,7 @@ declare const jQuery: any;
 })
 export class ContributionGridComponent implements OnInit {
 
-  contributions: Observable<Contribution[]>;
+  contributions: Contribution[];
   wall: any;
 
   constructor(private listingService: ListingService,
@@ -34,15 +34,10 @@ export class ContributionGridComponent implements OnInit {
       }
     });
 
-    this.contributions = this.listingService.contributions;
-    this.listingService.contributions.subscribe(
-      () => {
-        setTimeout(() => {
-          this.wall.fitWidth();
-        }, 100);
-      }
-    );
-
+    this.contributions = this.listingService.contributionsAsValue;
+    setTimeout(() => {
+      this.wall.fitWidth();
+    }, 100);
   }
 
 

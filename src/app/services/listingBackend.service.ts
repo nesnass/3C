@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Headers, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/share';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse} from '../models';
+import {Contribution, ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse} from '../models';
 import {LocationStrategy} from '@angular/common';
 
 @Injectable()
@@ -47,6 +47,13 @@ export class ListingBackendService {
     return this.http.get<ContributionsResponse>(this.apiUrl + 'listings/contributions/data')
       // .map(res => <Contribution[]>res.data || [])
       .catch(ListingBackendService.handleError);
+  }
+
+  updateContribution(contribution: Contribution): Observable<Grouping> {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+
+    return this.http.put(this.apiUrl + 'listings/contributions', contribution, {headers}).share();
   }
 
   // Groupings

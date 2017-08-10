@@ -59,6 +59,8 @@ router.put('/groupings', function(req, res) {
       foundItem.categoryTitle = req.body.categoryTitle;
       foundItem.categorySubtitle = req.body.categorySubtitle;
       foundItem.chips = req.body.chips;
+      foundItem.contributionMode = req.body.contributionMode;
+      foundItem.displayMode = req.body.displayMode;
       foundItem.save();
       res.status(200).json({ data: foundItem });
     }
@@ -88,7 +90,9 @@ router.post('/groupings', function(req, res) {
     urlSlug: req.body.urlSlug,
     contributions: req.body.contributions,
     categoryTitle: req.body.categoryTitle,
-    categorySubtitle: req.body.categorySubtitle
+    categorySubtitle: req.body.categorySubtitle,
+    contributionMode: req.body.contributionMode,
+    displayMode: req.body.displayMode
   });
 
   grouping.save(function (error, newGrouping) {

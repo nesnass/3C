@@ -21,10 +21,11 @@
 
 <div class="carouselContainer" *ngIf="showCarousel">
   <div fxLayout="row" fxLayout.lt-md="column">
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <p class="carousel-text" fxFlex >#framtidscampus</p>
-      <div fxFlex="20" (click)="toggleDetail($event)">
-        <img src="assets/img/questionmark.png" class="carousel-questionmark">
+    <div fxLayout="column" fxLayoutAlign="end center">
+      <p class="serendipitous-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
+      <p class="serendipitous-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p>
+      <div (click)="toggleDetail($event)" class="serendipitous-questionmark">
+        <img src="assets/img/questionmark.png">
       </div>
     </div>
     <app-carousel></app-carousel>

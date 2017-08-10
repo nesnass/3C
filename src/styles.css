@@ -2,6 +2,26 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+
+/* Angular Material mods */
+
+button {
+  text-transform: uppercase;
+}
+
 .mat-list-icon {
   color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-select-trigger {
+  font-size: 14px;
+}
+
+
+/* App styles */
+
+.custom-chip {
+  background-color: lightgray;
+  border-radius: 10px;
+  padding: 10px;
 }

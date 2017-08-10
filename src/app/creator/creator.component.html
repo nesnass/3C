@@ -14,12 +14,9 @@
             <md-card-subtitle>{{grouping.categorySubtitle}}</md-card-subtitle>
           </md-card-header>
           <md-card-content>
-            <p>'position' URL:</p>
-            <p><strong>&nbsp;/{{grouping.urlSlug}}</strong></p>
-            <p>Show content tagged with:</p>
-            <md-chip-list>
-              <md-chip *ngFor="let chip of listingService.chips" [selected]="grouping.chips.indexOf(chip._id) > -1" (click)="toggleChip(grouping, 'Grouping', chip)">{{chip.label}}</md-chip>
-            </md-chip-list>
+            <p><a href="{{ siteUrl() + 'display/' + grouping.urlSlug}}" target="none">{{ siteUrl() }}display/<strong>{{grouping.urlSlug}}</strong></a></p>
+            <p>Display Mode: <strong>{{grouping.displayMode}}</strong></p>
+            <p>Contribution selection: <strong>{{grouping.contributionMode}}</strong></p>
           </md-card-content>
           <md-card-actions>
             <button md-line md-button (click)="itemToEdit = i">Edit</button>
@@ -38,6 +35,23 @@
             <md-input-container>
               <input mdInput placeholder="URL" [(ngModel)]="grouping.urlSlug">
             </md-input-container>
+            <md-select placeholder="Present view as" [(ngModel)]="grouping.displayMode">
+              <md-option *ngFor="let mode of displayModes" [value]="mode.viewValue">
+                {{ mode.viewValue }}
+              </md-option>
+            </md-select>
+            <br>
+            <md-select placeholder="Select Contributions using" [(ngModel)]="grouping.contributionMode">
+              <md-option *ngFor="let mode of contributionModes" [value]="mode.viewValue">
+                {{ mode.viewValue }}
+              </md-option>
+            </md-select>
+            <div *ngIf="grouping.contributionMode === 'Chips'">
+              <p>Show content tagged with:</p>
+              <md-chip-list>
+                <md-basic-chip class="custom-chip" *ngFor="let chip of listingService.chips" [ngStyle]="chipStyle(chip, grouping)" [selected]="grouping.chips.indexOf(chip._id) > -1" (click)="toggleChip(grouping, 'Grouping', chip)">{{chip.label}}</md-basic-chip>
+              </md-chip-list>
+            </div>
           </md-card-content>
 
           <md-card-actions>
@@ -71,8 +85,25 @@
         <md-card-content>
           <p>{{contribution.caption}}</p>
           <md-chip-list>
-            <md-chip *ngFor="let chip of listingService.chips" [selected]="contribution.chips.indexOf(chip._id) > -1" (click)="toggleChip(contribution, 'Contribution', chip)">{{chip.label}}</md-chip>
+            <md-basic-chip class="custom-chip" *ngFor="let chip of listingService.chips" [ngStyle]="chipStyle(chip, contribution)" [selected]="contribution.chips.indexOf(chip._id) > -1" (click)="toggleChip(contribution, 'Contribution', chip)">{{chip.label}}</md-basic-chip>
           </md-chip-list>
+        </md-card-content>
+      </md-card>
+    </div>
+
+  </md-tab>
+
+  <md-tab label="Chips">
+
+    <div fxLayout="row wrap">
+      <md-card *ngFor="let chip of listingService.chips" class="chip-card">
+        <md-card-header>
+          <div md-card-avatar class="contribution-card-header-image" [ngStyle]="chipStyle(chip)"></div>
+          <md-card-title>{{chip.label}}</md-card-title>
+          <md-card-subtitle>{{chip.origin}}</md-card-subtitle>
+        </md-card-header>
+        <md-card-content>
+
         </md-card-content>
       </md-card>
     </div>

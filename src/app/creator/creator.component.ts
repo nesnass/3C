@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Grouping, Contribution } from '../models';
+import {Grouping, contributionModes, displayModes, Chip} from '../models';
 import { ListingService } from '../services/listing.service';
 
 @Component({
@@ -9,8 +9,12 @@ import { ListingService } from '../services/listing.service';
 })
 export class CreatorComponent implements OnInit {
   itemToEdit: number = -1;
+  contributionModes: {}[];
+  displayModes: {}[];
 
   constructor(private listingService: ListingService) {
+    this.contributionModes = contributionModes;
+    this.displayModes = displayModes;
   }
 
   ngOnInit() {
@@ -20,7 +24,7 @@ export class CreatorComponent implements OnInit {
 
   updateToServer(item, type) {
     if (type === 'Grouping') {
-      this.listingService.updateGrouping(item);
+      this.listingService.updateGrouping(this.vetGrouping(item));
     } else {
       this.listingService.updateContribution(item);
     }
@@ -43,6 +47,40 @@ export class CreatorComponent implements OnInit {
       item.chips.splice(i, 1);
     }
     this.updateToServer(item, type);
+  }
+
+  vetGrouping(grouping: Grouping): Grouping {
+    if (grouping.urlSlug.length > 0 && grouping.urlSlug[0] === '/') {
+      grouping.urlSlug = grouping.urlSlug.substr(1);
+    }
+    return grouping;
+  }
+
+  chipStyle(chip: Chip, item) {
+    let i;
+    if (item) {
+      i = item.chips.indexOf(chip._id);
+    } else {
+      i = 0;
+    }
+    switch (chip.origin) {
+      case 'facebook-album':
+        return (i > -1) ? { backgroundColor: 'blue', color: 'white' }
+        : { backgroundColor: 'lightgray', color: 'black', border: 'solid blue' };
+      case 'facebook-feed':
+        return (i > -1) ? { backgroundColor: 'green', color: 'white' }
+        : { backgroundColor: 'lightgray', color: 'black', border: 'solid green' };
+      case 'instagram':
+        return (i > -1) ? { backgroundColor: 'red', color: 'white' }
+        : { backgroundColor: 'lightgray', color: 'black', border: 'solid red' };
+      case 'mms':
+        return (i > -1) ? { backgroundColor: 'brown', color: 'white' }
+        : { backgroundColor: 'lightgray', color: 'black', border: 'solid brown' };
+    }
+  }
+
+  siteUrl() {
+    return this.listingService.siteUrl;
   }
 
 }

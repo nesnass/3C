@@ -41,7 +41,7 @@ export class Contribution {
           username: data['user']['username']
         };
         break;
-      case 'facebook-curated':
+      case 'facebook-album':
         data = cData['facebook_data'];
         this.image = {
           originalWidth: data['images']['width'],
@@ -75,18 +75,32 @@ export class Options {
   viewMode: string;
 }
 
+export const contributionModes = [
+  { value: 'All', viewValue: 'All' },
+  { value: 'Chips', viewValue: 'Chips' },
+  { value: 'Feed', viewValue: 'Feed' }
+];
+
+export const displayModes = [
+  { value: 'Voting', viewValue: 'Voting' },
+  { value: 'Serendipitous', viewValue: 'Serendipitous' }
+];
+
+
 export class Grouping {
   _id: string;
   urlSlug: string;
-  contributions: string[];
   categoryTitle: string;
   categorySubtitle: string;
+  contributionMode: string;
+  displayMode: string;
   chips: string[];
   created: Date;
 
   constructor(gData?: {}) {
-    this.contributions = [];
     this.chips = [];
+    this.contributionMode = 'Chips';
+    this.displayMode = 'Serendipitous';
     this.created = new Date();
     if (typeof gData !== 'undefined' && gData !== null) {
       this.setGrouping(gData);
@@ -97,9 +111,10 @@ export class Grouping {
     this._id = gData._id;
     this.urlSlug = gData.urlSlug;
     this.created = new Date(gData.created);
-    this.contributions = gData.contributions;
     this.categoryTitle = gData.categoryTitle;
     this.categorySubtitle = gData.categorySubtitle;
+    this.contributionMode = gData.contributionMode;
+    this.displayMode = gData.displayMode;
     this.chips = gData.chips;
   }
 }

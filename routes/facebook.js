@@ -57,7 +57,7 @@ function facebookCrawlerControl() {
       // Collect curated (workshop) Contributions from the facebook 'Album' - added by the Page administrator
 
       // Get a list of existing Chips before we begin
-      Chip.find({ origin: "facebook" }, function(error, chips) {
+      Chip.find({ origin: "facebook-album" }, function(error, chips) {
         if (error || chips === null) {
           console.log("Error finding Chips for Facebook crawl");
         } else {
@@ -84,7 +84,7 @@ function facebookCrawlerControl() {
                 } else {
                   var newChip = new Chip({
                     origin_id: filteredAlbum.id,
-                    origin: "facebook",
+                    origin: "facebook-album",
                     label: filteredAlbum.name
                   });
                   newChip.save();
@@ -128,11 +128,11 @@ function syncContributionsFromAlbum(album, chip) {
       });
 
       // Remove any items not currently in the album
-      Contribution.find({ 'origin': "facebook-curated", 'facebook_data.photo_id': { $nin: currentIdsInAlbum } } ).remove();
+      Contribution.find({ 'origin': "facebook-album", 'facebook_data.photo_id': { $nin: currentIdsInAlbum } } ).remove();
 
       // The result.data object will contain an 'images' list, first item being the largest. Get this one for now.
       results.forEach( function(photo) {
-        Contribution.findOne({ 'origin': "facebook-curated", 'facebook_data.photo_id': photo.id }, function(error, contribution) {
+        Contribution.findOne({ 'origin': "facebook-album", 'facebook_data.photo_id': photo.id }, function(error, contribution) {
           if (error) {
             console.log("Error finding Contribution for facebook curated album");
           } else if (contribution === null) {
@@ -148,7 +148,7 @@ function syncContributionsFromAlbum(album, chip) {
 
                 // Create a new Contribution
                Contribution.create({
-                  origin: "facebook-curated",
+                  origin: "facebook-album",
                   facebook_data: {
                     photo_id: photo.id,
                     album_id: album.id,

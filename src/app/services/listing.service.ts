@@ -31,6 +31,10 @@ export class ListingService {
     this.refreshGroupings();
   }
 
+  get siteUrl() {
+    return this.listingBackendService.appUrl;
+  }
+
   get chips() {
     return this._chips;
   }
@@ -44,14 +48,23 @@ export class ListingService {
   }
 
   getContributionsFilteredByGrouping() {
-    if (this._selectedGrouping === null) {
+    if (this._selectedGrouping === null || this._selectedGrouping.contributionMode === 'All') {
+      // Return all Contributions
       return this._contributions.asObservable();
-    } else {
+    } else if (this._selectedGrouping.contributionMode === 'Chips') {
+      // Use Chips to determine which images are shown - match Grouping chips to Contribution chips
       return this._contributions.asObservable().map((contributions) => {
         return contributions.filter((c) => {
-          return c.chips.forEach((chip) => {
+          return c.chips.some((chip) => {
             return this._selectedGrouping.chips.indexOf(chip) > -1;
           });
+        });
+      });
+    } else if (this._selectedGrouping.contributionMode === 'Feed') {
+      // Show images that were taken from a Feed
+      return this._contributions.asObservable().map((contributions) => {
+        return contributions.filter((c) => {
+          return c.origin === 'facebook-feed';
         });
       });
     }
@@ -79,6 +92,10 @@ export class ListingService {
 
   set grouping(grouping: Grouping) {
     this._selectedGrouping = grouping;
+  }
+
+  get grouping(): Grouping {
+    return this._selectedGrouping;
   }
 
   addGrouping(newGrouping: Grouping): Observable<GroupingResponse> {

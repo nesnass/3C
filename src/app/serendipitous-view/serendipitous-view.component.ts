@@ -4,13 +4,13 @@ import {ListingService} from '../services/listing.service';
 
 
 @Component({
-  selector: 'app-normal-view',
-  templateUrl: './normal-view.component.html',
-  styleUrls: ['./normal-view.component.css']
+  selector: 'app-serendipitous-view',
+  templateUrl: './serendipitous-view.component.html',
+  styleUrls: ['./serendipitous-view.component.css']
 })
-export class NormalViewComponent implements OnInit {
+export class SerendipitousViewComponent implements OnInit {
   showDetail = false;
-  showCarousel = true;
+  showCarousel = false;
   showDetailTimer = null;
   position: string;
 
@@ -30,6 +30,7 @@ export class NormalViewComponent implements OnInit {
         });
         if (selectedGrouping !== null) {
           this.listingService.grouping = selectedGrouping;
+          this.showCarousel = true;
         }
       });
     }

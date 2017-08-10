@@ -10,7 +10,8 @@ import {LocationStrategy} from '@angular/common';
 export class ListingBackendService {
 
   private http: HttpClient;
-  private apiUrl = 'http://localhost:8000/';
+  private _apiUrl = 'http://localhost:8000/';
+  private _appUrl = 'http://localhost:4200/';
 
   /**
    * General handler for server call errors
@@ -32,19 +33,21 @@ export class ListingBackendService {
 
   constructor(http: HttpClient, private locationStrategy: LocationStrategy)  {
     this.http = http;
+    // this._apiUrl = (<any>locationStrategy)._platformLocation.location.origin + '/';
 
     // Switch server address for local development..
     if ((<any>locationStrategy)._platformLocation.location.href.indexOf('localhost') > -1) {
-      this.apiUrl = 'http://localhost:8000/';
+      this._apiUrl = 'http://localhost:8000/';
+      this._appUrl = 'http://localhost:4200/';
     } else {
-      this.apiUrl = '/';
+      this._apiUrl = this._appUrl = (<any>locationStrategy)._platformLocation.location.hostname + '/';
     }
   }
 
   // Contributions
 
   getAllContributions() {
-    return this.http.get<ContributionsResponse>(this.apiUrl + 'listings/contributions/data')
+    return this.http.get<ContributionsResponse>(this._apiUrl + 'listings/contributions/data')
       // .map(res => <Contribution[]>res.data || [])
       .catch(ListingBackendService.handleError);
   }
@@ -53,13 +56,13 @@ export class ListingBackendService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
-    return this.http.put(this.apiUrl + 'listings/contributions', contribution, {headers}).share();
+    return this.http.put(this._apiUrl + 'listings/contributions', contribution, {headers}).share();
   }
 
   // Groupings
 
   getAllGroupings() {
-    return this.http.get<GroupingsResponse>(this.apiUrl + 'listings/groupings')
+    return this.http.get<GroupingsResponse>(this._apiUrl + 'listings/groupings')
       // .map(res => <Grouping[]>res.data || [])
       .catch(ListingBackendService.handleError);
   }
@@ -68,28 +71,31 @@ export class ListingBackendService {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
-    return this.http.put(this.apiUrl + 'listings/groupings', newGrouping, {headers}).share();
+    return this.http.put(this._apiUrl + 'listings/groupings', newGrouping, {headers}).share();
   }
 
   createGrouping(newGrouping: Grouping): Observable<GroupingResponse> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
-    return this.http.post(this.apiUrl + 'listings/groupings', newGrouping, {headers});
+    return this.http.post(this._apiUrl + 'listings/groupings', newGrouping, {headers});
   }
 
   deleteGrouping(deletedGrouping: Grouping) {
     const reqOpts = {
       params: new HttpParams().set('id', deletedGrouping._id)
     };
-    return this.http.delete(this.apiUrl + 'listings/groupings', reqOpts).share();
+    return this.http.delete(this._apiUrl + 'listings/groupings', reqOpts).share();
   }
 
   // Chips
 
   getChips() {
-    return this.http.get(this.apiUrl + 'listings/chips').catch(ListingBackendService.handleError);
+    return this.http.get(this._apiUrl + 'listings/chips').catch(ListingBackendService.handleError);
   }
 
+  get appUrl() {
+    return this._appUrl;
+  }
 
 }

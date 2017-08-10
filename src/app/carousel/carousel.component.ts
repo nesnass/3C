@@ -64,9 +64,13 @@ export class CarouselComponent implements OnInit {
           this.selectedContribution = this.latestContribution;
           this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.longRotationIntervalSeconds * 1000);
 
-          // Otherwise show a random contribution for a standard length of time
+          // Otherwise show a pseudo-random contribution for a standard length of time (don't show same image twice)
         } else {
-          this.selectedContribution = this.contributions[Math.floor(Math.random() * this.contributions.length)];
+          let newContribution = null;
+          while (newContribution === null || newContribution._id === this.selectedContribution._id) {
+            newContribution = this.contributions[Math.floor(Math.random() * this.contributions.length)];
+          }
+          this.selectedContribution = newContribution;
           this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.standardRotationIntervalSeconds * 1000);
         }
       } else {

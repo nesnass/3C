@@ -8,7 +8,15 @@ import { RouterModule, Routes } from '@angular/router';
 
 import 'hammerjs';
 
-import {MdInputModule, MdListModule, MdButtonModule, MdTabsModule, MdIconModule, MdCardModule, MdChipsModule} from '@angular/material';
+import {
+  MdInputModule,
+  MdListModule,
+  MdButtonModule,
+  MdTabsModule,
+  MdIconModule,
+  MdCardModule,
+  MdChipsModule,
+  MdSelectModule} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ContributionGridComponent } from './contribution-grid/contribution-grid.component';
@@ -17,11 +25,11 @@ import { ListingService } from './services/listing.service';
 import { Freewall } from './freewallRef';
 import { CarouselComponent } from './carousel/carousel.component';
 import { SmallerViewComponent } from './smaller-view/smaller-view.component';
-import { NormalViewComponent } from './normal-view/normal-view.component';
+import { SerendipitousViewComponent } from './serendipitous-view/serendipitous-view.component';
 import { CreatorComponent } from './creator/creator.component';
 
 const appRoutes: Routes = [
-  { path: 'display/:position', component: NormalViewComponent },
+  { path: 'display/:position', component: SerendipitousViewComponent },
   { path: 'smaller', component: SmallerViewComponent },
   { path: 'creator', component: CreatorComponent },
 ];
@@ -32,7 +40,7 @@ const appRoutes: Routes = [
     ContributionGridComponent,
     CarouselComponent,
     SmallerViewComponent,
-    NormalViewComponent,
+    SerendipitousViewComponent,
     CreatorComponent
   ],
   imports: [
@@ -51,7 +59,8 @@ const appRoutes: Routes = [
     MdTabsModule,
     MdIconModule,
     MdCardModule,
-    MdChipsModule
+    MdChipsModule,
+    MdSelectModule
   ],
   providers: [
     ListingBackendService,

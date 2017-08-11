@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Grouping, contributionModes, displayModes, Chip} from '../models';
+import {Grouping, contributionModes, displayModes, votingDisplayModes, Chip} from '../models';
 import { ListingService } from '../services/listing.service';
 
 @Component({
@@ -11,10 +11,12 @@ export class CreatorComponent implements OnInit {
   itemToEdit: number = -1;
   contributionModes: {}[];
   displayModes: {}[];
+  votingDisplayModes: {}[];
 
   constructor(private listingService: ListingService) {
     this.contributionModes = contributionModes;
     this.displayModes = displayModes;
+    this.votingDisplayModes = votingDisplayModes;
   }
 
   ngOnInit() {
@@ -81,6 +83,10 @@ export class CreatorComponent implements OnInit {
 
   siteUrl() {
     return this.listingService.siteUrl;
+  }
+
+  displayMode(grouping: Grouping) {
+    return grouping.displayMode === 'Serendipitous' ? 'display/' : 'vote/';
   }
 
 }

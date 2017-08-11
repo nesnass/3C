@@ -4,11 +4,11 @@ import {ListingService} from '../services/listing.service';
 
 
 @Component({
-  selector: 'app-serendipitous-view',
-  templateUrl: './serendipitous-view.component.html',
-  styleUrls: ['./serendipitous-view.component.css']
+  selector: 'app-voting-view',
+  templateUrl: './voting-view.component.html',
+  styleUrls: ['./voting-view.component.css']
 })
-export class SerendipitousViewComponent implements OnInit {
+export class VotingViewComponent implements OnInit {
   showDetail = false;
   showCarousel = false;
   showDetailTimer = null;
@@ -43,10 +43,10 @@ export class SerendipitousViewComponent implements OnInit {
   }
 
   resetDetailTimer() {
-/*    clearTimeout(this.showDetailTimer);
+    clearTimeout(this.showDetailTimer);
     this.showDetailTimer = setTimeout(() => {
       this.showDetail = false;
       this.showCarousel = true;
-    }, 20000);*/
+    }, 20000);
   }
 }

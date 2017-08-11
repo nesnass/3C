@@ -25,3 +25,40 @@ button {
   border-radius: 10px;
   padding: 10px;
 }
+
+
+/* Absolute centering see: https://codepen.io/shshaw/full/gEiDt */
+.Center-Container {
+  position: relative;
+}
+.Absolute-Center {
+  width: 80%;
+  height: 80%;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+.Absolute-Center.is-Responsive {
+  width: 80%;
+  height: 80%;
+  min-width: 200px;
+  max-width: 800px;
+}
+.Absolute-Center.is-Fixed {
+  position: fixed;
+  z-index: 999;
+}
+.Absolute-Center.is-Image {
+  height: auto;
+}
+.Absolute-Center.is-Image img {
+  width: 100%;
+  height: auto;
+}
+/*.Absolute-Center.is-Image img {
+  width: auto;
+  max-width: 80vw;
+  height: auto;
+  max-height: 90vh;
+}*/

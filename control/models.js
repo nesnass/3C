@@ -9,6 +9,11 @@ var contributionSchema = Schema({
   origin:                       { type: String },           // "instagram", "sms", "mms", "facebook-feed", "facebook-album" ...etc
   created:                      { type: Date, default: Date.now },
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
+  voting: [{
+    votes: { type: Number },
+    shown: { type: Number },
+    grouping_id: { type: Schema.ObjectId, ref: 'Grouping'}
+  }],
 	message_data: {
 		number :                    { type: String },           // The sender's mobile number
 		msg :                       { type: String },           // Received message text
@@ -97,6 +102,7 @@ var groupingSchema = Schema({
   categorySubtitle:             { type: String },
   contributionMode:             { type: String },         // e.g. 'Chips', 'Feed', or 'All'
   displayMode:                  { type: String },         // e.g. 'Voting' or 'Serendipitous'
+  votingDisplayMode:            { type: String },         // e.g. 'Image' or 'Caption'
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
   created:                      { type: Date, default: Date.now }
 });

@@ -6,6 +6,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
+import { OrderModule } from 'ngx-order-pipe';
+
 import 'hammerjs';
 
 import {
@@ -16,7 +18,8 @@ import {
   MdIconModule,
   MdCardModule,
   MdChipsModule,
-  MdSelectModule} from '@angular/material';
+  MdSelectModule,
+  MdRadioModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ContributionGridComponent } from './contribution-grid/contribution-grid.component';
@@ -27,9 +30,12 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { SmallerViewComponent } from './smaller-view/smaller-view.component';
 import { SerendipitousViewComponent } from './serendipitous-view/serendipitous-view.component';
 import { CreatorComponent } from './creator/creator.component';
+import {VotingViewComponent} from './voting-view/voting-view.component';
+import { BrickDirective } from './brick.directive';
 
 const appRoutes: Routes = [
   { path: 'display/:position', component: SerendipitousViewComponent },
+  { path: 'vote/:position', component: VotingViewComponent },
   { path: 'smaller', component: SmallerViewComponent },
   { path: 'creator', component: CreatorComponent },
 ];
@@ -41,7 +47,9 @@ const appRoutes: Routes = [
     CarouselComponent,
     SmallerViewComponent,
     SerendipitousViewComponent,
-    CreatorComponent
+    VotingViewComponent,
+    CreatorComponent,
+    BrickDirective
   ],
   imports: [
     RouterModule.forRoot(
@@ -53,6 +61,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    OrderModule,
     MdInputModule,
     MdListModule,
     MdButtonModule,
@@ -60,7 +69,8 @@ const appRoutes: Routes = [
     MdIconModule,
     MdCardModule,
     MdChipsModule,
-    MdSelectModule
+    MdSelectModule,
+    MdRadioModule
   ],
   providers: [
     ListingBackendService,

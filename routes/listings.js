@@ -61,6 +61,7 @@ router.put('/groupings', function(req, res) {
       foundItem.chips = req.body.chips;
       foundItem.contributionMode = req.body.contributionMode;
       foundItem.displayMode = req.body.displayMode;
+      foundItem.votingDisplayMode = req.body.votingDisplayMode;
       foundItem.save();
       res.status(200).json({ data: foundItem });
     }
@@ -92,7 +93,8 @@ router.post('/groupings', function(req, res) {
     categoryTitle: req.body.categoryTitle,
     categorySubtitle: req.body.categorySubtitle,
     contributionMode: req.body.contributionMode,
-    displayMode: req.body.displayMode
+    displayMode: req.body.displayMode,
+    votingDisplayMode: req.body.votingDisplayMode
   });
 
   grouping.save(function (error, newGrouping) {

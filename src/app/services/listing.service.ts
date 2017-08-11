@@ -5,11 +5,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {Chip, Contribution, Grouping, GroupingResponse, Options} from '../models';
 import {ListingBackendService} from './listingBackend.service';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class ListingService {
-  private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   private serverRefreshIntervalSeconds = 10;
 
@@ -92,6 +90,7 @@ export class ListingService {
 
   set grouping(grouping: Grouping) {
     this._selectedGrouping = grouping;
+    this.refreshContributions();
   }
 
   get grouping(): Grouping {
@@ -121,7 +120,7 @@ export class ListingService {
   deleteGrouping(grouping: Grouping): Observable<Grouping> {
     const obs = this.listingBackendService.deleteGrouping(grouping);
     obs.subscribe(
-      res => {
+      () => {
         const newGroupingList: Grouping[] = this._groupings.getValue();
         newGroupingList.splice(newGroupingList.indexOf(grouping), 1);
         this._groupings.next(newGroupingList);
@@ -166,7 +165,7 @@ export class ListingService {
   refreshContributions() {
     this.listingBackendService.getAllContributions().subscribe(
       res => {
-        const newContributions = (<Object[]>res.data).map((contribution: any) => new Contribution(contribution));
+        const newContributions = (<Object[]>res.data).map((contribution: any) => new Contribution(contribution, this._selectedGrouping));
 
         // Are there new contributions available? If so, update the collection
         const oldContributions = this._contributions.getValue();

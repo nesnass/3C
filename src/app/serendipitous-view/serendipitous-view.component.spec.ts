@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NormalViewComponent } from './normal-view.component';
+import { SerendipitousViewComponent } from './serendipitous-view.component';
 
-describe('NormalViewComponent', () => {
-  let component: NormalViewComponent;
-  let fixture: ComponentFixture<NormalViewComponent>;
+describe('SerendipitousViewComponent', () => {
+  let component: SerendipitousViewComponent;
+  let fixture: ComponentFixture<SerendipitousViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NormalViewComponent ]
+      declarations: [ SerendipitousViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NormalViewComponent);
+    fixture = TestBed.createComponent(SerendipitousViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

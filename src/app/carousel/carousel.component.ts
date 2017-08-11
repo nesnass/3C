@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {ContributionsService} from '../contributions.service';
+import { Component, OnInit } from '@angular/core';
 import {Contribution} from '../models';
 
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import {ListingService} from '../services/listing.service';
 
 
 @Component({
@@ -34,14 +34,15 @@ export class CarouselComponent implements OnInit {
   imageActive = 'active';
   viewMode = 'standard';
 
-  constructor(private contributionService: ContributionsService) {
-    this.viewMode = this.contributionService.options.viewMode;
+  constructor(private listingService: ListingService) {
+    this.viewMode = this.listingService.options.viewMode;
   }
 
   ngOnInit() {
-    this.contributionService.contributionsAsObservable.subscribe(
+    this.listingService.contributions.subscribe(
       contributions => {
         this.contributions = contributions;
+        console.log('Contributions:' + this.contributions);
 
         // First time run, begin rotation
         if (this.selectedContribution === null) {
@@ -63,9 +64,13 @@ export class CarouselComponent implements OnInit {
           this.selectedContribution = this.latestContribution;
           this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.longRotationIntervalSeconds * 1000);
 
-          // Otherwise show a random contribution for a standard length of time
+          // Otherwise show a pseudo-random contribution for a standard length of time (don't show same image twice)
         } else {
-          this.selectedContribution = this.contributions[Math.floor(Math.random() * this.contributions.length)];
+          let newContribution = null;
+          while (newContribution === null || newContribution._id === this.selectedContribution._id) {
+            newContribution = this.contributions[Math.floor(Math.random() * this.contributions.length)];
+          }
+          this.selectedContribution = newContribution;
           this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.standardRotationIntervalSeconds * 1000);
         }
       } else {

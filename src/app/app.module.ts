@@ -6,21 +6,36 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 
+import { OrderModule } from 'ngx-order-pipe';
+
 import 'hammerjs';
 
-import {MdInputModule, MdListModule, MdButtonModule} from '@angular/material';
+import {
+  MdInputModule,
+  MdListModule,
+  MdButtonModule,
+  MdTabsModule,
+  MdIconModule,
+  MdCardModule,
+  MdChipsModule,
+  MdSelectModule,
+  MdRadioModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ContributionGridComponent } from './contribution-grid/contribution-grid.component';
-import { ContributionsService } from './contributions.service';
+import { ListingBackendService } from './services/listingBackend.service';
+import { ListingService } from './services/listing.service';
 import { Freewall } from './freewallRef';
 import { CarouselComponent } from './carousel/carousel.component';
 import { SmallerViewComponent } from './smaller-view/smaller-view.component';
-import { NormalViewComponent } from './normal-view/normal-view.component';
+import { SerendipitousViewComponent } from './serendipitous-view/serendipitous-view.component';
 import { CreatorComponent } from './creator/creator.component';
+import {VotingViewComponent} from './voting-view/voting-view.component';
+import { BrickDirective } from './brick.directive';
 
 const appRoutes: Routes = [
-  { path: 'display', component: NormalViewComponent },
+  { path: 'display/:position', component: SerendipitousViewComponent },
+  { path: 'vote/:position', component: VotingViewComponent },
   { path: 'smaller', component: SmallerViewComponent },
   { path: 'creator', component: CreatorComponent },
 ];
@@ -31,8 +46,10 @@ const appRoutes: Routes = [
     ContributionGridComponent,
     CarouselComponent,
     SmallerViewComponent,
-    NormalViewComponent,
-    CreatorComponent
+    SerendipitousViewComponent,
+    VotingViewComponent,
+    CreatorComponent,
+    BrickDirective
   ],
   imports: [
     RouterModule.forRoot(
@@ -44,12 +61,20 @@ const appRoutes: Routes = [
     HttpClientModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    OrderModule,
     MdInputModule,
     MdListModule,
-    MdButtonModule
+    MdButtonModule,
+    MdTabsModule,
+    MdIconModule,
+    MdCardModule,
+    MdChipsModule,
+    MdSelectModule,
+    MdRadioModule
   ],
   providers: [
-    ContributionsService,
+    ListingBackendService,
+    ListingService,
     Freewall
   ],
   bootstrap: [AppComponent]

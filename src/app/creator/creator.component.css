@@ -1,0 +1,30 @@
+.grouping-card {
+  margin: 5px;
+  width: 300px;
+}
+
+.contribution-card {
+  margin: 5px;
+  width: 300px;
+}
+
+.chip-card {
+  margin: 5px;
+  width: 300px;
+}
+
+.contribution-card-header-image {
+  background-size: cover;
+}
+
+.mat-chip {
+  outline: none;
+}
+
+.mat-card-subtitle {
+  font-size: 0.7em;
+}
+
+.creator-voting-radio-button {
+  margin: 0 10px 10px 0;
+}

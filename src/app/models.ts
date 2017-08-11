@@ -1,8 +1,24 @@
+import { Response } from '@angular/http';
+
+class Voting {
+  votes: Number;
+  shown: Number;
+  grouping_id: String;
+
+  constructor(vData) {
+    this.votes = vData.votes || 0;
+    this.shown = vData.shown || 0;
+    this.grouping_id = vData.grouping_id || '0';
+  }
+}
 
 export class Contribution {
   _id: string;
   origin: string;
   created: Date;
+  chips: string[];
+  voting: Voting[];
+  groupingVoting?: Voting;    // Temp value for front end sorting of votes
   image: {
     originalWidth: number;
     originalHeight: number;
@@ -14,14 +30,33 @@ export class Contribution {
   };
   caption: string;
 
-  constructor(cData: {}) {
+  constructor(cData: {}, grouping: Grouping) {
+    this.chips = [];
+    this.voting = [];
+    this.groupingVoting = new Voting({});
+    this.caption = '';
     this.setContribution(cData);
+    if (grouping !== null) {
+      this.setGroupingVotingIndex(grouping);
+    }
+  }
+
+  setGroupingVotingIndex(grouping: Grouping) {
+    this.voting.forEach((vote) => {
+      if (vote.grouping_id === grouping._id) {
+        this.groupingVoting = new Voting(vote);
+      }
+    });
   }
 
   setContribution(cData) {
     this._id = cData._id;
     this.origin = cData.origin;
     this.created = new Date(cData.created);
+    this.chips = cData.chips || [];
+    if (cData.voting) {
+      this.voting = cData.voting;
+    }
     let data = {};
     switch (this.origin) {
       case 'instagram':
@@ -31,7 +66,24 @@ export class Contribution {
           originalHeight: data['images']['standard_resolution']['height'],
           url: data['images']['standard_resolution']['url']
         };
-        this.caption = data['caption']['text'];
+        if (data.hasOwnProperty('caption')) {
+          this.caption = data['caption']['text'];
+        }
+        this.user = {
+          profile_picture: data['user']['profile_picture'],
+          username: data['user']['username']
+        };
+        break;
+      case 'facebook-album':
+        data = cData['facebook_data'];
+        this.image = {
+          originalWidth: data['images']['width'],
+          originalHeight: data['images']['height'],
+          url: data['images']['url']
+        };
+        if (data.hasOwnProperty('caption')) {
+          this.caption = data['caption']['text'];
+        }
         this.user = {
           profile_picture: data['user']['profile_picture'],
           username: data['user']['username']
@@ -58,21 +110,73 @@ export class Options {
   viewMode: string;
 }
 
-export class DataStore {
-  contributions: Contribution[];
-  groupings: Grouping[];
-  options: Options;
-}
+export const contributionModes = [
+  { value: 'All', viewValue: 'All' },
+  { value: 'Chips', viewValue: 'Chips' },
+  { value: 'Feed', viewValue: 'Feed' }
+];
+
+export const displayModes = [
+  { value: 'Voting', viewValue: 'Voting' },
+  { value: 'Serendipitous', viewValue: 'Serendipitous' }
+];
+
+export const votingDisplayModes = [
+  { value: 'Image', viewValue: 'Image' },
+  { value: 'Caption', viewValue: 'Caption' }
+];
+
+
 
 export class Grouping {
   _id: string;
   urlSlug: string;
-  contributions: Contribution[];
   categoryTitle: string;
   categorySubtitle: string;
+  contributionMode: string;
+  displayMode: string;
+  votingDisplayMode: string;
+  chips: string[];
   created: Date;
+
+  constructor(gData?: {}) {
+    this.chips = [];
+    this.contributionMode = 'Chips';
+    this.displayMode = 'Serendipitous';
+    this.votingDisplayMode = 'Image';
+    this.created = new Date();
+    if (typeof gData !== 'undefined' && gData !== null) {
+      this.setGrouping(gData);
+    }
+  }
+
+  setGrouping(gData) {
+    this._id = gData._id;
+    this.urlSlug = gData.urlSlug;
+    this.created = new Date(gData.created);
+    this.categoryTitle = gData.categoryTitle;
+    this.categorySubtitle = gData.categorySubtitle;
+    this.contributionMode = gData.contributionMode;
+    this.displayMode = gData.displayMode;
+    this.votingDisplayMode = gData.votingDisplayMode;
+    this.chips = gData.chips;
+  }
 }
 
-export interface GroupingsResponse {
-  results: Grouping[];
+export class Chip {
+  _id: string;
+  origin_id: string;
+  origin: string;
+  label: string;
+}
+
+export interface GroupingsResponse extends Response {
+  data: Grouping[];
+}
+export interface GroupingResponse extends Response {
+  data: Grouping;
+}
+
+export interface ContributionsResponse extends Response {
+  data: Contribution[];
 }

@@ -1,12 +1,14 @@
 "use strict";
 
 exports.serverData = {
-	mostRecentInstagramIds : []
+	mostRecentInstagramIds : [],
+  mostRecentFacebookIds : []
 };
 
 exports.Constants = {
     MAIN_TAG: "framtidscampus",
-    CRAWLER_REFRESH_INTERVAL_SECONDS: 60
+    CRAWLER_REFRESH_INTERVAL_SECONDS: 60,
+    GROUPING_MODES: ["Chips", "Feed", "All"]
 };
 
 exports.StatusMessages = {

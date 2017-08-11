@@ -1,5 +1,5 @@
 
-<div *ngIf="showDetail" class="detailContainer">
+<div *ngIf="showDetail" class="detailContainer Center-Container" (click)="resetDetailTimer()">
 
   <p class="text-mainHeading">#framtidscampus*</p>
   <p class="text-subHeading">BOR, STUDERER ELLER JOBBER DU I ELGESETER-BYDELEN?
@@ -13,7 +13,7 @@
   <p class="text-footnote">*#framtidscampus er del av  ere medvirkningstiltak i arbeidet med bycampus, og et sammarbeid mellom <a href="http://www.bycampus.no" target="none">Trondheim Kommune</a>,
     <a href="https://www.ntnu.no/campusutvikling" target="none">NTNU</a> og forskningsprosjektet <a href="http://www.uv.uio.no/iped/forskning/prosjekter/3c/index.html">3C - Co-constructing City Futures</a>.</p>
   <br>
-  <div app-contribution-grid id="freewall" class="freewall"></div>
+  <app-contribution-grid id="freewall" class="freewall"></app-contribution-grid>
   <!--app-contribution-grid id="freewall" class="freewall" fxLayout="column" fxLayoutAlign="center none"></app-contribution-grid-->
 
 </div>
@@ -21,12 +21,13 @@
 
 <div class="carouselContainer" *ngIf="showCarousel">
   <div fxLayout="row" fxLayout.lt-md="column">
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <p class="carousel-text" fxFlex >#framtidscampus</p>
-      <div fxFlex="20" (click)="toggleDetail($event)">
-        <img src="assets/img/questionmark.png" class="carousel-questionmark">
+    <div fxLayout="column" fxLayoutAlign="end center">
+      <p class="serendipitous-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
+      <p class="serendipitous-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p>
+      <div (click)="toggleDetail($event)" class="serendipitous-questionmark">
+        <img src="assets/img/questionmark.png">
       </div>
     </div>
-    <div app-carousel></div>
+    <app-carousel></app-carousel>
   </div>
 </div>

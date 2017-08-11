@@ -1,0 +1,85 @@
+
+.detailContainer {
+  margin: auto;
+  padding: 5% 10%;
+   /*max-width:  800px; */
+}
+
+.carouselContainer {
+  margin: auto;
+  padding: 2% 0;
+}
+
+.text-mainHeading {
+  font-family:"HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 4em;
+  text-align: center;
+  width: 100%;
+  margin: 20px;
+}
+
+.text-subHeading {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 1.5em;
+  margin: 20px 0;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-footnote {
+  font-size: 0.75em;
+}
+
+.freewall {
+  width: 100%;
+  margin: auto;
+  display: inline-block;
+}
+
+.serendipitous-categoryTitle {
+  /*height: 50%;
+  padding: 40% 10%;*/
+  text-transform: uppercase;
+  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 2.5em;
+  margin: 5px;
+}
+
+.serendipitous-categorySubtitle {
+  /*height: 50%;
+  padding: 40% 10%;*/
+  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 1.5em;
+  margin: 5px;
+}
+
+.serendipitous-questionmark {
+  margin: 30px 0;
+}
+.serendipitous-questionmark img {
+  width: 60px;
+}
+
+@media all and (max-width: 1024px) {
+  .text-mainHeading {
+    font-size: 2em;
+    margin: 10px 5px;
+  }
+
+  .serendipitous-categoryTitle {
+    padding: 5% 3%;
+    font-size: 2em;
+  }
+
+  .serendipitous-categorySubtitle {
+    padding: 5% 3%;
+    font-size: 1.5em;
+  }
+
+  .serendipitous-questionmark {
+    padding-bottom: 30%;
+  }
+
+}

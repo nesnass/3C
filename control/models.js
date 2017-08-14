@@ -101,8 +101,12 @@ var groupingSchema = Schema({
   categoryTitle:                { type: String },
   categorySubtitle:             { type: String },
   contributionMode:             { type: String },         // e.g. 'Chips', 'Feed', or 'All'
-  displayMode:                  { type: String },         // e.g. 'Voting' or 'Serendipitous'
-  votingDisplayMode:            { type: String },         // e.g. 'Image' or 'Caption'
+  displayMode:                  { type: String },         // e.g. 'Voting' or 'Serendipitous', 'VotingResults'
+  votingOptions: {
+    displayMode: { type: String },                        // 'Image', 'Caption'
+    imageCaption: { type: Boolean },
+    resultsVisible: { type: Boolean }
+  },
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
   created:                      { type: Date, default: Date.now }
 });

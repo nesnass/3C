@@ -1,0 +1,44 @@
+.contribution {
+  position: relative;
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.contribution-large {
+  height: 500px;
+  width: 500px;
+}
+
+.contribution img {
+  height: 200px;
+  width: 200px;
+}
+
+.contribution-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 2px 5px;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.contribution-voting {
+  font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  font-size: 0.7em;
+  color: white;
+}
+
+.contribution-caption {
+  font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  font-size: 0.8em;
+  color: white;
+}
+
+.contribution-username {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 0.8em;
+  color: white;
+}

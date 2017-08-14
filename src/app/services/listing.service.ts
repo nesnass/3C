@@ -14,18 +14,24 @@ export class ListingService {
   private _contributions: BehaviorSubject<Contribution[]> = <BehaviorSubject<Contribution[]>>new BehaviorSubject([]);
   private _groupings: BehaviorSubject<Grouping[]> = <BehaviorSubject<Grouping[]>>new BehaviorSubject([]);
   private _chips: Chip[];
-  private _selectedGrouping: Grouping = null;
-  private requestContributionsInterval = null;
+  private _selectedGrouping: Grouping;
+  private requestContributionsInterval;
   private errorMessage: any;
   private _options: Options;
+
+  private _votingContribution1: Contribution;
+  private _votingContribution2: Contribution;
 
 
   constructor(private listingBackendService: ListingBackendService) {
     this.options = {
         viewMode: 'standard'
     };
+    this._selectedGrouping = null;
+    this.requestContributionsInterval = null;
+    this._votingContribution1 = null;
+    this._votingContribution2 = null;
     this.retrieveChips();
-    this.refreshContributions();
     this.refreshGroupings();
   }
 
@@ -37,21 +43,38 @@ export class ListingService {
     return this._chips;
   }
 
-  get contributions() {
-    return this.getContributionsFilteredByGrouping();
+  get contributions(): Observable<Contribution[]> {
+    return this.filterContributionsByGrouping().asObservable();
   }
 
-  get contributionsAsValue() {
-    return this._contributions.getValue();
+  get contributionsAsValue(): Contribution[] {
+    return this.filterContributionsByGrouping().getValue();
   }
 
-  getContributionsFilteredByGrouping() {
+  setRandomVotingContributions() {
+    const c = this.filterContributionsByGrouping().getValue();
+    if (c.length > 0) {
+      this._votingContribution1 = c[Math.floor(Math.random()) * c.length];
+      while (this._votingContribution2 === null || this._votingContribution2._id === this._votingContribution1._id) {
+        this._votingContribution2 = c[Math.floor(Math.random() * c.length)];
+      }
+    }
+  }
+
+  get votingContribution1(): Contribution {
+    return this._votingContribution1;
+  }
+  get votingContribution2(): Contribution {
+    return this._votingContribution2;
+  }
+
+  filterContributionsByGrouping(): BehaviorSubject<Contribution[]> {
     if (this._selectedGrouping === null || this._selectedGrouping.contributionMode === 'All') {
       // Return all Contributions
-      return this._contributions.asObservable();
+      return this._contributions;
     } else if (this._selectedGrouping.contributionMode === 'Chips') {
       // Use Chips to determine which images are shown - match Grouping chips to Contribution chips
-      return this._contributions.asObservable().map((contributions) => {
+      return <BehaviorSubject<Contribution[]>>this._contributions.map((contributions) => {
         return contributions.filter((c) => {
           return c.chips.some((chip) => {
             return this._selectedGrouping.chips.indexOf(chip) > -1;
@@ -60,7 +83,7 @@ export class ListingService {
       });
     } else if (this._selectedGrouping.contributionMode === 'Feed') {
       // Show images that were taken from a Feed
-      return this._contributions.asObservable().map((contributions) => {
+      return <BehaviorSubject<Contribution[]>>this._contributions.map((contributions) => {
         return contributions.filter((c) => {
           return c.origin === 'facebook-feed';
         });
@@ -204,6 +227,10 @@ export class ListingService {
         }
       }
     );
+  }
+
+  getTwoVotingContributions() {
+
   }
 
 

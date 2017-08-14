@@ -1,38 +1,22 @@
 <div *ngIf="showGrid && grouping.displayMode === 'Serendipitous'">
   <div *ngFor="let contribution of contributions">
-    <div class="brick" [ngStyle]="{'background-image': 'url(\'' + contribution.image.url + '\')'}" (click)="zoomContribution(contribution)">
-      <!--img [src]="contribution.image.url" (click)="zoomContribution(contribution)"-->
-      <div class="brick-details">
-        <span class="brick-caption">{{contribution.caption}}</span><br>
-        <span class="brick-username">{{contribution.user.username}}</span>
-      </div>
-    </div>
+    <app-contribution [contribution]="contribution" [grouping]="grouping" (click)="zoomContribution(contribution)"></app-contribution>
   </div>
 </div>
 
 <div *ngIf="showGrid && grouping.displayMode === 'Voting'">
-  <div *ngFor="let contribution of contributions | orderBy: 'contribution.groupingVoting.votes'">
-    <div class="brick" appBrick [contributionVotes]="contribution.groupingVoting.votes" [ngStyle]="{'background-image': 'url(\'' + contribution.image.url + '\')'}" (click)="zoomContribution(contribution)">
-      <div class="brick-details">
-        <span class="brick-caption">{{contribution.caption}}</span><br>
-        <span class="brick-username">{{contribution.user.username}}</span>
-      </div>
-    </div>
+  <div *ngFor="let contribution of contributions">
+    <app-contribution [contribution]="contribution" [grouping]="grouping" (click)="zoomContribution(contribution)"></app-contribution>
   </div>
 </div>
 
-<!--div class="Absolute-Center is-Responsive is-Fixed zoombox-container" *ngIf="zoomedContribution !== null" [ngStyle]="{'background-image': 'url(\'' + zoomedContribution.image.url + '\')'}"-->
 <div class="Absolute-Center is-Responsive is-Fixed" *ngIf="zoomedContribution !== null">
-
   <div class="zoombox-container">
-
     <img class="zoombox-image" alt="" [src]="zoomedContribution.image.url"/>
     <div class="zoombox-close" (click)="zoomedContribution = null">X</div>
     <div class="zoombox-details">
-      <span class="brick-caption">{{zoomedContribution.caption}}</span><br>
-      <span class="brick-username">{{zoomedContribution.user.username}}</span>
+      <span class="contribution-caption">{{zoomedContribution.caption}}</span><br>
+      <span class="contribution-username">{{zoomedContribution.user.username}}</span>
+    </div>
   </div>
-
-  </div>
-
 </div>

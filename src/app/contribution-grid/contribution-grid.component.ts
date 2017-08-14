@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // import the Freewall provider
 import {Freewall} from '../freewallRef';
-import {Contribution, displayModes, Grouping} from '../models';
-import {Observable} from 'rxjs/Observable';
+import {Contribution, Grouping} from '../models';
 import {ListingService} from '../services/listing.service';
 
 declare const jQuery: any;
@@ -27,9 +26,10 @@ export class ContributionGridComponent implements OnInit {
   ngOnInit() {
     this.grouping = this.listingService.grouping;
     this.wall = this.freewall.freewall;
-    this.wall.fitWidth();
+    this.contributions = this.listingService.contributionsAsValue;
+    this.showGrid = true;
     this.wall.reset({
-      selector: '.brick',
+      selector: '.contribution',
       animate: true,
       cellW: 200,
       cellH: 'auto',
@@ -37,17 +37,12 @@ export class ContributionGridComponent implements OnInit {
         this.wall.fitWidth();
       }
     });
-
-    this.contributions = this.listingService.contributionsAsValue;
-    this.showGrid = true;
-    this.wall.fitWidth();
-    if (this.grouping.displayMode === 'Voting') {
-      setTimeout(() => {        // Largest to smallest
-        this.wall.sortBy((a, z) => {
-          return parseInt(z['data-voting'], 10) - parseInt(a['data-voting'], 10);
-        });
-      }, 100);
-    }
+    this.wall.sortBy(function(a, z) {
+      return parseInt(z.attributes['data-voting'].value, 10) - parseInt(a.attributes['data-voting'].value, 10);
+    });
+    setTimeout(() => {        // Largest to smallest
+      this.wall.fitWidth();
+    }, 1000);
   }
 
   zoomContribution(contribution: Contribution) {

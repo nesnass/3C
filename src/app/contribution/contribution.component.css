@@ -8,8 +8,8 @@
 }
 
 .contribution-large {
-  height: 500px;
-  width: 500px;
+  height: 350px;
+  width: 350px;
 }
 
 .contribution img {
@@ -35,6 +35,26 @@
   font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
   font-size: 0.8em;
   color: white;
+}
+
+.contribution-caption-as-image {
+  position: relative;
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  color: black;
+  height: auto;
+  width: 380px;
+}
+.contribution-caption-as-image p {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  margin: 0;
+  display: inline;
+}
+.contribution-caption-quotation {
+  position: absolute;
+  font-size: 5em;
+  display: inline-block;
+  left: -40px;
+  top: -20px;
 }
 
 .contribution-username {

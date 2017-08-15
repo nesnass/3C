@@ -38,7 +38,7 @@ export class ContributionGridComponent implements OnInit {
       }
     });
     this.wall.sortBy(function(a, z) {
-      return parseInt(z.attributes['data-voting'].value, 10) - parseInt(a.attributes['data-voting'].value, 10);
+      return parseInt(z.attributes['data-votes'].value, 10) - parseInt(a.attributes['data-votes'].value, 10);
     });
     setTimeout(() => {        // Largest to smallest
       this.wall.fitWidth();

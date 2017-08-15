@@ -1,7 +1,16 @@
-<div class="contribution" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-voting]="contribution.groupingVoting.votes" [ngStyle]="{'background-image': 'url(\'' + contribution.image.url + '\')'}">
-  <div class="contribution-details" *ngIf="grouping.displayMode !== 'Voting' || grouping.votingOptions.imageCaption">
-    <span class="contribution-voting" *ngIf="grouping.displayMode === 'Voting' && grouping.votingOptions.resultsVisible">♥ {{contribution.groupingVoting.votes}}</span><br>
-    <span class="contribution-caption">{{contribution.caption}}</span><br>
-    <span class="contribution-username">{{contribution.user.username}}</span>
+<div>
+
+  <div class="contribution" *ngIf="grouping.votingOptions.displayMode === 'Image'" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-votes]="contribution.groupingVoting.votes" [ngStyle]="{'background-image': 'url(\'' + contribution.image.url + '\')'}">
+    <div class="contribution-details" *ngIf="grouping.displayMode !== 'Voting' || grouping.votingOptions.imageCaption">
+      <span class="contribution-voting" *ngIf="grouping.displayMode === 'Voting' && grouping.votingOptions.resultsVisible">♥ {{contribution.groupingVoting.votes}}</span><br>
+      <span class="contribution-caption">{{contribution.caption}}</span><br>
+      <span class="contribution-username">{{contribution.user.username}}</span>
+    </div>
   </div>
+
+  <div class="contribution-caption-as-image" *ngIf="grouping.votingOptions.displayMode === 'Caption As Image'">
+    <div class="contribution-caption-quotation">&#8220;</div><p [ngStyle]="{'font-size': trimmedCaption.length > 50 ? '2em' : '3em'}">{{trimmedCaption}}</p><br>
+  </div>
+
 </div>
+

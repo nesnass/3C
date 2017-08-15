@@ -10,10 +10,14 @@ export class ContributionComponent implements OnInit {
   @Input() contribution: Contribution;
   @Input() grouping: Grouping;
 
+  private trimmedCaption: string;
+
   constructor() {}
 
   ngOnInit() {
     // this.backgroundImage = this.contribution !== '' ? 'url(\'' + this.contribution.image.url + '\')' : '';
+    this.trimmedCaption = this.contribution.caption.length > 100 ? this.contribution.caption.substr(0, 100) + '...'
+    : this.contribution.caption;
   }
 
 }

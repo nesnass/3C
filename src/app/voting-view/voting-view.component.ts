@@ -48,5 +48,12 @@ export class VotingViewComponent implements OnInit {
     }
   }
 
+  castVote(c1: boolean, c2: boolean) {
+    this.listingService.castVote(c1, c2);
+    this.listingService.setRandomVotingContributions();
+    this.contribution1 = this.listingService.votingContribution1;
+    this.contribution2 = this.listingService.votingContribution2;
+  }
+
 
 }

@@ -11,7 +11,7 @@ var contributionSchema = Schema({
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
   voting: [{
     votes: { type: Number },
-    shown: { type: Number },
+    exposures: { type: Number },
     grouping_id: { type: Schema.ObjectId, ref: 'Grouping'}
   }],
 	message_data: {
@@ -122,3 +122,17 @@ var chipSchema = Schema({
 });
 
 module.exports.Chip = mongoose.model('Chip', chipSchema);
+
+// A Vote is created for a particular combination of Contributions, and a particular Grouping
+var voteSchema = Schema({
+  grouping:                     { type: Schema.ObjectId, ref: 'Grouping' },
+  c1:                           { type: Schema.ObjectId, ref: 'Contribution' },
+  c2:                           { type: Schema.ObjectId, ref: 'Contribution' },
+  votes: [{
+    c1:                         { type: Boolean },
+    c2:                         { type: Boolean }
+  }]
+});
+
+module.exports.Vote = mongoose.model('Vote', voteSchema);
+

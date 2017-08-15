@@ -2,12 +2,12 @@ import { Response } from '@angular/http';
 
 class Voting {
   votes: Number;
-  shown: Number;
+  exposures: Number;
   grouping_id: String;
 
   constructor(vData) {
     this.votes = vData.votes || 0;
-    this.shown = vData.shown || 0;
+    this.exposures = vData.exposures || 0;
     this.grouping_id = vData.grouping_id || '0';
   }
 }

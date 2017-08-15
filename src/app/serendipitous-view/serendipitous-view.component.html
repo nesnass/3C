@@ -20,12 +20,14 @@
 
 
 <div class="carouselContainer" *ngIf="showCarousel">
-  <div fxLayout="row" fxLayout.lt-md="column">
-    <div fxLayout="column" fxLayoutAlign="end center" fxFlex="30">
-      <p class="serendipitous-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
-      <p class="serendipitous-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p>
-      <div (click)="toggleDetail($event)" class="serendipitous-questionmark">
-        <img src="assets/img/questionmark.png">
+  <div fxLayout="row" fxLayout.sm="column" style="position: relative;">
+    <div style="position: fixed; width: 100%; height: 100%;">
+      <div fxFlex="25" fxLayout="column" class="serendipitous-left-panel" fxLayoutAlign="end center">
+        <p class="serendipitous-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
+        <p class="serendipitous-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p>
+        <div (click)="toggleDetail($event)" class="serendipitous-questionmark">
+          <img src="assets/img/questionmark.png">
+        </div>
       </div>
     </div>
     <app-carousel></app-carousel>

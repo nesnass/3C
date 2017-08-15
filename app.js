@@ -19,6 +19,7 @@ var facebookEngine = require('./routes/facebook');
 var instagramEngine = require('./routes/instagram');
 var static_pages = require('./routes/static');
 var listings = require('./routes/listings');
+var voting = require('./routes/voting');
 var mms = require('./routes/mms');
 
 var app = express();
@@ -49,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'dist')));    // Compile app using '
 app.use('/', static_pages);
 app.use('/mms', mms);
 app.use('/listings', listings);
+app.use('/voting', voting);
 //app.use('/', express.static(__dirname + '/dist'));
 
 // catch 404 and forward to error handler

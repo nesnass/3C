@@ -6,8 +6,12 @@
 }
 
 .carouselContainer {
-  margin: auto;
-  padding: 2% 0;
+  margin: 0;
+  padding: 0;
+}
+
+.serendipitous-left-panel {
+
 }
 
 .text-mainHeading {

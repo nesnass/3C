@@ -41,11 +41,15 @@
               </md-option>
             </md-select>
             <br>
-            <md-radio-group [(ngModel)]="grouping.votingDisplayMode" *ngIf="grouping.displayMode === 'Voting'">
-              <md-radio-button class="creator-voting-radio-button" *ngFor="let mode of votingDisplayModes" [value]="mode.viewValue">
-                {{mode.viewValue}}
-              </md-radio-button>
-            </md-radio-group>
+            <div *ngIf="grouping.displayMode === 'Voting'">
+              <md-radio-group [(ngModel)]="grouping.votingOptions.displayMode">
+                <md-radio-button class="creator-voting-radio-button" *ngFor="let mode of votingDisplayModes" [value]="mode.viewValue">
+                  {{mode.viewValue}}
+                </md-radio-button>
+              </md-radio-group>
+              <md-checkbox [(ngModel)]="grouping.votingOptions.imageCaption">Image Caption</md-checkbox>
+              <md-checkbox [(ngModel)]="grouping.votingOptions.resultsVisible">Results Visible</md-checkbox>
+            </div>
             <br>
             <md-select placeholder="Select Contributions using" [(ngModel)]="grouping.contributionMode">
               <md-option *ngFor="let mode of contributionModes" [value]="mode.viewValue">

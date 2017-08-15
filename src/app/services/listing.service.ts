@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';  import 'rxjs/add/operator/last';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {Chip, Contribution, Grouping, GroupingResponse, Options} from '../models';
 import {ListingBackendService} from './listingBackend.service';
@@ -14,18 +15,24 @@ export class ListingService {
   private _contributions: BehaviorSubject<Contribution[]> = <BehaviorSubject<Contribution[]>>new BehaviorSubject([]);
   private _groupings: BehaviorSubject<Grouping[]> = <BehaviorSubject<Grouping[]>>new BehaviorSubject([]);
   private _chips: Chip[];
-  private _selectedGrouping: Grouping = null;
-  private requestContributionsInterval = null;
+  private _selectedGrouping: Grouping;
+  private requestContributionsInterval;
   private errorMessage: any;
   private _options: Options;
+
+  private _votingContribution1: Contribution;
+  private _votingContribution2: Contribution;
 
 
   constructor(private listingBackendService: ListingBackendService) {
     this.options = {
         viewMode: 'standard'
     };
+    this._selectedGrouping = null;
+    this.requestContributionsInterval = null;
+    this._votingContribution1 = null;
+    this._votingContribution2 = null;
     this.retrieveChips();
-    this.refreshContributions();
     this.refreshGroupings();
   }
 
@@ -37,33 +44,43 @@ export class ListingService {
     return this._chips;
   }
 
-  get contributions() {
-    return this.getContributionsFilteredByGrouping();
+  get contributions(): Observable<Contribution[]> {
+    return this._contributions;
   }
 
-  get contributionsAsValue() {
-    return this._contributions.getValue();
+  get contributionsAsValue(): Contribution[] {
+    return this.filterContributionsByGrouping(this._contributions.getValue());
   }
 
-  getContributionsFilteredByGrouping() {
+  setRandomVotingContributions() {
+    const v = this.filterContributionsByGrouping(this._contributions.getValue());
+    if (v.length > 0) {
+      this._votingContribution1 = v[Math.floor(Math.random()) * v.length];
+      while (this._votingContribution2 === null || this._votingContribution2._id === this._votingContribution1._id) {
+        this._votingContribution2 = v[Math.floor(Math.random() * v.length)];
+      }
+    }
+
+  }
+
+  get votingContribution1(): Contribution {
+    return this._votingContribution1;
+  }
+  get votingContribution2(): Contribution {
+    return this._votingContribution2;
+  }
+
+  filterContributionsByGrouping(contributionsIn: Contribution[]): Contribution[] {
     if (this._selectedGrouping === null || this._selectedGrouping.contributionMode === 'All') {
       // Return all Contributions
-      return this._contributions.asObservable();
+      return contributionsIn;
     } else if (this._selectedGrouping.contributionMode === 'Chips') {
       // Use Chips to determine which images are shown - match Grouping chips to Contribution chips
-      return this._contributions.asObservable().map((contributions) => {
-        return contributions.filter((c) => {
-          return c.chips.some((chip) => {
-            return this._selectedGrouping.chips.indexOf(chip) > -1;
-          });
-        });
-      });
+      return contributionsIn.filter((c) => c.chips.some((chip) => this._selectedGrouping.chips.indexOf(chip) > -1));
     } else if (this._selectedGrouping.contributionMode === 'Feed') {
       // Show images that were taken from a Feed
-      return this._contributions.asObservable().map((contributions) => {
-        return contributions.filter((c) => {
-          return c.origin === 'facebook-feed';
-        });
+      return contributionsIn.filter((c) => {
+        return c.origin === 'facebook-feed';
       });
     }
   }
@@ -206,5 +223,9 @@ export class ListingService {
     );
   }
 
+  castVote(c1: boolean, c2: boolean) {
+    return this.listingBackendService.castVote(this._selectedGrouping._id,
+      this._votingContribution1._id, c1, this._votingContribution2._id, c2);
+  }
 
 }

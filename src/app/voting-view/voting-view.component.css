@@ -10,6 +10,151 @@
   padding: 2% 0;
 }
 
+.votingContainer {
+  position: fixed;
+  word-break: keep-all;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
+/*  Intro Text */
+.voting-textblock1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 330px;
+}
+.voting-textblock1 img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 330px;
+  height: 200px;
+}
+    .voting-staticTitle {
+      text-transform: uppercase;
+      font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+      font-size: 1em;
+      margin: 15px;
+    }
+
+    .voting-staticSubtitle {
+      font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+      font-size: 0.8em;
+      margin: 10px 10px;
+      width: 280px;
+    }
+
+/*  Question - Grouping Caption Title & Subtitle */
+.voting-questionblock {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+
+        /* Image of lines connecting question to Contributions */
+        .voting-pil {
+          position: absolute;
+          left: -225px;
+          top: 50px;
+          width: 400px;
+          z-index: 100;
+        }
+
+        /* A single Contribution item */
+        .voteContributionDisplayBox1 {
+          position: absolute;
+          top: 270px;
+          left: -440px;
+          cursor: pointer;
+        }
+
+        /* A single Contribution item */
+        .voteContributionDisplayBox2 {
+          position: absolute;
+          top: 270px;
+          left: 0;
+          cursor: pointer;
+        }
+
+    .voting-categoryTitle {
+      text-transform: uppercase;
+      font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+      font-size: 5em;
+      margin: 0 15px;
+      display: inline-block;
+      text-align: center;
+      max-width: 50vw;
+    }
+
+    .voting-categorySubtitle {
+      font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+      font-size: 1em;
+      margin: 15px;
+      display: inline-block;
+    }
+
+
+/*  Info on right */
+.voting-textblock3 {
+  position: absolute;
+  top: 35%;
+  right: 10px;
+  width: 130px;
+  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 0.7em;
+  text-align: justify;
+}
+.voting-textblock3 img {
+  position: absolute;
+  top: -210px;
+  right: -220px;
+  z-index: -1;
+  width: 400px;
+  height: 450px;
+}
+
+/*  Info on bottom right */
+.voting-textblock4 {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  width: 130px;
+  height: 170px;
+  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+  font-size: 0.7em;
+  text-align: justify;
+}
+.voting-textblock4 img {
+  opacity: 0.2;
+  width: 130px;
+}
+
+
+/* Buttons for both, neither, own contribution */
+.voting-buttonblock {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+}
+.voting-buttonblock-button {
+  display: inline-block;
+  margin-left: 200px;
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  cursor: pointer;
+}
+.voting-buttonblock-button img {
+  width: 100px;
+}
+
+
+
+
 .text-mainHeading {
   font-family:"HelveticaNeueW02-UltLight", Helvetica, sans-serif;
   font-size: 4em;
@@ -38,27 +183,27 @@
   display: inline-block;
 }
 
-.serendipitous-categoryTitle {
-  /*height: 50%;
-  padding: 40% 10%;*/
-  text-transform: uppercase;
-  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
-  font-size: 2.5em;
-  margin: 5px;
+
+
+@keyframes pulse_animation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.pulse {
+  animation-name: pulse_animation;
+  animation-duration: 5000ms;
+  transform-origin:70% 70%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
-.serendipitous-categorySubtitle {
-  /*height: 50%;
-  padding: 40% 10%;*/
-  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
-  font-size: 1.5em;
-  margin: 5px;
-}
 
-.serendipitous-questionmark {
+
+.voting-questionmark {
   margin: 30px 0;
 }
-.serendipitous-questionmark img {
+.voting-questionmark img {
   width: 60px;
 }
 

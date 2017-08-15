@@ -2,12 +2,12 @@ import { Response } from '@angular/http';
 
 class Voting {
   votes: Number;
-  shown: Number;
+  exposures: Number;
   grouping_id: String;
 
   constructor(vData) {
     this.votes = vData.votes || 0;
-    this.shown = vData.shown || 0;
+    this.exposures = vData.exposures || 0;
     this.grouping_id = vData.grouping_id || '0';
   }
 }
@@ -118,12 +118,13 @@ export const contributionModes = [
 
 export const displayModes = [
   { value: 'Voting', viewValue: 'Voting' },
+  { value: 'VotingResults', viewValue: 'Voting Results' },
   { value: 'Serendipitous', viewValue: 'Serendipitous' }
 ];
 
 export const votingDisplayModes = [
   { value: 'Image', viewValue: 'Image' },
-  { value: 'Caption', viewValue: 'Caption' }
+  { value: 'Caption', viewValue: 'Caption As Image' }
 ];
 
 
@@ -135,15 +136,23 @@ export class Grouping {
   categorySubtitle: string;
   contributionMode: string;
   displayMode: string;
-  votingDisplayMode: string;
+  votingOptions: {
+    displayMode: string;
+    imageCaption: boolean;
+    resultsVisible: boolean;
+  };
   chips: string[];
   created: Date;
 
   constructor(gData?: {}) {
     this.chips = [];
-    this.contributionMode = 'Chips';
-    this.displayMode = 'Serendipitous';
-    this.votingDisplayMode = 'Image';
+    this.contributionMode = 'Chips';      // 'Chips', 'All', 'Feed'
+    this.displayMode = 'Serendipitous';   // 'Serendipitous', 'Voting', 'VotingResults'
+    this.votingOptions = {
+      displayMode: 'Image',      // 'Image', 'Caption'
+      imageCaption: true,
+      resultsVisible: true
+    };
     this.created = new Date();
     if (typeof gData !== 'undefined' && gData !== null) {
       this.setGrouping(gData);
@@ -158,7 +167,7 @@ export class Grouping {
     this.categorySubtitle = gData.categorySubtitle;
     this.contributionMode = gData.contributionMode;
     this.displayMode = gData.displayMode;
-    this.votingDisplayMode = gData.votingDisplayMode;
+    this.votingOptions = gData.votingOptions;
     this.chips = gData.chips;
   }
 }

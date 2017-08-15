@@ -2,6 +2,9 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+body {
+  margin : 0;
+}
 
 /* Angular Material mods */
 
@@ -24,6 +27,7 @@ button {
   background-color: lightgray;
   border-radius: 10px;
   padding: 10px;
+  margin: 2px;
 }
 
 

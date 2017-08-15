@@ -19,7 +19,8 @@ import {
   MdCardModule,
   MdChipsModule,
   MdSelectModule,
-  MdRadioModule } from '@angular/material';
+  MdRadioModule, MdCheckboxModule
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ContributionGridComponent } from './contribution-grid/contribution-grid.component';
@@ -31,7 +32,7 @@ import { SmallerViewComponent } from './smaller-view/smaller-view.component';
 import { SerendipitousViewComponent } from './serendipitous-view/serendipitous-view.component';
 import { CreatorComponent } from './creator/creator.component';
 import {VotingViewComponent} from './voting-view/voting-view.component';
-import { BrickDirective } from './brick.directive';
+import { ContributionComponent } from './contribution/contribution.component';
 
 const appRoutes: Routes = [
   { path: 'display/:position', component: SerendipitousViewComponent },
@@ -49,7 +50,7 @@ const appRoutes: Routes = [
     SerendipitousViewComponent,
     VotingViewComponent,
     CreatorComponent,
-    BrickDirective
+    ContributionComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -70,7 +71,8 @@ const appRoutes: Routes = [
     MdCardModule,
     MdChipsModule,
     MdSelectModule,
-    MdRadioModule
+    MdRadioModule,
+    MdCheckboxModule
   ],
   providers: [
     ListingBackendService,

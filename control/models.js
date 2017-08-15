@@ -11,7 +11,7 @@ var contributionSchema = Schema({
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
   voting: [{
     votes: { type: Number },
-    shown: { type: Number },
+    exposures: { type: Number },
     grouping_id: { type: Schema.ObjectId, ref: 'Grouping'}
   }],
 	message_data: {
@@ -101,8 +101,12 @@ var groupingSchema = Schema({
   categoryTitle:                { type: String },
   categorySubtitle:             { type: String },
   contributionMode:             { type: String },         // e.g. 'Chips', 'Feed', or 'All'
-  displayMode:                  { type: String },         // e.g. 'Voting' or 'Serendipitous'
-  votingDisplayMode:            { type: String },         // e.g. 'Image' or 'Caption'
+  displayMode:                  { type: String },         // e.g. 'Voting' or 'Serendipitous', 'VotingResults'
+  votingOptions: {
+    displayMode: { type: String },                        // 'Image', 'Caption'
+    imageCaption: { type: Boolean },
+    resultsVisible: { type: Boolean }
+  },
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
   created:                      { type: Date, default: Date.now }
 });
@@ -118,3 +122,17 @@ var chipSchema = Schema({
 });
 
 module.exports.Chip = mongoose.model('Chip', chipSchema);
+
+// A Vote is created for a particular combination of Contributions, and a particular Grouping
+var voteSchema = Schema({
+  grouping:                     { type: Schema.ObjectId, ref: 'Grouping' },
+  c1:                           { type: Schema.ObjectId, ref: 'Contribution' },
+  c2:                           { type: Schema.ObjectId, ref: 'Contribution' },
+  votes: [{
+    c1:                         { type: Boolean },
+    c2:                         { type: Boolean }
+  }]
+});
+
+module.exports.Vote = mongoose.model('Vote', voteSchema);
+

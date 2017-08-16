@@ -14,7 +14,7 @@
             <md-card-subtitle>{{grouping.categorySubtitle}}</md-card-subtitle>
           </md-card-header>
           <md-card-content>
-            <p><a href="{{ appUrl() + displayMode(grouping) + grouping.urlSlug}}" [target]="'_blank' + grouping._id">{{ appUrl() + displayMode(grouping) }}<strong>{{grouping.urlSlug}}</strong></a></p>
+            <p><a style="word-break: break-all;" href="{{ appUrl() + displayMode(grouping) + grouping.urlSlug}}" [target]="'_blank' + grouping._id">{{ appUrl() + displayMode(grouping) }}<strong>{{grouping.urlSlug}}</strong></a></p>
             <p>Display Mode: <strong>{{grouping.displayMode}}</strong></p>
             <p>Contribution selection: <strong>{{grouping.contributionMode}}</strong></p>
           </md-card-content>

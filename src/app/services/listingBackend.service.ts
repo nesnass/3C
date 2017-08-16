@@ -38,9 +38,10 @@ export class ListingBackendService {
     // Switch server address for local development..
     if ((<any>locationStrategy)._platformLocation.location.href.indexOf('localhost') > -1) {
       this._apiUrl = 'http://localhost:8000/';
-      this._appUrl = 'http://localhost:4200/';
+      this._appUrl = 'http://localhost:4200/#/';
     } else {
-      this._apiUrl = this._appUrl = '/';
+      this._apiUrl = '/';
+      this._appUrl = (<any>locationStrategy)._platformLocation.location.hostname + '/#/';
     }
   }
 

@@ -36,7 +36,7 @@ export class ListingService {
     this.refreshGroupings();
   }
 
-  get siteUrl() {
+  get appUrl() {
     return this.listingBackendService.appUrl;
   }
 

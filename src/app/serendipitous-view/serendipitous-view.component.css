@@ -14,6 +14,11 @@
 
 }
 
+.ntnu-logo {
+  opacity: 0.2;
+  width: 130px;
+}
+
 .text-mainHeading {
   font-family:"HelveticaNeueW02-UltLight", Helvetica, sans-serif;
   font-size: 4em;

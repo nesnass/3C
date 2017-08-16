@@ -6,6 +6,10 @@ body {
   margin : 0;
 }
 
+p {
+  font-family: "HelveticaNeueW02-45Light", Helvetica, sans-serif;
+}
+
 /* Angular Material mods */
 
 button {

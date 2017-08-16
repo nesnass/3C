@@ -49,13 +49,14 @@ export class ListingService {
   }
 
   get contributionsAsValue(): Contribution[] {
-    return this.filterContributionsByGrouping(this._contributions.getValue());
+    return this._contributions.getValue();
   }
 
   setRandomVotingContributions() {
-    const v = this.filterContributionsByGrouping(this._contributions.getValue());
+    const v = this._contributions.getValue();
     if (v.length > 0) {
-      this._votingContribution1 = v[Math.floor(Math.random()) * v.length];
+      this._votingContribution1 = v[Math.floor(Math.random() * v.length)];
+      this._votingContribution2 = null;
       while (this._votingContribution2 === null || this._votingContribution2._id === this._votingContribution1._id) {
         this._votingContribution2 = v[Math.floor(Math.random() * v.length)];
       }
@@ -68,21 +69,6 @@ export class ListingService {
   }
   get votingContribution2(): Contribution {
     return this._votingContribution2;
-  }
-
-  filterContributionsByGrouping(contributionsIn: Contribution[]): Contribution[] {
-    if (this._selectedGrouping === null || this._selectedGrouping.contributionMode === 'All') {
-      // Return all Contributions
-      return contributionsIn;
-    } else if (this._selectedGrouping.contributionMode === 'Chips') {
-      // Use Chips to determine which images are shown - match Grouping chips to Contribution chips
-      return contributionsIn.filter((c) => c.chips.some((chip) => this._selectedGrouping.chips.indexOf(chip) > -1));
-    } else if (this._selectedGrouping.contributionMode === 'Feed') {
-      // Show images that were taken from a Feed
-      return contributionsIn.filter((c) => {
-        return c.origin === 'facebook-feed';
-      });
-    }
   }
 
   get groupings() {
@@ -176,20 +162,36 @@ export class ListingService {
     );
   }
 
+  filterContributionsByGrouping(contributionsIn: Contribution[]): Contribution[] {
+    if (this._selectedGrouping === null || this._selectedGrouping.contributionMode === 'All') {
+      // Return all Contributions
+      return contributionsIn;
+    } else if (this._selectedGrouping.contributionMode === 'Chips') {
+      // Use Chips to determine which images are shown - match Grouping chips to Contribution chips
+      return contributionsIn.filter((c) => c.chips.some((chip) => this._selectedGrouping.chips.indexOf(chip) > -1));
+    } else if (this._selectedGrouping.contributionMode === 'Feed') {
+      // Show images that were taken from a Feed
+      return contributionsIn.filter((c) => {
+        return c.origin === 'facebook-feed';
+      });
+    }
+  }
+
   /**
    * Check for new contributions
    */
   refreshContributions() {
     this.listingBackendService.getAllContributions().subscribe(
       res => {
-        const newContributions = (<Object[]>res.data).map((contribution: any) => new Contribution(contribution, this._selectedGrouping));
+        const newContributions = (<Object[]>res.data)
+          .map((contribution: any) => new Contribution(contribution, this._selectedGrouping));
 
         // Are there new contributions available? If so, update the collection
         const oldContributions = this._contributions.getValue();
         if (newContributions.length > 0
           && ((oldContributions.length > 0 && oldContributions[0]._id !== newContributions[0]._id)
             || (oldContributions.length === 0) )) {
-          this._contributions.next(newContributions);
+          this._contributions.next(this.filterContributionsByGrouping(newContributions));
         }
       },
       (err: HttpErrorResponse) => {

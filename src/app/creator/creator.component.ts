@@ -86,7 +86,14 @@ export class CreatorComponent implements OnInit {
   }
 
   displayMode(grouping: Grouping) {
-    return grouping.displayMode === 'Serendipitous' ? 'display/' : 'vote/';
+    switch (grouping.displayMode) {
+      case 'Serendipitous':
+        return 'display/';
+      case 'Voting Results':
+        return 'display/';
+      case 'Voting':
+        return 'vote/';
+    }
   }
 
 }

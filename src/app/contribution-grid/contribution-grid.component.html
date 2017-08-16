@@ -1,12 +1,6 @@
-<div *ngIf="showGrid && grouping.displayMode === 'Serendipitous'">
+<div *ngIf="showGrid">
   <div *ngFor="let contribution of contributions">
-    <app-contribution [contribution]="contribution" [grouping]="grouping" (click)="zoomContribution(contribution)"></app-contribution>
-  </div>
-</div>
-
-<div *ngIf="showGrid && grouping.displayMode === 'Voting'">
-  <div *ngFor="let contribution of contributions">
-    <app-contribution [contribution]="contribution" [grouping]="grouping" (click)="zoomContribution(contribution)"></app-contribution>
+    <app-contribution [contribution]="contribution" [grouping]="grouping" [contributionVisibleState]="visible" (click)="zoomContribution(contribution)"></app-contribution>
   </div>
 </div>
 

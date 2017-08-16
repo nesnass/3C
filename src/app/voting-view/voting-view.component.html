@@ -1,36 +1,3 @@
-<!--<div class="votingContainer" *ngIf="showVoting">
-
-  <div fxLayout="row">
-    <p class="voting-staticSubtitle" fxFlex="30">Stem frem de innspillene du synes er viktigst at blir hørt fra campusprosjek- tets medvirkningsaktiviteter.
-      Du kan også bidra med dine egne observasjoner, innspill og forslag til inspirasjon fra andre byer på facebooksiden <i>Framtidscampus</i>.
-      Hver fredag frem til og med 15 september svarer KOTH arkitekter på fem av de vik- tigste innspillene fra Trondheims byboere der.*</p>
-    <div fxLayout="column">
-      <p class="voting-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
-      <p class="voting-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p>
-    </div>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Results</button>
-  </div>
-
-  <div fxLayout="row">
-      <div class="voteContributionDisplayBox">
-        <app-contribution [contribution]="contribution1" [grouping]="listingService.grouping" (click)="voteOnContribution(contribution1)"></app-contribution>
-      </div>
-      <div class="voteContributionDisplayBox">
-        <app-contribution [contribution]="contribution2" [grouping]="listingService.grouping" (click)="voteOnContribution(contribution2)"></app-contribution>
-      </div>
-  </div>
-
-  <div fxLayout="row">
-    <div>begge</div>
-    <div>ingen</div>
-    <div>eget innspill!</div>
-  </div>
-
-</div>-->
-
-
-
-
 <div class="votingContainer" *ngIf="showVoting">
 
   <div class="voting-textblock1">
@@ -45,10 +12,10 @@
       <img class="voting-pil" src="assets/img/pil.png"/>
 
         <div class="voteContributionDisplayBox1 pulse">
-          <app-contribution [contribution]="contribution1" [grouping]="listingService.grouping" (click)="castVote(true, false)"></app-contribution>
+          <app-contribution [(contribution)]="contribution1" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" (click)="castVote(true, false)"></app-contribution>
         </div>
         <div class="voteContributionDisplayBox2 pulse">
-          <app-contribution [contribution]="contribution2" [grouping]="listingService.grouping" (click)="castVote(false, true)"></app-contribution>
+          <app-contribution [(contribution)]="contribution2" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" (click)="castVote(false, true)"></app-contribution>
         </div>
 
 

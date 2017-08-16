@@ -81,8 +81,8 @@ export class CreatorComponent implements OnInit {
     }
   }
 
-  siteUrl() {
-    return this.listingService.siteUrl;
+  appUrl() {
+    return this.listingService.appUrl;
   }
 
   displayMode(grouping: Grouping) {

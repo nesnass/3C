@@ -1,13 +1,14 @@
 import { Response } from '@angular/http';
+import {DomSanitizer} from '@angular/platform-browser';
 
 class Voting {
-  votes: Number;
-  exposures: Number;
-  grouping_id: String;
+  votes: number;
+  exposures: number;
+  grouping_id: string;
 
   constructor(vData) {
-    this.votes = vData.votes || 0;
-    this.exposures = vData.exposures || 0;
+    this.votes = parseInt(vData.votes, 10);
+    this.exposures = parseInt(vData.exposures, 10);
     this.grouping_id = vData.grouping_id || '0';
   }
 }
@@ -18,7 +19,8 @@ export class Contribution {
   created: Date;
   chips: string[];
   voting: Voting[];
-  groupingVoting?: Voting;    // Temp value for front end sorting of votes
+  groupingVoting?: Voting;    // Temp value for front end sorting of votes, set to the voting results for the current Grouping only
+  totalVotes?: number;
   image: {
     originalWidth: number;
     originalHeight: number;
@@ -33,6 +35,7 @@ export class Contribution {
   constructor(cData: {}, grouping: Grouping) {
     this.chips = [];
     this.voting = [];
+    this.totalVotes = 0;
     this.groupingVoting = new Voting({});
     this.caption = '';
     this.setContribution(cData);
@@ -43,6 +46,7 @@ export class Contribution {
 
   setGroupingVotingIndex(grouping: Grouping) {
     this.voting.forEach((vote) => {
+      this.totalVotes += vote.votes;
       if (vote.grouping_id === grouping._id) {
         this.groupingVoting = new Voting(vote);
       }
@@ -55,7 +59,9 @@ export class Contribution {
     this.created = new Date(cData.created);
     this.chips = cData.chips || [];
     if (cData.voting) {
-      this.voting = cData.voting;
+      cData.voting.forEach((v) => {
+        this.voting.push(new Voting(v));
+      });
     }
     let data = {};
     switch (this.origin) {
@@ -147,7 +153,7 @@ export class Grouping {
   constructor(gData?: {}) {
     this.chips = [];
     this.contributionMode = 'Chips';      // 'Chips', 'All', 'Feed'
-    this.displayMode = 'Serendipitous';   // 'Serendipitous', 'Voting', 'VotingResults'
+    this.displayMode = 'Serendipitous';   // 'Serendipitous', 'Voting', 'Voting Results'
     this.votingOptions = {
       displayMode: 'Image',      // 'Image', 'Caption'
       imageCaption: true,

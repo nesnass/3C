@@ -70,7 +70,7 @@ function facebookCrawlerControl() {
               console.error("Failed to get Facebook album list: %s", error.message);
             } else {
               results.filter( function(album) {  // Ignore Facebook standard albums
-                return ['Profile Pictures', 'Timeline Photos'].indexOf(album.name) === -1;
+                return ['Profile Pictures', 'Timeline Photos', 'Cover Photos'].indexOf(album.name) === -1;
               }).forEach( function(filteredAlbum) {
 
                 // Check whether this album is already listed as a Chip, or not

@@ -42,10 +42,6 @@ export class ListingBackendService {
     } else {
       this._apiUrl = this._appUrl = (<any>locationStrategy)._platformLocation.location.hostname + '/';
     }
-    setTimeout(() => {
-      this.http
-        .get('http://localhost:8000/voting/vote');
-    }, 2000);
   }
 
   // Contributions
@@ -108,7 +104,7 @@ export class ListingBackendService {
     // voting/vote/:grouping_id/:c1_id/:c1_chosen/:c2_id/:c2_chosen
     const getString = this._apiUrl + 'voting/vote/' + grouping_id + '/' + c1_id + '/' +
       (c1_choice ? 'true' : 'false') + '/' + c2_id + '/' + (c2_choice ? 'true' : 'false');
-    this.http.get(getString).catch(ListingBackendService.handleError);
+    this.http.get(getString).catch(ListingBackendService.handleError).subscribe();
   }
 
 }

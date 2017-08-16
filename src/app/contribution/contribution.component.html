@@ -1,10 +1,10 @@
-<div>
+<div [@contributionVisibleState]="contributionVisibleState">
 
-  <div class="contribution" *ngIf="grouping.votingOptions.displayMode === 'Image'" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-votes]="contribution.groupingVoting.votes" [ngStyle]="{'background-image': 'url(\'' + contribution.image.url + '\')'}">
+  <div class="contribution" *ngIf="grouping.votingOptions.displayMode === 'Image'" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-votes]="_contribution.totalVotes" [ngStyle]="backgroundStyle">
     <div class="contribution-details" *ngIf="grouping.displayMode !== 'Voting' || grouping.votingOptions.imageCaption">
-      <span class="contribution-voting" *ngIf="grouping.displayMode === 'Voting' && grouping.votingOptions.resultsVisible">♥ {{contribution.groupingVoting.votes}}</span><br>
-      <span class="contribution-caption">{{contribution.caption}}</span><br>
-      <span class="contribution-username">{{contribution.user.username}}</span>
+      <span class="contribution-voting" *ngIf="grouping.displayMode === 'Voting Results' && grouping.votingOptions.resultsVisible">♥ {{_contribution.totalVotes}}</span><br>
+      <span class="contribution-caption">{{_contribution.caption}}</span><br>
+      <span class="contribution-username">{{_contribution.user.username}}</span>
     </div>
   </div>
 

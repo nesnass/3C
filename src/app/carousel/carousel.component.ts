@@ -42,7 +42,6 @@ export class CarouselComponent implements OnInit {
     this.listingService.contributions.subscribe(
       contributions => {
         this.contributions = contributions;
-        console.log('Contributions:' + this.contributions);
 
         // First time run, begin rotation
         if (this.selectedContribution === null) {

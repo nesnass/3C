@@ -12,14 +12,15 @@ var router = express.Router();
  * Return all Chips
  */
 router.get('/chips', function(req, res) {
-  Chip.find({}, function(error, foundSet) {
+  res.status(200).json({ data: "Reached route success" });
+/*  Chip.find({}, function(error, foundSet) {
     if (error || foundSet === null) {
       console.log("Error finding Chips");
       res.status(500);
     } else {
       res.status(200).json({ data: foundSet });
     }
-  })
+  })*/
 });
 
 // ************************* Groupings ****************************

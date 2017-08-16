@@ -79,15 +79,8 @@
   height: 100%;
 }
 
-.serendipitous-row-column {
-  display: inline-block;
-}
 
 @media all and (max-width: 960px) {
-
-  .serendipitous-row-column {
-    display: block;
-  }
 
   .serendipitous-container {
     position: relative;

@@ -41,7 +41,7 @@ export class ListingBackendService {
       this._appUrl = 'http://localhost:4200/#/';
     } else {
       this._apiUrl = '/';
-      this._appUrl = (<any>locationStrategy)._platformLocation.location.hostname + '/#/';
+      this._appUrl = 'http://' + (<any>locationStrategy)._platformLocation.location.hostname + '/#/';
     }
   }
 

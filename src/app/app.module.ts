@@ -33,12 +33,14 @@ import { SerendipitousViewComponent } from './serendipitous-view/serendipitous-v
 import { CreatorComponent } from './creator/creator.component';
 import {VotingViewComponent} from './voting-view/voting-view.component';
 import { ContributionComponent } from './contribution/contribution.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 const appRoutes: Routes = [
   { path: 'display/:position', component: SerendipitousViewComponent },
   { path: 'vote/:position', component: VotingViewComponent },
   { path: 'smaller', component: SmallerViewComponent },
   { path: 'creator', component: CreatorComponent },
+  { path: '', component: HomepageComponent }
 ];
 
 @NgModule({
@@ -50,7 +52,8 @@ const appRoutes: Routes = [
     SerendipitousViewComponent,
     VotingViewComponent,
     CreatorComponent,
-    ContributionComponent
+    ContributionComponent,
+    HomepageComponent
   ],
   imports: [
     RouterModule.forRoot(

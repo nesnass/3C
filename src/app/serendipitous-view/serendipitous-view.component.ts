@@ -43,10 +43,10 @@ export class SerendipitousViewComponent implements OnInit {
   }
 
   resetDetailTimer() {
-/*    clearTimeout(this.showDetailTimer);
+    clearTimeout(this.showDetailTimer);
     this.showDetailTimer = setTimeout(() => {
       this.showDetail = false;
       this.showCarousel = true;
-    }, 20000);*/
+    }, 20000);
   }
 }

@@ -31,8 +31,7 @@
 </div>
 
 
-<div class="carouselContainer" *ngIf="showCarousel">
-  <div class="serendipitous-row-column">
+  <div *ngIf="showCarousel">
     <div class="serendipitous-container" fxLayoutAlign="center center">
       <div fxLayout="column" class="serendipitous-left-panel" fxLayoutAlign="end center">
         <p class="serendipitous-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
@@ -46,4 +45,4 @@
     </div>
     <app-carousel></app-carousel>
   </div>
-</div>
+

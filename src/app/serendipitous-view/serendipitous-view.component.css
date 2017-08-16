@@ -11,12 +11,14 @@
 }
 
 .serendipitous-left-panel {
-
+  height:100%;
+  width: 100%;
 }
 
 .ntnu-logo {
   opacity: 0.2;
   width: 130px;
+  margin-bottom: 10px;
 }
 
 .text-mainHeading {
@@ -71,7 +73,19 @@
   width: 60px;
 }
 
-@media all and (max-width: 1024px) {
+.serendipitous-container {
+  position: fixed;
+  width: 25%;
+  height: 100%;
+}
+
+@media all and (max-width: 960px) {
+
+  .serendipitous-container {
+    position: relative;
+    width: 100%;
+  }
+
   .text-mainHeading {
     font-size: 2em;
     margin: 10px 5px;
@@ -88,7 +102,7 @@
   }
 
   .serendipitous-questionmark {
-    padding-bottom: 30%;
+
   }
 
 }

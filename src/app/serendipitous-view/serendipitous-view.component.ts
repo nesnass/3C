@@ -37,8 +37,8 @@ export class SerendipitousViewComponent implements OnInit {
   }
 
   toggleDetail() {
-    this.showCarousel = false;
-    this.showDetail = true;
+    this.showCarousel = !this.showCarousel;
+    this.showDetail = !this.showDetail;
     this.resetDetailTimer();
   }
 

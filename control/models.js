@@ -100,6 +100,7 @@ var groupingSchema = Schema({
   urlSlug:                      { type: String },
   categoryTitle:                { type: String },
   categorySubtitle:             { type: String },
+  titleDescriptionMode:         { type: String },         // e.g. 'Automatic' or 'Custom'
   contributionMode:             { type: String },         // e.g. 'Chips', 'Feed', or 'All'
   displayMode:                  { type: String },         // e.g. 'Voting' or 'Serendipitous', 'VotingResults'
   votingOptions: {
@@ -118,7 +119,9 @@ module.exports.Grouping = mongoose.model('Grouping', groupingSchema);
 var chipSchema = Schema({
   origin_id:                    { type: String },         // e.g. Facebook Album ID
   origin:                       { type: String },         // e.g. "instagram", "sms", "mms", "facebook-feed", "facebook-album" ...etc
-  label:                        { type: String }          // e.g. "Album 1", "Location 25" ...etc
+  label:                        { type: String },         // e.g. "Album 1", "Location 25" ...etc
+  description:                  { type: String },         // e.g. "This is the caption of the album"
+  location:                     { type: String }
 });
 
 module.exports.Chip = mongoose.model('Chip', chipSchema);

@@ -3,11 +3,20 @@
 
   <div *ngIf="listingService.grouping.displayMode === 'Serendipitous'">
     <!--p class="text-mainHeading">#framtidscampus*</p-->
-    <p class="text-subHeading">ER DU OPPTATT AV HVORDAN DENNE DELEN AV BYEN SKAL BLI?</p>
-    <p>Bidra med dine observasjoner, innspill og forslag til inspirasjon fra andre byer på facebooksiden framtidscampus.
-      Hver fredag frem til og med 15. september svarer KOHT arkitekter på fem av de viktigste innspillene fra Trondheims byboere der. </p>
-    <p> Prosjektet er del av medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
-      NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p>
+    <div fxLayout="row">
+      <div (click)="toggleDetail($event)" class="serendipitous-questionmark">
+        <img src="assets/img/back_black.png">
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <p class="text-subHeading">ER DU OPPTATT AV HVORDAN DENNE DELEN AV BYEN SKAL BLI?</p>
+    </div>
+    <div fxLayout="column">
+      <p>Bidra med dine observasjoner, innspill og forslag til inspirasjon fra andre byer på facebooksiden framtidscampus.
+        Hver fredag frem til og med 15. september svarer KOHT arkitekter på fem av de viktigste innspillene fra Trondheims byboere der. </p>
+      <p> Prosjektet er del av medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
+        NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p>
+    </div>
     <!--p class="text-subHeading">SLIK DELER DU:</p>
     <p><span class="text-bold"> > INSTAGRAM </span> // Del bilder via åpen Instagram-pro l, merket med #framtidscampus<br>
       <span class="text-bold"> > MMS </span> // Send MMS med kodeord TST og bildetekst til 1963. Bidrag legges ut på www.framtidscampus.no.
@@ -31,18 +40,17 @@
 </div>
 
 
-  <div *ngIf="showCarousel">
-    <div class="serendipitous-container" fxLayoutAlign="center center">
-      <div fxLayout="column" class="serendipitous-left-panel" fxLayoutAlign="end center">
-        <p class="serendipitous-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
-        <p class="serendipitous-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p>
-        <div (click)="toggleDetail($event)" class="serendipitous-questionmark">
-          <img *ngIf="listingService.grouping.displayMode === 'Serendipitous'" src="assets/img/questionmark.png">
-          <img *ngIf="listingService.grouping.displayMode === 'Voting Results'" src="assets/img/alleBidrag.png">
-        </div>
-        <img class="ntnu-logo" src="assets/img/logo_ntnu_gray.png"/>
+<div *ngIf="showCarousel" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="end">
+  <div class="serendipitous-container" fxLayoutAlign="center end">
+    <div fxLayout="column" class="serendipitous-left-panel" fxLayoutAlign="end center">
+      <p class="serendipitous-categoryTitle">{{listingService.serendipitousTitle}}</p>
+      <p class="serendipitous-categorySubtitle">{{listingService.serendipitousSubtitle}}</p>
+      <div (click)="toggleDetail($event)" class="serendipitous-questionmark">
+        <img src="assets/img/alle_bidrag.png">
       </div>
+      <img class="ntnu-logo" src="assets/img/logo_ntnu_gray.png"/>
     </div>
-    <app-carousel></app-carousel>
   </div>
+  <app-carousel></app-carousel>
+</div>
 

@@ -10,8 +10,8 @@
             <div md-card-avatar>
               <md-icon md-list-icon>folder</md-icon>
             </div>
-            <md-card-title>{{grouping.categoryTitle}}</md-card-title>
-            <md-card-subtitle>{{grouping.categorySubtitle}}</md-card-subtitle>
+            <md-card-title>{{ grouping.titleDescriptionMode === 'Custom' ? grouping.categoryTitle : 'Generated from Album title'}}</md-card-title>
+            <md-card-subtitle>{{ grouping.titleDescriptionMode === 'Custom' ? grouping.categorySubtitle : 'Generated from Album description'}}</md-card-subtitle>
           </md-card-header>
           <md-card-content>
             <p><a style="word-break: break-all;" href="{{ appUrl() + displayMode(grouping) + grouping.urlSlug}}" [target]="'_blank' + grouping._id">{{ appUrl() + displayMode(grouping) }}<strong>{{grouping.urlSlug}}</strong></a></p>
@@ -26,12 +26,25 @@
 
         <div *ngIf="itemToEdit === i">
           <md-card-content fxLayout="column">
-            <md-input-container>
-              <input mdInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle" autofocus>
-            </md-input-container>
-            <md-input-container>
-              <input mdInput placeholder="Category Subtitle" [(ngModel)]="grouping.categorySubtitle">
-            </md-input-container>
+            <h2>Title & Description</h2>
+            <md-radio-group [(ngModel)]="grouping.titleDescriptionMode">
+              <md-radio-button class="creator-voting-radio-button" *ngFor="let mode of titleDescriptionModes" [value]="mode.viewValue">
+                {{mode.viewValue}}
+              </md-radio-button>
+            </md-radio-group>
+            <div *ngIf="grouping.titleDescriptionMode === 'Automatic'">
+              <p>Title is generated from Album title</p>
+              <p>Subtitle is generated from Album description</p>
+            </div>
+            <div *ngIf="grouping.titleDescriptionMode === 'Custom'">
+              <md-input-container>
+                <input mdInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle" autofocus>
+              </md-input-container><br>
+              <md-input-container>
+                <input mdInput placeholder="Category Subtitle" [(ngModel)]="grouping.categorySubtitle">
+              </md-input-container>
+            </div>
+            <h2>Display</h2>
             <md-input-container>
               <input mdInput placeholder="URL" [(ngModel)]="grouping.urlSlug">
             </md-input-container>
@@ -40,8 +53,8 @@
                 {{ mode.viewValue }}
               </md-option>
             </md-select>
-            <br>
             <div *ngIf="grouping.displayMode === 'Voting'">
+              <h2>Voting Options</h2>
               <md-radio-group [(ngModel)]="grouping.votingOptions.displayMode">
                 <md-radio-button class="creator-voting-radio-button" *ngFor="let mode of votingDisplayModes" [value]="mode.viewValue">
                   {{mode.viewValue}}
@@ -50,20 +63,21 @@
               <md-checkbox [(ngModel)]="grouping.votingOptions.imageCaption">Image Caption</md-checkbox>
               <md-checkbox [(ngModel)]="grouping.votingOptions.resultsVisible">Results Visible</md-checkbox>
             </div>
-            <br>
+            <hr>
+            <h2>Contributions</h2>
             <md-select placeholder="Select Contributions using" [(ngModel)]="grouping.contributionMode">
               <md-option *ngFor="let mode of contributionModes" [value]="mode.viewValue">
                 {{ mode.viewValue }}
               </md-option>
             </md-select>
             <div *ngIf="grouping.contributionMode === 'Chips'">
-              <p>Show content tagged with:</p>
+              <p>Show contributions from selected album titles: (click to select)</p>
               <md-chip-list>
                 <md-basic-chip class="custom-chip" *ngFor="let chip of listingService.chips" [ngStyle]="chipStyle(chip, grouping)" [selected]="grouping.chips.indexOf(chip._id) > -1" (click)="toggleChip(grouping, 'Grouping', chip)">{{chip.label}}</md-basic-chip>
               </md-chip-list>
             </div>
           </md-card-content>
-
+          <hr>
           <md-card-actions>
             <button md-button (click)="updateToServer(grouping, 'Grouping'); itemToEdit = -1">Done</button>
           </md-card-actions>
@@ -113,7 +127,8 @@
           <md-card-subtitle>{{chip.origin}}</md-card-subtitle>
         </md-card-header>
         <md-card-content>
-
+          <p>{{chip.description}}</p>
+          <p>{{chip.location}}</p>
         </md-card-content>
       </md-card>
     </div>

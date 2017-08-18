@@ -32,8 +32,8 @@
   top: 0;
   left: 0;
   z-index: -1;
-  width: 330px;
-  height: 200px;
+  width: 400px;
+  height: 220px;
 }
     .voting-staticTitle {
       text-transform: uppercase;
@@ -44,9 +44,9 @@
 
     .voting-staticSubtitle {
       font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
-      font-size: 0.8em;
+      font-size: 1em;
       margin: 10px 10px;
-      width: 280px;
+      width: 350px;
     }
 
 /*  Question - Grouping Caption Title & Subtitle */
@@ -103,16 +103,16 @@
 /*  Info on right */
 .voting-textblock3 {
   position: absolute;
-  top: 35%;
+  top: 30%;
   right: 10px;
   width: 130px;
-  font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
-  font-size: 0.7em;
-  text-align: justify;
+  font-family: "HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 0.9em;
+  text-align: left;
 }
 .voting-textblock3 img {
   position: absolute;
-  top: -210px;
+  top: -170px;
   right: -220px;
   z-index: -1;
   width: 400px;
@@ -125,10 +125,9 @@
   bottom: 0;
   right: 10px;
   width: 130px;
-  height: 180px;
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
-  font-size: 0.7em;
-  text-align: justify;
+  font-size: 0.9em;
+  text-align: left;
 }
 .voting-textblock4 img {
   opacity: 0.2;
@@ -197,7 +196,14 @@
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
-
+.pulse2 {
+  animation-name: pulse_animation;
+  animation-duration: 5000ms;
+  animation-delay: 1000ms;
+  transform-origin:70% 70%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
 
 
 .voting-questionmark {

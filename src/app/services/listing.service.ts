@@ -20,6 +20,8 @@ export class ListingService {
   private errorMessage: any;
   private _options: Options;
 
+  private _selectedSerendipitousContribution: Contribution;
+  private _selectedSerendipitousChips: Chip[];
   private _votingContribution1: Contribution;
   private _votingContribution2: Contribution;
 
@@ -28,8 +30,10 @@ export class ListingService {
     this.options = {
         viewMode: 'standard'
     };
-    this._selectedGrouping = null;
     this.requestContributionsInterval = null;
+    this._selectedGrouping = null;
+    this._selectedSerendipitousContribution = null;
+    this._selectedSerendipitousChips = [];
     this._votingContribution1 = null;
     this._votingContribution2 = null;
     this.retrieveChips();
@@ -69,6 +73,15 @@ export class ListingService {
   }
   get votingContribution2(): Contribution {
     return this._votingContribution2;
+  }
+  get serendipitousContribution(): Contribution {
+    return this._selectedSerendipitousContribution;
+  }
+  set serendipitousContribution(c: Contribution) {
+    this._selectedSerendipitousContribution = c;
+    this._selectedSerendipitousChips = this._chips.filter((chip) => {
+      return c.chips.indexOf(chip._id) > -1;
+    });
   }
 
   get groupings() {
@@ -138,6 +151,16 @@ export class ListingService {
 
   set options(options: Options) {
     this._options = options;
+  }
+
+  get serendipitousTitle(): string {
+    return (this.grouping.titleDescriptionMode === 'Automatic' && this._selectedSerendipitousChips.length > 0) ?
+      this._selectedSerendipitousChips[0].label : this._selectedGrouping.categoryTitle;
+  }
+
+  get serendipitousSubtitle(): string {
+    return (this.grouping.titleDescriptionMode === 'Automatic' && this._selectedSerendipitousChips.length > 0) ?
+      this._selectedSerendipitousChips[0].description : this._selectedGrouping.categorySubtitle;
   }
 
   // Public member functions to interface to data

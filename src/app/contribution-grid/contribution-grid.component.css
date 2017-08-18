@@ -9,8 +9,10 @@
   font-weight: bold;
   font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
   padding: 5px 10px;
-  background-color: rgba(255,255,255,0.8);
   cursor: pointer;
+}
+.zoombox-close img {
+  width: 60px;
 }
 .zoombox-details {
   position: absolute;

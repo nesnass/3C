@@ -25,16 +25,18 @@ export class ContributionComponent implements OnInit {
   private _contribution: Contribution;
   private backgroundStyle;
 
+  @Input() contributionVisibleState: string;
+  @Input() grouping: Grouping;
+
   @Input() set contribution(theContribution: Contribution) {
     this._contribution = theContribution;
-    if (typeof this._contribution !== 'undefined') {
+    if (typeof this._contribution !== 'undefined' && typeof this.grouping !== 'undefined') {
       this.setupContribution();
     }
     this.contributionChange.emit(theContribution);
   }
   @Output() contributionChange: EventEmitter<Contribution> = new EventEmitter<Contribution>();
-  @Input() grouping: Grouping;
-  @Input() contributionVisibleState: string;
+
 
   constructor() {}
 
@@ -43,8 +45,10 @@ export class ContributionComponent implements OnInit {
   }
 
   setupContribution() {
+    const maxChars = (this.grouping.displayMode === 'Voting' && this.grouping.votingOptions.displayMode === 'Caption As Image')
+      ? 150 : 100;
     this.backgroundStyle = { 'background-image': 'url(\'' + this._contribution.image.url + '\')'};
-    this.trimmedCaption = this._contribution.caption.length > 100 ? this._contribution.caption.substr(0, 100) + '...'
+    this.trimmedCaption = this._contribution.caption.length > maxChars ? this._contribution.caption.substr(0, maxChars) + '...'
       : this._contribution.caption;
   }
 

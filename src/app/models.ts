@@ -133,6 +133,11 @@ export const votingDisplayModes = [
   { value: 'Caption', viewValue: 'Caption As Image' }
 ];
 
+export const titleDescriptionModes = [
+  { value: 'Automatic', viewValue: 'Automatic' },
+  { value: 'Custom', viewValue: 'Custom' }
+];
+
 
 
 export class Grouping {
@@ -140,6 +145,7 @@ export class Grouping {
   urlSlug: string;
   categoryTitle: string;
   categorySubtitle: string;
+  titleDescriptionMode: string;
   contributionMode: string;
   displayMode: string;
   votingOptions: {
@@ -152,6 +158,7 @@ export class Grouping {
 
   constructor(gData?: {}) {
     this.chips = [];
+    this.titleDescriptionMode = 'Automatic';    // 'Automatic' or 'Custom'
     this.contributionMode = 'Chips';      // 'Chips', 'All', 'Feed'
     this.displayMode = 'Serendipitous';   // 'Serendipitous', 'Voting', 'Voting Results'
     this.votingOptions = {
@@ -171,6 +178,7 @@ export class Grouping {
     this.created = new Date(gData.created);
     this.categoryTitle = gData.categoryTitle;
     this.categorySubtitle = gData.categorySubtitle;
+    this.titleDescriptionMode = gData.titleDescriptionMode;
     this.contributionMode = gData.contributionMode;
     this.displayMode = gData.displayMode;
     this.votingOptions = gData.votingOptions;
@@ -183,6 +191,8 @@ export class Chip {
   origin_id: string;
   origin: string;
   label: string;
+  description: string;
+  location: string;
 }
 
 export interface GroupingsResponse extends Response {

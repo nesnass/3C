@@ -1,16 +1,18 @@
 <div *ngIf="showGrid">
   <div *ngFor="let contribution of contributions">
-    <app-contribution [contribution]="contribution" [grouping]="grouping" [contributionVisibleState]="visible" (click)="zoomContribution(contribution)"></app-contribution>
+    <app-contribution [grouping]="grouping" [contribution]="contribution" [contributionVisibleState]="visible" (click)="zoomContribution(contribution)"></app-contribution>
   </div>
 </div>
 
 <div class="Absolute-Center is-Responsive is-Fixed" *ngIf="zoomedContribution !== null">
   <div class="zoombox-container">
     <img class="zoombox-image" alt="" [src]="zoomedContribution.image.url"/>
-    <div class="zoombox-close" (click)="zoomedContribution = null">X</div>
+    <div class="zoombox-close" (click)="zoomedContribution = null">
+      <img src="assets/img/close_opacity40.png">
+    </div>
     <div class="zoombox-details">
-      <span class="contribution-caption">{{zoomedContribution.caption}}</span><br>
-      <span class="contribution-username">{{zoomedContribution.user.username}}</span>
+      <span class="contribution-caption" [ngStyle]="{'font-size': trimmedCaption.length > 50 ? '2em' : '3em'}">{{trimmedCaption}}</span><br>
+      <!--span class="contribution-username">{{zoomedContribution.user.username}}</span-->
     </div>
   </div>
 </div>

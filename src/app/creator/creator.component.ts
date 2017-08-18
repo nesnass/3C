@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Grouping, contributionModes, displayModes, votingDisplayModes, Chip} from '../models';
+import {Grouping, contributionModes, displayModes, votingDisplayModes, titleDescriptionModes, Chip} from '../models';
 import { ListingService } from '../services/listing.service';
 
 @Component({
@@ -12,11 +12,13 @@ export class CreatorComponent implements OnInit {
   contributionModes: {}[];
   displayModes: {}[];
   votingDisplayModes: {}[];
+  titleDescriptionModes: {}[];
 
   constructor(private listingService: ListingService) {
     this.contributionModes = contributionModes;
     this.displayModes = displayModes;
     this.votingDisplayModes = votingDisplayModes;
+    this.titleDescriptionModes = titleDescriptionModes;
   }
 
   ngOnInit() {
@@ -68,16 +70,16 @@ export class CreatorComponent implements OnInit {
     switch (chip.origin) {
       case 'facebook-album':
         return (i > -1) ? { backgroundColor: 'blue', color: 'white' }
-        : { backgroundColor: 'lightgray', color: 'black', border: 'solid blue' };
+        : { backgroundColor: 'lightgrey', color: 'blue' };
       case 'facebook-feed':
         return (i > -1) ? { backgroundColor: 'green', color: 'white' }
-        : { backgroundColor: 'lightgray', color: 'black', border: 'solid green' };
+        : { backgroundColor: 'lightgrey', color: 'green' };
       case 'instagram':
         return (i > -1) ? { backgroundColor: 'red', color: 'white' }
-        : { backgroundColor: 'lightgray', color: 'black', border: 'solid red' };
+        : { backgroundColor: 'lightgrey', color: 'red' };
       case 'mms':
         return (i > -1) ? { backgroundColor: 'brown', color: 'white' }
-        : { backgroundColor: 'lightgray', color: 'black', border: 'solid brown' };
+        : { backgroundColor: 'lightgrey', color: 'brown' };
     }
   }
 

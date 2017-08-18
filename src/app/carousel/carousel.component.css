@@ -1,17 +1,17 @@
 .carousel {
-  position: fixed;
-  left: 25%;
+  position: relative;
 }
 
 .main-image {
   position: relative;
+  display: block;
 }
 .main-image img {
   height: 100vh;
 }
 .carousel-details {
   position: absolute;
-  bottom: 30px;
+  bottom: 35px;
   padding: 2px 30px;
   background-color: rgba(0,0,0,0.4);
 }
@@ -29,6 +29,18 @@
   background-size: 100% 100%;
 }*/
 
+.carousel-caption {
+  font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  font-size: 16pt;
+  color: white;
+}
+
+.carousel-username {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 16pt;
+  color: white;
+}
+
 @media all and (max-width: 960px) {
 
   .carousel {
@@ -44,14 +56,3 @@
 
 }
 
-.carousel-caption {
-  font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
-  font-size: 0.8em;
-  color: white;
-}
-
-.carousel-username {
-  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
-  font-size: 0.8em;
-  color: white;
-}

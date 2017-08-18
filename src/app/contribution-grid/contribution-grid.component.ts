@@ -18,6 +18,7 @@ export class ContributionGridComponent implements OnInit {
   zoomedContribution: Contribution = null;
   grouping: Grouping;
   showGrid: Boolean = false;
+  trimmedCaption = '';
   wall: any;
 
   constructor(private listingService: ListingService,
@@ -48,6 +49,8 @@ export class ContributionGridComponent implements OnInit {
   zoomContribution(contribution: Contribution) {
     if (this.zoomedContribution === null) {
       this.zoomedContribution = contribution;
+      this.trimmedCaption = this.zoomedContribution.caption.length > 200 ? this.zoomedContribution.caption.substr(0, 100) + '...'
+        : this.zoomedContribution.caption;
     }
   }
 

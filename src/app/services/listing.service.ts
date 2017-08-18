@@ -13,6 +13,7 @@ export class ListingService {
   private serverRefreshIntervalSeconds = 10;
 
   private _contributions: BehaviorSubject<Contribution[]> = <BehaviorSubject<Contribution[]>>new BehaviorSubject([]);
+  private _allContributionsLength: number;
   private _groupings: BehaviorSubject<Grouping[]> = <BehaviorSubject<Grouping[]>>new BehaviorSubject([]);
   private _chips: Chip[];
   private _selectedGrouping: Grouping;
@@ -38,6 +39,7 @@ export class ListingService {
     this._votingContribution2 = null;
     this._selectedSerendipitousChips = [];
     this._firstMatchingVotingChip = null;
+    this._allContributionsLength = 0;
     this.retrieveChips();
     this.refreshGroupings();
   }
@@ -266,10 +268,8 @@ export class ListingService {
           .map((contribution: any) => new Contribution(contribution, this._selectedGrouping));
 
         // Are there new contributions available? If so, update the collection
-        const oldContributions = this._contributions.getValue();
-        if (newContributions.length > 0
-          && ((oldContributions.length > 0 && oldContributions[0]._id !== newContributions[0]._id)
-            || (oldContributions.length === 0) )) {
+        if (newContributions.length > 0 && this._allContributionsLength !== newContributions.length) {
+          this._allContributionsLength = newContributions.length;
           const filteredContributions = this.filterContributionsByGrouping(newContributions);
           if (this._selectedGrouping && !this._selectedGrouping.serendipitousOptions.randomSelection) {
             this.sortContributionsByCategory(filteredContributions);

@@ -64,6 +64,7 @@ router.put('/groupings', function(req, res) {
       foundItem.displayMode = req.body.displayMode;
       foundItem.votingDisplayMode = req.body.votingDisplayMode;
       foundItem.votingOptions = req.body.votingOptions;
+      foundItem.serendipitousOptions = req.body.serendipitousOptions;
       foundItem.save();
       res.status(200).json({ data: foundItem });
     }
@@ -97,7 +98,8 @@ router.post('/groupings', function(req, res) {
     titleDescriptionMode: req.body.titleDescriptionMode,
     contributionMode: req.body.contributionMode,
     displayMode: req.body.displayMode,
-    votingOptions: req.body.votingOptions
+    votingOptions: req.body.votingOptions,
+    serendipitousOptions: req.body.serendipitousOptions
   });
 
   grouping.save(function (error, newGrouping) {

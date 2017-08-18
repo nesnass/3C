@@ -40,7 +40,8 @@ const appRoutes: Routes = [
   { path: 'vote/:position', component: VotingViewComponent },
   { path: 'smaller', component: SmallerViewComponent },
   { path: 'creator', component: CreatorComponent },
-  { path: '', component: HomepageComponent }
+  { path: '', component: HomepageComponent },
+  { path: '**', component: HomepageComponent }
 ];
 
 @NgModule({

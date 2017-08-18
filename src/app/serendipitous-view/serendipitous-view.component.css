@@ -12,7 +12,7 @@
 
 .serendipitous-left-panel {
   height:100%;
-  width: 100%;
+  width: 75%;
 }
 
 .ntnu-logo {
@@ -30,9 +30,8 @@
 }
 
 .text-subHeading {
-  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-family:"HelveticaNeueW02-UltLight", Helvetica, sans-serif;
   font-size: 1.5em;
-  margin: 20px 0;
 }
 
 .text-bold {
@@ -56,6 +55,7 @@
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
   font-size: 2.5em;
   margin: 15px;
+  text-align: center;
 }
 
 .serendipitous-categorySubtitle {
@@ -64,6 +64,7 @@
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
   font-size: 1.5em;
   margin: 15px;
+  text-align: center;
 }
 
 .serendipitous-questionmark {
@@ -74,9 +75,9 @@
 }
 
 .serendipitous-container {
-  position: fixed;
-  width: 25%;
-  height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100vh;
 }
 
 

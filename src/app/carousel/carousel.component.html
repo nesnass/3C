@@ -2,9 +2,9 @@
   <!--<div class="carousel-contribution" [ngStyle]="{'background-image': 'url(\'' + selectedContribution.image.url + '\')'}">-->
   <div class="main-image">
     <img [ngClass]="{'main-image': viewMode === 'standard', 'main-image-smaller': viewMode === 'iframe'}" [src]="selectedContribution.image.url">
-    <div class="carousel-details">
-      <span class="carousel-caption">{{selectedContribution.caption}}</span><br>
-      <span class="carousel-username">{{selectedContribution.user.username}}</span>
+    <div class="carousel-details" [@carouselCaptionState]="captionActive">
+      <span class="carousel-caption">{{trimmedCaption}}</span>
+      <!--span class="carousel-username">{{selectedContribution.user.username}}</span-->
     </div>
 
   </div>

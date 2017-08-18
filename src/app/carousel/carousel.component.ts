@@ -19,6 +19,16 @@ import {ListingService} from '../services/listing.service';
       })),
       transition('inactive => active', animate('500ms ease-in')),
       transition('active => inactive', animate('500ms ease-out'))
+    ]),
+    trigger('carouselCaptionState', [
+      state('inactive', style({
+        opacity: 0
+      })),
+      state('active',   style({
+        opacity: 1
+      })),
+      transition('inactive => active', animate('500ms ease-in')),
+      transition('active => inactive', animate('500ms ease-out'))
     ])
   ]
 
@@ -31,7 +41,9 @@ export class CarouselComponent implements OnInit {
   selectedContribution: Contribution = null;
   contributions: Contribution[];
   timeoutPointer = null;
+  trimmedCaption = '';
   imageActive = 'active';
+  captionActive = 'inactive';
   viewMode = 'standard';
 
   constructor(private listingService: ListingService) {
@@ -54,6 +66,7 @@ export class CarouselComponent implements OnInit {
   rotateCarousel() {
     clearTimeout(this.timeoutPointer);
     this.imageActive = 'inactive';
+    this.captionActive = 'inactive';
     setTimeout(() => {
       if (this.contributions.length > 0) {
 
@@ -72,10 +85,16 @@ export class CarouselComponent implements OnInit {
           this.selectedContribution = newContribution;
           this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.standardRotationIntervalSeconds * 1000);
         }
+        this.listingService.serendipitousContribution = this.selectedContribution;
+        this.trimmedCaption = this.selectedContribution.caption.length > 200 ? this.selectedContribution.caption.substr(0, 100) + '...'
+          : this.selectedContribution.caption;
       } else {
         this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.longRotationIntervalSeconds * 1000);
       }
       this.imageActive = 'active';
+      setTimeout(() => {
+        this.captionActive = 'active';
+      }, 1500);
     }, 1000);
   }
 

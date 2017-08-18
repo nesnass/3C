@@ -26,21 +26,21 @@ process.on('SIGINT', function () {
  * Run upon startup, determine the most recent contributions already added to our database
  */
 exports.startEngine = function() {
-	Contribution.find({ origin: "facebook" })
-		.limit(20)
-		.sort({"facebook_data.photo_id": 'desc'})
-		.lean()
-		.exec(function (error, contributions) {
-			if (error || contributions === null) {
-				console.log("Setup error building recent contributions");
-			} else {
-				serverData.mostRecentFacebookIds = contributions.map(function (contribution) {
-					return contribution.facebook_data.photo_id;
-				});
+  Contribution.find({ origin: "facebook" })
+    .limit(20)
+    .sort({"facebook_data.photo_id": 'desc'})
+    .lean()
+    .exec(function (error, contributions) {
+      if (error || contributions === null) {
+        console.log("Setup error building recent contributions");
+      } else {
+        serverData.mostRecentFacebookIds = contributions.map(function (contribution) {
+          return contribution.facebook_data.photo_id;
+        });
         timerInterval = setInterval(facebookCrawlerControl, common.Constants.CRAWLER_REFRESH_INTERVAL_SECONDS * 1000);
         facebookCrawlerControl();
-			}
-		});
+      }
+    });
 };
 
 function facebookCrawlerControl() {
@@ -51,7 +51,7 @@ function facebookCrawlerControl() {
       console.log("Got Facebook auth token");
 
       var params = {
-        fields: "description,name"
+        fields: "name,id"
       };
 
       // Collect curated (workshop) Contributions from the facebook 'Album' - added by the Page administrator
@@ -69,27 +69,41 @@ function facebookCrawlerControl() {
             if (error) {
               console.error("Failed to get Facebook album list: %s", error.message);
             } else {
+              var albumParams = { fields: "name,description,place" };
               results.filter( function(album) {  // Ignore Facebook standard albums
                 return ['Profile Pictures', 'Timeline Photos', 'Cover Photos'].indexOf(album.name) === -1;
               }).forEach( function(filteredAlbum) {
-
-                // Check whether this album is already listed as a Chip, or not
                 var chip = getChipContainingOriginId(chips, filteredAlbum.id);
-                if (typeof chip !== 'undefined') {
-                  if (chip.label !== filteredAlbum.name) {
-                    chip.label = filteredAlbum.name;
-                    chip.save();
+                collectFromFacebook(filteredAlbum.id, albumParams, function(error, albumDetails) {
+
+                  if (error) {
+                    console.error("Failed to get Facebook album list: %s", error.message);
+                  } else {
+                    // Check whether this album is already listed as a Chip, or not.  Update if details don't match
+                    if (typeof chip !== 'undefined') {
+                      if (chip.label !== albumDetails.name
+                        || chip.description !== albumDetails.description
+                        || chip.place !== albumDetails.place) {
+                        chip.label = albumDetails.name;
+                        chip.description = albumDetails.description;
+                        chip.place = albumDetails.location;
+                        chip.save();
+                      }
+                      syncContributionsFromAlbum(albumDetails, chip);
+                    } else {
+                      var newChip = new Chip({
+                        origin_id: albumDetails.id,
+                        origin: "facebook-album",
+                        label: albumDetails.name,
+                        description: albumDetails.description,
+                        location: albumDetails.location
+                      });
+                      newChip.save();
+                      syncContributionsFromAlbum(albumDetails, newChip);
+                    }
                   }
-                  syncContributionsFromAlbum(filteredAlbum, chip);
-                } else {
-                  var newChip = new Chip({
-                    origin_id: filteredAlbum.id,
-                    origin: "facebook-album",
-                    label: filteredAlbum.name
-                  });
-                  newChip.save();
-                  syncContributionsFromAlbum(filteredAlbum, newChip);
-                }
+
+                })
               })
             }
           });
@@ -147,7 +161,7 @@ function syncContributionsFromAlbum(album, chip) {
               } else {
 
                 // Create a new Contribution
-               Contribution.create({
+                Contribution.create({
                   origin: "facebook-album",
                   facebook_data: {
                     photo_id: photo.id,

@@ -69,23 +69,23 @@
         /* A single Contribution item */
         .voteContributionDisplayBox1 {
           position: absolute;
-          top: 270px;
-          left: -440px;
+          top: 300px;
+          left: -420px;
           cursor: pointer;
         }
 
         /* A single Contribution item */
         .voteContributionDisplayBox2 {
           position: absolute;
-          top: 270px;
-          left: 0;
+          top: 300px;
+          left: 50px;
           cursor: pointer;
         }
 
     .voting-categoryTitle {
       text-transform: uppercase;
       font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
-      font-size: 5em;
+      font-size: 4.5em;
       margin: 0 15px;
       display: inline-block;
       text-align: center;
@@ -103,9 +103,9 @@
 /*  Info on right */
 .voting-textblock3 {
   position: absolute;
-  top: 30%;
+  top: 22%;
   right: 10px;
-  width: 130px;
+  width: 160px;
   font-family: "HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   font-size: 0.9em;
   text-align: left;
@@ -124,7 +124,7 @@
   position: absolute;
   bottom: 0;
   right: 10px;
-  width: 130px;
+  width: 160px;
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
   font-size: 0.9em;
   text-align: left;

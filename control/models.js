@@ -108,6 +108,9 @@ var groupingSchema = Schema({
     imageCaption: { type: Boolean },
     resultsVisible: { type: Boolean }
   },
+  serendipitousOptions: {
+    randomSelection: { type: Boolean }
+  },
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
   created:                      { type: Date, default: Date.now }
 });

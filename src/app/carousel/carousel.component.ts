@@ -40,6 +40,7 @@ export class CarouselComponent implements OnInit {
   latestContribution: Contribution = null;
   selectedContribution: Contribution = null;
   contributions: Contribution[];
+  currentContributionIndex = 0;
   timeoutPointer = null;
   trimmedCaption = '';
   imageActive = 'active';
@@ -54,6 +55,7 @@ export class CarouselComponent implements OnInit {
     this.listingService.contributions.subscribe(
       contributions => {
         this.contributions = contributions;
+        this.currentContributionIndex = 0;
 
         // First time run, begin rotation
         if (this.selectedContribution === null) {
@@ -77,12 +79,19 @@ export class CarouselComponent implements OnInit {
           this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.longRotationIntervalSeconds * 1000);
 
           // Otherwise show a pseudo-random contribution for a standard length of time (don't show same image twice)
-        } else {
+        } else if (this.listingService.grouping.serendipitousOptions.randomSelection) {
           let newContribution = null;
           while (newContribution === null || newContribution._id === this.selectedContribution._id) {
             newContribution = this.contributions[Math.floor(Math.random() * this.contributions.length)];
           }
           this.selectedContribution = newContribution;
+          this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.standardRotationIntervalSeconds * 1000);
+
+          // Otherwise choose the next in sorted order
+        } else {
+          this.currentContributionIndex = this.currentContributionIndex === this.contributions.length - 1 ?
+            0 : this.currentContributionIndex + 1;
+          this.selectedContribution = this.contributions[this.currentContributionIndex];
           this.timeoutPointer = setTimeout(() => this.rotateCarousel(), this.standardRotationIntervalSeconds * 1000);
         }
         this.listingService.serendipitousContribution = this.selectedContribution;

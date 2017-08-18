@@ -8,7 +8,7 @@
         <div *ngIf="itemToEdit !== i">
           <md-card-header>
             <div md-card-avatar>
-              <md-icon md-list-icon>folder</md-icon>
+              <md-icon md-list-icon>{{grouping.displayMode === 'Voting' ? 'check_circle' : 'collections'}}</md-icon>
             </div>
             <md-card-title>{{ grouping.titleDescriptionMode === 'Custom' ? grouping.categoryTitle : 'Generated from Album title'}}</md-card-title>
             <md-card-subtitle>{{ grouping.titleDescriptionMode === 'Custom' ? grouping.categorySubtitle : 'Generated from Album description'}}</md-card-subtitle>
@@ -33,7 +33,7 @@
               </md-radio-button>
             </md-radio-group>
             <div *ngIf="grouping.titleDescriptionMode === 'Automatic'">
-              <p>Title is generated from Album title</p>
+              <p>{{grouping.displayMode === 'Voting' ? 'Question' : 'Title'}} is generated from Album title</p>
               <p>Subtitle is generated from Album description</p>
             </div>
             <div *ngIf="grouping.titleDescriptionMode === 'Custom'">
@@ -62,6 +62,10 @@
               </md-radio-group>
               <md-checkbox [(ngModel)]="grouping.votingOptions.imageCaption">Image Caption</md-checkbox>
               <md-checkbox [(ngModel)]="grouping.votingOptions.resultsVisible">Results Visible</md-checkbox>
+            </div>
+            <div *ngIf="grouping.displayMode === 'Serendipitous'">
+              <h2>Display Options</h2>
+              <md-checkbox [(ngModel)]="grouping.serendipitousOptions.randomSelection">Random Selection</md-checkbox>
             </div>
             <hr>
             <h2>Contributions</h2>

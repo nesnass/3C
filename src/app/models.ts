@@ -153,6 +153,9 @@ export class Grouping {
     imageCaption: boolean;
     resultsVisible: boolean;
   };
+  serendipitousOptions: {
+    randomSelection: boolean;
+  };
   chips: string[];
   created: Date;
 
@@ -165,6 +168,9 @@ export class Grouping {
       displayMode: 'Image',      // 'Image', 'Caption'
       imageCaption: true,
       resultsVisible: true
+    };
+    this.serendipitousOptions = {
+      randomSelection: false
     };
     this.created = new Date();
     if (typeof gData !== 'undefined' && gData !== null) {
@@ -182,6 +188,7 @@ export class Grouping {
     this.contributionMode = gData.contributionMode;
     this.displayMode = gData.displayMode;
     this.votingOptions = gData.votingOptions;
+    this.serendipitousOptions = gData.serendipitousOptions;
     this.chips = gData.chips;
   }
 }

@@ -21,10 +21,11 @@ export class ListingService {
   private _options: Options;
 
   private _selectedSerendipitousContribution: Contribution;
-  private _selectedSerendipitousChips: Chip[];
+  private _selectedSerendipitousChips: Chip[];    // Chips are not directly stores inside Contribution
+
   private _votingContribution1: Contribution;
   private _votingContribution2: Contribution;
-
+  private _firstMatchingVotingChip: Chip;
 
   constructor(private listingBackendService: ListingBackendService) {
     this.options = {
@@ -33,9 +34,10 @@ export class ListingService {
     this.requestContributionsInterval = null;
     this._selectedGrouping = null;
     this._selectedSerendipitousContribution = null;
-    this._selectedSerendipitousChips = [];
     this._votingContribution1 = null;
     this._votingContribution2 = null;
+    this._selectedSerendipitousChips = [];
+    this._firstMatchingVotingChip = null;
     this.retrieveChips();
     this.refreshGroupings();
   }
@@ -58,12 +60,41 @@ export class ListingService {
 
   setRandomVotingContributions() {
     const v = this._contributions.getValue();
+    let subV = [];
     if (v.length > 0) {
+
+      // Select the first voting contribution
       this._votingContribution1 = v[Math.floor(Math.random() * v.length)];
-      this._votingContribution2 = null;
-      while (this._votingContribution2 === null || this._votingContribution2._id === this._votingContribution1._id) {
-        this._votingContribution2 = v[Math.floor(Math.random() * v.length)];
+
+      // Filter the collection based on the first selection's category
+      subV = v.filter((c) => {
+        return c.chips.some((cId) => {
+          return this._votingContribution1.chips.indexOf(cId) > -1;
+        });
+      });
+
+      // Check for at least one more contribution available for this category
+      if (subV.length === 0) {
+        console.log('Not enough contributions to match with contribution id: ' + this._votingContribution1._id);
+        this.setRandomVotingContributions();
+      } else {
+
+        // Select the second voting contribution based on the category of the first
+        this._votingContribution2 = null;
+        while (this._votingContribution2 === null || this._votingContribution2._id === this._votingContribution1._id) {
+          this._votingContribution2 = subV[Math.floor(Math.random() * subV.length)];
+        }
+
+        // Save the first Chip that matches both Contributions for use in the voting question
+        const commonChipId = this._votingContribution1.chips.find((chipId) => {
+          return this._votingContribution2.chips.indexOf(chipId) > -1;
+        });
+        this._firstMatchingVotingChip = null;
+        this._firstMatchingVotingChip = this._chips.find((chip) => {
+          return chip._id === commonChipId;
+        });
       }
+
     }
 
   }
@@ -154,13 +185,19 @@ export class ListingService {
   }
 
   get serendipitousTitle(): string {
-    return (this.grouping.titleDescriptionMode === 'Automatic' && this._selectedSerendipitousChips.length > 0) ?
+    return (this._selectedGrouping.titleDescriptionMode === 'Automatic' && this._selectedSerendipitousChips.length > 0) ?
       this._selectedSerendipitousChips[0].label : this._selectedGrouping.categoryTitle;
   }
 
   get serendipitousSubtitle(): string {
-    return (this.grouping.titleDescriptionMode === 'Automatic' && this._selectedSerendipitousChips.length > 0) ?
+    return (this._selectedGrouping.titleDescriptionMode === 'Automatic' && this._selectedSerendipitousChips.length > 0) ?
       this._selectedSerendipitousChips[0].description : this._selectedGrouping.categorySubtitle;
+  }
+
+  // Using this method, the question asked will always be the first in the Chips array
+  get votingQuestion(): string {
+    return (this._selectedGrouping.titleDescriptionMode === 'Automatic' && this._firstMatchingVotingChip !== null) ?
+      this._firstMatchingVotingChip.label : this._selectedGrouping.categoryTitle;
   }
 
   // Public member functions to interface to data
@@ -200,6 +237,25 @@ export class ListingService {
     }
   }
 
+  // Sorts against the FIRST chip id found
+  sortContributionsByCategory(contributionsIn: Contribution[]) {
+    const chipDictionary: { [id: string]: string } = {};
+    this._chips.map((chip) => {
+      chipDictionary[chip._id] = chip.label.toUpperCase();
+    });
+    contributionsIn.sort((a, b) => {
+      if (a.chips.length > 0 && b.chips.length > 0) {
+        if (chipDictionary[a.chips[0]] < chipDictionary[b.chips[0]]) {
+          return -1;
+        }
+        if (chipDictionary[a.chips[0]] > chipDictionary[b.chips[0]]) {
+          return 1;
+        }
+        return 0;
+      }
+    });
+  }
+
   /**
    * Check for new contributions
    */
@@ -214,7 +270,11 @@ export class ListingService {
         if (newContributions.length > 0
           && ((oldContributions.length > 0 && oldContributions[0]._id !== newContributions[0]._id)
             || (oldContributions.length === 0) )) {
-          this._contributions.next(this.filterContributionsByGrouping(newContributions));
+          const filteredContributions = this.filterContributionsByGrouping(newContributions);
+          if (this._selectedGrouping && !this._selectedGrouping.serendipitousOptions.randomSelection) {
+            this.sortContributionsByCategory(filteredContributions);
+          }
+          this._contributions.next(filteredContributions);
         }
       },
       (err: HttpErrorResponse) => {

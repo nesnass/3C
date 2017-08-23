@@ -36,48 +36,52 @@ router.get('/vote/:grouping_id/:c1_id/:c1_chosen/:c2_id/:c2_chosen', function(re
         foundItem.save();
       }
 
-      Contribution.findOne({_id: req.params.c1_id}, function (error, foundItem) {
-        if (error || foundItem === null) {
+      Contribution.findOne({_id: req.params.c1_id}, function (error, foundItem1) {
+        if (error || foundItem1 === null) {
           console.log("Error finding Contribution item or no item found");
           res.status(500);
         } else {
-          var voteForGrouping = foundItem.voting.find(function (v) {
+          var voteForGrouping = foundItem1.voting.find(function (v) {
             return v.grouping_id === req.params.grouping_id;
           });
           if (typeof voteForGrouping === 'undefined') {
             voteForGrouping = {
-              votes: 0,
-              exposures: 0,
+              votes: req.params.c1_chosen === 'true' ? 1 : 0,
+              exposures: 1,
               grouping_id: req.params.grouping_id
             };
-            foundItem.voting.push(voteForGrouping);
+            foundItem1.voting.push(voteForGrouping);
+          } else {
+            voteForGrouping.exposures++;
+            if (req.params.c1_chosen === 'true') {
+              voteForGrouping.votes++;
+            }
           }
-          voteForGrouping.exposures++;
-          if (req.params.c1_chosen) {
-            voteForGrouping.votes++;
-          }
+          foundItem1.save();
         }
 
-        Contribution.findOne({_id: req.params.c2_id}, function (error, foundItem) {
-          if (error || foundItem === null) {
+        Contribution.findOne({_id: req.params.c2_id}, function (error, foundItem2) {
+          if (error || foundItem2 === null) {
             console.log("Error finding Contribution item or no item found");
             res.status(500);
           } else {
-            var voteForGrouping = foundItem.voting.find(function (v) {
+            var voteForGrouping = foundItem2.voting.find(function (v) {
               return v.grouping_id === req.params.grouping_id;
             });
             if (typeof voteForGrouping === 'undefined') {
               voteForGrouping = {
-                votes: 0,
-                exposures: 0,
+                votes: req.params.c2_chosen === 'true' ? 1 : 0,
+                exposures: 1,
                 grouping_id: req.params.grouping_id
               };
-              foundItem.voting.push(voteForGrouping);
+              foundItem2.voting.push(voteForGrouping);
+            } else {
+              voteForGrouping.exposures++;
+              if (req.params.c2_chosen === 'true') {
+                voteForGrouping.votes++;
+              }
             }
-            voteForGrouping.exposures++;
-            if (req.params.c2_chosen) {
-              voteForGrouping.votes++;
-            }
+            foundItem2.save();
             res.status(200).json({ data: "Success" });
           }
         })

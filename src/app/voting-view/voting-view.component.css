@@ -44,7 +44,8 @@
 
     .voting-staticSubtitle {
       font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
-      font-size: 0.8em;
+      font-size: 2em; 
+      /* font-size: 0.8em; */
       margin: 10px 10px;
       width: 280px;
     }
@@ -82,9 +83,10 @@
           cursor: pointer;
         }
 
-    .voting-categoryTitle {
-      text-transform: uppercase;
-      font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+    .voting-categoryTitle { 
+      /* text-transform: uppercase; */
+      /* font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif; */
+      font-family: Helvetica, sans-serif;
       font-size: 5em;
       margin: 0 15px;
       display: inline-block;
@@ -124,7 +126,7 @@
   position: absolute;
   bottom: 0;
   right: 10px;
-  width: 130px;
+  /* width: 130px; */
   height: 170px;
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
   font-size: 0.7em;

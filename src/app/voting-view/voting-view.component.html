@@ -2,9 +2,8 @@
 
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
-    <p class="voting-staticSubtitle">Trykk på innspillene du synes er viktigst at blir hørt fra campusprosjektets medvirkningsaktiviteter.
-      Hver fredag frem til og med 15 september svarer KOHT arkitekter på fem av de viktigste innspillene fra Trondheims byboere på Facebooksiden <i>Framtidscampus</i>.*</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">See Voting Results</button>
+    <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
   </div>
 
   <div class="voting-questionblock">
@@ -14,27 +13,27 @@
         <div class="voteContributionDisplayBox1 pulse">
           <app-contribution [(contribution)]="contribution1" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" (click)="castVote(true, false)"></app-contribution>
         </div>
-        <div class="voteContributionDisplayBox2 pulse2">
+        <div class="voteContributionDisplayBox2 pulse">
           <app-contribution [(contribution)]="contribution2" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" (click)="castVote(false, true)"></app-contribution>
         </div>
 
 
-    <p class="voting-categoryTitle">{{listingService.votingQuestion}}</p>
+    <p class="voting-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
     <!--p class="voting-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p-->
   </div>
 
   <div class="voting-textblock3">
     <img src="assets/img/yellow_box2.png"/>
-    <p>Du kan også bidra med dine egne observasjoner, innspill og forslag til inspirasjon fra andre byer på facebooksiden framtidscampus.</p>
+    <!--<p>Du kan også bidra med dine egne observasjoner, innspill og forslag til inspirasjon fra andre byer på facebooksiden framtidscampus.</p>-->
   </div>
 
   <div class="voting-textblock4">
-    <p><strong>*</strong>&nbsp;Prosjektet er del av flere medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
+    <p>Dette er del av flere medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
       NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p>
-    <img src="assets/img/logo_ntnu_gray.png"/>
+    <!--<img src="assets/img/logo_ntnu_gray.png"/>-->
   </div>
 
-  <div class="voting-buttonblock">
+  <!--<div class="voting-buttonblock">
     <div class="voting-buttonblock-button" (click)="castVote(true, true)">
       <img src="assets/img/both_icon.png"/><br>
       <span>begge</span>
@@ -43,7 +42,7 @@
       <img src="assets/img/none_icon.png"/><br>
       <span>ingen</span>
     </div>
-  </div>
+  </div>-->
 
 </div>
 

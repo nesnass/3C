@@ -46,7 +46,7 @@ export class ContributionComponent implements OnInit {
 
   setupContribution() {
     const maxChars = (this.grouping.displayMode === 'Voting' && this.grouping.votingOptions.displayMode === 'Caption As Image')
-      ? 150 : 100;
+      ? 200 : 100;
     this.backgroundStyle = { 'background-image': 'url(\'' + this._contribution.image.url + '\')'};
     this.trimmedCaption = this._contribution.caption.length > maxChars ? this._contribution.caption.substr(0, maxChars) + '...'
       : this._contribution.caption;

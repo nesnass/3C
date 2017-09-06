@@ -94,7 +94,15 @@ if (app.get('env') === 'development') {
   app.locals.pretty = true;
 }
 
+var port = process.env.PORT;
+var server = app.listen(port);
+console.log('--> talkwall is listening on port: ' + port);
 module.exports = app;
+
+process.on('SIGINT', function() {
+  server.close();
+  process.exit();
+});
 
 // Activate service crawlers here
 

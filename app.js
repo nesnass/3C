@@ -79,10 +79,27 @@ app.use(function(err, req, res, next) {
 
 
 //Define the database, either using MongoLab (Heroku) or local
-var uristring = process.env.MONGODB_URI || 'mongodb://localhost/3C';
+var uristring = process.env.MONGODB_URI;
+var dbConnectOptions = {};
+
+if (app.get('env') === 'development') {
+  app.locals.pretty = true;
+  var port = process.env.PORT;
+  console.log('3C is listening on port: ' + port);
+
+  dbConnectOptions = {
+    db: { native_parser: true },
+    server: { poolSize: 5 },
+    replset: { rs_name: 'myReplicaSetName' },
+    user: process.env.DB_USER,
+    pass: process.env.DB_PASSWORD
+  };
+
+  app.listen(port);
+}
 
 // MongoDB configuration
-mongoose.connect(uristring, function (error, result) {
+mongoose.connect(uristring, dbConnectOptions, function (error, result) {
 	if (error) {
 		console.log("Error connecting to MongoDB Database. " + error);
 	} else {
@@ -90,18 +107,12 @@ mongoose.connect(uristring, function (error, result) {
 	}
 });
 
-if (app.get('env') === 'development') {
-  app.locals.pretty = true;
 
-  var port = process.env.PORT;
-  var server = app.listen(port);
-  console.log('--> 3C is listening on port: ' + port);
 
-  process.on('SIGINT', function() {
-    server.close();
-    process.exit();
-  });
-}
+process.on('SIGINT', function() {
+  mongoose.disconnect();
+  process.exit();
+});
 
 module.exports = app;
 

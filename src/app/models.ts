@@ -31,6 +31,12 @@ export class Contribution {
     username: string;
   };
   caption: string;
+  status: {
+    living: boolean;
+    studying: boolean;
+    working: boolean;
+    other: boolean;
+  };
 
   constructor(cData: {}, grouping: Grouping) {
     this.chips = [];

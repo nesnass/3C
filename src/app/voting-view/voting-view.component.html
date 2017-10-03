@@ -7,8 +7,23 @@
   </div>
 
 
-  <iframe class="nettskjema-iframe voting-iframe" src="https://nettskjema.uio.no/answer/86913.html?embed=1" title="bidrag" frameborder="0" width="100%">Hvis du kan lese dette, støtter ikke nettleseren din iframes.</iframe>
+  <!--<iframe class="nettskjema-iframe voting-iframe" src="https://nettskjema.uio.no/answer/86913.html?embed=1" title="bidrag" frameborder="0" width="100%">Hvis du kan lese dette, støtter ikke nettleseren din iframes.</iframe>-->
 
+  <div class="opinion-form">
+    <form id="voting_form">
+      <p class="opinion-text">Ønsker du heller å gi din egen mening? Skriv her:</p>
+      <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required></textarea>
+      <div class="opinion-text">
+        <p class="opinion-text">Jeg...:</p>
+        <label>Bor<input [(ngModel)]="inputData.living" type="checkbox" name="living"> </label>
+        <label>Studerer<input [(ngModel)]="inputData.student" type="checkbox" name="student"> </label>
+        <label>Jobber<input [(ngModel)]="inputData.working" type="checkbox" name="working"> </label>
+        <label>Annet<input [(ngModel)]="inputData.other" type="checkbox" name="other"> </label>
+      </div>
+      <button type="submit" class="opinion-button" (click)="submitForm()">Send</button>
+      <p class="text-footnote">For spørsmål, kontakt: <a href="mailto:ole.smordal@uv.uio.no">Ole Smørdal (ole.smordal@uv.uio.no)</a></p>
+    </form>
+  </div>
 
   <div class="voting-questionblock">
 

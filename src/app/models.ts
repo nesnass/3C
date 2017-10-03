@@ -138,7 +138,31 @@ export const titleDescriptionModes = [
   { value: 'Custom', viewValue: 'Custom' }
 ];
 
+export class InputData {
+  text: string;
+  living: boolean;
+  student: boolean;
+  working: boolean;
+  other: boolean;
 
+  constructor() {
+    this.text = '';
+    this.living = false;
+    this.student = false;
+    this.working = false;
+    this.other = false;
+  }
+
+  asFormData(): FormData {
+    const fd = new FormData();
+    fd.append('answersAsMap[852800].textAnswer', this.text);
+    fd.append('answersAsMap[852801].answerOptions', '1854978', this.living.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854979', this.student.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854980', this.working.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854981', this.other.toString());
+    return fd;
+  }
+};
 
 export class Grouping {
   _id: string;

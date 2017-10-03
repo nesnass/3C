@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient , HttpHeaders} from '@angular/common/http';
 import {InputData} from '../models';
 import {Response , Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
@@ -42,13 +42,13 @@ export class NettskjemaService {
   postData(input: InputData, func) {
     const form_data = input.asFormData();
 
-    const headers: Headers = new Headers();
+    const headers: HttpHeaders = new HttpHeaders();
     headers.append('Content-Type', 'undefined');
     headers.append('NETTSKJEMA_CSRF_PREVENTION', this.nettskjemaToken);
 
     console.log(form_data);
 
-    this.http.post('https://nettskjema.uio.no/answer/deliver.json?formId=87894', form_data, headers
+    this.http.post('https://nettskjema.uio.no/answer/deliver.json?formId=87894', form_data, {headers}
     ).subscribe((response) => {
       func(JSON.stringify(response), input);
     }, () => {

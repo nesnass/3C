@@ -5,19 +5,22 @@ var Common = require('../control/common');
 var express = require('express');
 var router = express.Router();
 
+var FormData = require('form-data');
+var https = require('https');
+
 
 // ************************* Chips ****************************
 
 /**
  * Return all Chips
  */
-router.get('/chips', function(req, res) {
-  Chip.find({}, function(error, foundSet) {
+router.get('/chips', function (req, res) {
+  Chip.find({}, function (error, foundSet) {
     if (error || foundSet === null) {
       console.log("Error finding Chips");
       res.status(500);
     } else {
-      res.status(200).json({ data: foundSet });
+      res.status(200).json({data: foundSet});
     }
   })
 });
@@ -27,29 +30,29 @@ router.get('/chips', function(req, res) {
 /**
  * Return Grouping(s) data
  */
-router.get('/groupings/:id?', function(req, res) {
+router.get('/groupings/:id?', function (req, res) {
   var query;
   if (req.params.id) {   // Find one contrigution by ID
-    query = Grouping.find({_id : req.params.id })
+    query = Grouping.find({_id: req.params.id})
   } else {    // Get all contributions
     query = Grouping.find({}).sort({"created": 'desc'});
   }
 
   query.exec(function (error, foundSet) {
-      if (error || foundSet === null) {
-        console.log("Error finding Groupings");
-        res.status(500);
-      } else {
-        res.status(200).json({ data: foundSet });
-      }
-    });
+    if (error || foundSet === null) {
+      console.log("Error finding Groupings");
+      res.status(500);
+    } else {
+      res.status(200).json({data: foundSet});
+    }
+  });
 });
 
 /**
  * Update Grouping data (supply id in body)
  */
-router.put('/groupings', function(req, res) {
-  Grouping.findOne({_id : req.body._id }, function (error, foundItem) {
+router.put('/groupings', function (req, res) {
+  Grouping.findOne({_id: req.body._id}, function (error, foundItem) {
     if (error || foundItem === null) {
       console.log("Error finding Groupings");
       res.status(500);
@@ -66,7 +69,7 @@ router.put('/groupings', function(req, res) {
       foundItem.votingOptions = req.body.votingOptions;
       foundItem.serendipitousOptions = req.body.serendipitousOptions;
       foundItem.save();
-      res.status(200).json({ data: foundItem });
+      res.status(200).json({data: foundItem});
     }
   });
 });
@@ -74,14 +77,14 @@ router.put('/groupings', function(req, res) {
 /**
  * Delete grouping data (supply id in params)
  */
-router.delete('/groupings', function(req, res) {
-  Grouping.findOne({_id : req.query.id }, function (error, foundItem) {
+router.delete('/groupings', function (req, res) {
+  Grouping.findOne({_id: req.query.id}, function (error, foundItem) {
     if (error || foundItem === null) {
       console.log("Error finding Groupings");
       res.status(500);
     } else {
       foundItem.remove();
-      res.status(200).json({ data: foundItem });
+      res.status(200).json({data: foundItem});
     }
   });
 });
@@ -89,7 +92,7 @@ router.delete('/groupings', function(req, res) {
 /**
  * Create Grouping
  */
-router.post('/groupings', function(req, res) {
+router.post('/groupings', function (req, res) {
   var grouping = new Grouping({
     urlSlug: req.body.urlSlug,
     contributions: req.body.contributions,
@@ -105,14 +108,12 @@ router.post('/groupings', function(req, res) {
   grouping.save(function (error, newGrouping) {
     if (error || newGrouping === null) {
       console.log("Error saving new grouping" + error);
-      res.status(500).json({ message: error });
+      res.status(500).json({message: error});
     } else {
-      res.status(200).send({ data: newGrouping });
+      res.status(200).send({data: newGrouping});
     }
   });
 });
-
-
 
 
 // ************************* Contributions ****************************
@@ -123,10 +124,10 @@ router.post('/groupings', function(req, res) {
  * mode: 'data' or 'render'
  * id: (optional) id of a particular contribution
  */
-router.get('/contributions/:mode/:id?', function(req, res) {
+router.get('/contributions/:mode/:id?', function (req, res) {
   var query;
   if (req.params.id) {   // Find one contrigution by ID
-    query = Contribution.find({ _id : req.params.id })
+    query = Contribution.find({_id: req.params.id})
   } else {    // Get all contributions
     query = Contribution.find({}).sort({"created": 'desc'});
   }
@@ -136,9 +137,9 @@ router.get('/contributions/:mode/:id?', function(req, res) {
       res.status(500);
     } else {
       if (req.params.mode === 'render' && foundSet.length === 1) {
-        res.render('share_public', { data: foundSet} );
+        res.render('share_public', {data: foundSet});
       } else if (req.params.mode === 'data') {
-        res.status(200).json({ data: foundSet });
+        res.status(200).json({data: foundSet});
       }
     }
   });
@@ -147,17 +148,112 @@ router.get('/contributions/:mode/:id?', function(req, res) {
 /**
  * Update Contribution data (supply id in body)
  */
-router.put('/contributions', function(req, res) {
-  Contribution.findOne({_id : req.body._id }, function (error, foundItem) {
+router.put('/contributions', function (req, res) {
+  Contribution.findOne({_id: req.body._id}, function (error, foundItem) {
     if (error || foundItem === null) {
       console.log("Error finding Contribution");
       res.status(500);
     } else {
       foundItem.chips = req.body.chips;
       foundItem.save();
-      res.status(200).json({ data: foundItem });
+      res.status(200).json({data: foundItem});
     }
   });
 });
+
+
+/**
+ * Add a new 3C Contribution
+ */
+router.post('/contributions', function (req, res) {
+  var contribution = new Contribution();
+  contribution.origin = "3C";
+  contribution.chips = [];
+  contribution.threeC_data.caption.text = req.body['text'];
+  contribution.threeC_data.status = {
+    living: req.body['status'].living,
+    studying: req.body['status'].studying,
+    working: req.body['status'].working,
+    other: req.body['status'].other
+  };
+
+  contribution.save(function (error, newContribution) {
+    if (error || newContribution === null) {
+      console.log("Error saving new grouping" + error);
+      res.status(500).json({message: error});
+    } else {
+      sendToNettskjema(req.body, function(response) {
+        if (response.statusCode === 200 && response.statusMessage === 'OK') {
+          res.status(200).json({data: response.statusMessage});
+        } else {
+          res.status(400).json({data: response.statusMessage});
+        }
+      });
+    }
+  });
+
+});
+
+
+function sendToNettskjema(data, callback) {
+
+  var nettskjemaFormId = 86913;
+  var tokenRequestOptions = {
+    host: 'nettskjema.uio.no',
+    port: 443,
+    path: '/ping.html',
+    method: 'GET'
+  };
+
+  https.get(tokenRequestOptions, function(tokenResult) {
+
+    var token = '', cookie = '';
+
+    cookie = tokenResult.headers["set-cookie"][0];
+    tokenResult.setEncoding('utf8');
+
+    tokenResult.on('data', function(postDataChunk) {
+      token = postDataChunk;
+
+      var formData = new FormData();
+
+      // Text field
+      formData.append('answersAsMap[828901].textAnswer', data.text);
+
+      // Checkbox fields.  Fill in if true, leave empty if false
+      if (data.status.living) {
+        formData.append('answersAsMap[852797].answerOptions', 1854966);
+      }
+      if (data.status.studying) {
+        formData.append('answersAsMap[852797].answerOptions', 1854967);
+      }
+      if (data.status.working) {
+        formData.append('answersAsMap[852797].answerOptions', 1854968);
+      }
+      if (data.status.other) {
+        formData.append('answersAsMap[852797].answerOptions', 1854969);
+      }
+
+      var formSubmitOptions = {
+        protocol: 'https:',
+        method: 'post',
+        port: 443,
+        host: 'nettskjema.uio.no',
+        path: '/answer/deliver.json?formId=' + nettskjemaFormId,
+        headers: {
+          'NETTSKJEMA_CSRF_PREVENTION': token,
+          'Cookie': cookie
+        }
+      };
+
+      formData.submit(formSubmitOptions, function(err, res) {
+        callback(res);
+      });
+
+    });
+
+  });
+
+}
 
 module.exports = router;

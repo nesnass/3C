@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var contributionSchema = Schema({
-  origin:                       { type: String },           // "instagram", "sms", "mms", "facebook-feed", "facebook-album" ...etc
+  origin:                       { type: String },           // "instagram", "sms", "mms", "facebook-feed", "facebook-album", "3C" ...etc
   created:                      { type: Date, default: Date.now },
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
   voting: [{
@@ -42,6 +42,17 @@ var contributionSchema = Schema({
     },
     caption: {
       text:                     { type: String }
+    }
+  },
+  threeC_data: {
+    caption: {
+      text:                     { type: String }
+    },
+    status: {
+      living:                   { type: Boolean },
+      studying:                 { type: Boolean },
+      working:                  { type: Boolean },
+      other:                    { type: Boolean }
     }
   },
 	instagram_data: {
@@ -121,7 +132,7 @@ module.exports.Grouping = mongoose.model('Grouping', groupingSchema);
 // They should be labelled by the source album, location or timeframe
 var chipSchema = Schema({
   origin_id:                    { type: String },         // e.g. Facebook Album ID
-  origin:                       { type: String },         // e.g. "instagram", "sms", "mms", "facebook-feed", "facebook-album" ...etc
+  origin:                       { type: String },         // e.g. "instagram", "sms", "mms", "facebook-feed", "facebook-album", "3C" ...etc
   label:                        { type: String },         // e.g. "Album 1", "Location 25" ...etc
   description:                  { type: String },         // e.g. "This is the caption of the album"
   location:                     { type: String }

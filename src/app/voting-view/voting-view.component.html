@@ -11,9 +11,9 @@
 
 
   <div class="custom-voting-button-container">
-    <div class="custom-voting-button" (click)="showCustomVoting = true; showVoting = false;">
+    <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="showCustomVoting = true; showVoting = false;">
       <span>Jeg vil bidra med et nytt innspill</span>
-      <div class="checkbox-container">
+      <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
         <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
         <span id="voteWord">stem</span>
       </div>

@@ -180,10 +180,11 @@
   margin-left: auto;
   margin-right: auto;
   background-color: white;
+  position: relative;
+  padding: 5px;
 }
 .custom-voting-button span {
   display: inline-block;
-  padding: 0px 0px 10px 5px;
 }
 
 .checkbox-container {
@@ -192,17 +193,16 @@
   text-align: center;
   color: rgb(0,100,0);
   background-color: rgba(255,255,255,0.6);
-  font-size: 1.8em;
+  font-size: 0.8em;
   padding-top: 5px;
 }
 
 .checkbox-container #checkboxWord {
-  display: block;
-  line-height: 0.3;
+  line-height: 0.6;
+  font-size: 2em;
 }
 .checkbox-container #voteWord {
-  display: block;
-  font-size: 0.25em;
+  font-size: 0.5em;
 }
 
 .opinion-form-container {

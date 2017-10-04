@@ -20,10 +20,10 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     ]),
     trigger('voteSelected', [
       state('small', style({
-        fontSize: '3em'
+        fontSize: '1.5em'
       })),
       state('large',   style({
-        fontSize: '4em'
+        fontSize: '2.5em'
       })),
       transition('small => large', animate('500ms ease-in')),
       transition('large => small', animate('500ms ease-out'))

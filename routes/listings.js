@@ -166,29 +166,40 @@ router.put('/contributions', function (req, res) {
  * Add a new 3C Contribution
  */
 router.post('/contributions', function (req, res) {
-  var contribution = new Contribution();
-  contribution.origin = "3C";
-  contribution.chips = [];
-  contribution.threeC_data.caption.text = req.body['text'];
-  contribution.threeC_data.status = {
-    living: req.body['status'].living,
-    studying: req.body['status'].studying,
-    working: req.body['status'].working,
-    other: req.body['status'].other
-  };
 
-  contribution.save(function (error, newContribution) {
-    if (error || newContribution === null) {
-      console.log("Error saving new grouping" + error);
-      res.status(500).json({message: error});
+  Chip.findOne({ "_id": req.body['votingChipId'] }, function (error, foundChip) {
+    if (error || foundChip === null) {
+      console.log("Error finding Chip for contribution");
+      res.status(400).json({data: "Error finding Chip for contribution"});
     } else {
-      sendToNettskjema(req.body, function(response) {
-        if (response.statusCode === 200 && response.statusMessage === 'OK') {
-          res.status(200).json({data: response.statusMessage});
+      var contribution = new Contribution();
+      contribution.origin = "3C";
+      contribution.chips.push(foundChip._id);
+      contribution.threeC_data.caption.text = req.body['text'];
+      contribution.threeC_data.status = {
+        living: req.body['status'].living,
+        studying: req.body['status'].studying,
+        working: req.body['status'].working,
+        other: req.body['status'].other
+      };
+
+      contribution.save(function (error, newContribution) {
+        if (error || newContribution === null) {
+          console.log("Error saving new grouping" + error);
+          res.status(500).json({message: error});
         } else {
-          res.status(400).json({data: response.statusMessage});
+
+          sendToNettskjema(req.body, function(response) {
+            if (response.statusCode === 200 && response.statusMessage === 'OK') {
+              res.status(200).json({data: response.statusMessage});
+            } else {
+              res.status(400).json({data: response.statusMessage});
+            }
+          });
+
         }
       });
+
     }
   });
 

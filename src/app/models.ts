@@ -31,6 +31,12 @@ export class Contribution {
     username: string;
   };
   caption: string;
+  status: {
+    living: boolean;
+    studying: boolean;
+    working: boolean;
+    other: boolean;
+  };
 
   constructor(cData: {}, grouping: Grouping) {
     this.chips = [];
@@ -138,7 +144,41 @@ export const titleDescriptionModes = [
   { value: 'Custom', viewValue: 'Custom' }
 ];
 
+export class InputData {
+  text: string;
+  status: {
+    living: boolean;
+    studying: boolean;
+    working: boolean;
+    other: boolean;
+  };
+  votingChipId: string;
 
+  constructor() {
+    this.text = '';
+    this.status = {
+      living: false,
+      studying: false,
+      working: false,
+      other: false
+    };
+    this.votingChipId = '';
+  }
+
+  /*asFormData(): FormData {
+    const fd = new FormData();
+    fd.append('answersAsMap[852800].textAnswer', this.text);
+    fd.append('answersAsMap[852801].answerOptions', '1854978', this.living.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854979', this.studying.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854980', this.working.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854981', this.other.toString());
+    return fd;
+  }*/
+
+  setChip(chipId: string) {
+    this.votingChipId = chipId;
+  }
+};
 
 export class Grouping {
   _id: string;

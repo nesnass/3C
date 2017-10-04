@@ -3,9 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';  import 'rxjs/add/operator/last';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import {Chip, Contribution, Grouping, GroupingResponse, Options} from '../models';
+import {Chip, Contribution, Grouping, GroupingResponse, InputData, Options} from '../models';
 import {ListingBackendService} from './listingBackend.service';
 import {Observable} from 'rxjs/Observable';
+import {isUndefined} from 'util';
 
 @Injectable()
 export class ListingService {
@@ -71,7 +72,7 @@ export class ListingService {
       // Filter the collection based on the first selection's category
       subV = v.filter((c) => {
         return c.chips.some((cId) => {
-          return this._votingContribution1.chips.indexOf(cId) > -1;
+          return this._votingContribution1.chips.indexOf(cId) > -1 && this._votingContribution1._id !== c._id;
         });
       });
 
@@ -156,6 +157,18 @@ export class ListingService {
       });
 
     return obs;
+  }
+
+  addOpinion(newOpinion: InputData, sFunc: any): string {
+    newOpinion.setChip(this._firstMatchingVotingChip._id);
+    this.listingBackendService.postOpinion(newOpinion)
+      .subscribe(res => {
+        if (!(isUndefined(sFunc))) {
+          sFunc();
+        }}, err => {
+        return err;
+      });
+    return '';
   }
 
   updateGrouping(grouping: Grouping): void {

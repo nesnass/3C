@@ -1,10 +1,18 @@
+.contribution-container {
+  border: dashed rgba(0,100,0,0.7) 3px;
+  border-radius: 15px;
+  position: relative;
+}
+
 .contribution {
   position: relative;
   height: 200px;
   width: 200px;
   overflow: hidden;
-  background-size: cover;
   background-position: center;
+
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .contribution-large {
@@ -43,6 +51,7 @@
   color: black;
   height: auto;
   width: 300px;
+  padding: 5px 40px 5px 5px;
 }
 .contribution-caption-as-image p {
   font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
@@ -61,4 +70,21 @@
   font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   font-size: 0.8em;
   color: white;
+}
+
+.checkbox-container {
+  position: absolute;
+  right: -5px;
+  top: 5px;
+  text-align: center;
+  color: rgb(0,100,0);
+}
+
+.checkbox-container #checkboxWord {
+  display: block;
+  line-height: 0.6;
+}
+.checkbox-container #voteWord {
+  display: block;
+  font-size: 0.25em;
 }

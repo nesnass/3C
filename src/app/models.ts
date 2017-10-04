@@ -44,6 +44,11 @@ export class Contribution {
     this.totalVotes = 0;
     this.groupingVoting = new Voting({});
     this.caption = '';
+    this.image = {
+      originalWidth: 0,
+      originalHeight: 0,
+      url: ''
+    };
     this.setContribution(cData);
     if (grouping !== null) {
       this.setGroupingVotingIndex(grouping);

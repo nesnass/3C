@@ -164,24 +164,75 @@
   left: 100px;
 }
 
-
-.opinion-form {
+.custom-voting-button-container {
   position: absolute;
-  bottom: 5em;
-  left: 2.5em;
+  bottom: 50px;
+  font-family: "HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  font-size: 1.8em;
+  text-align: justify;
+  width: 100%;
+}
+
+.custom-voting-button {
+  border: dashed rgba(0,100,0,0.4) 3px;
+  border-radius: 15px;
+  width: 470px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+}
+.custom-voting-button span {
+  display: inline-block;
+  padding: 0px 0px 10px 5px;
+}
+
+.checkbox-container {
+  display: inline-block;
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  text-align: center;
+  color: rgb(0,100,0);
+  background-color: rgba(255,255,255,0.6);
+  font-size: 2.3em;
+  line-height: 0.3;
+}
+
+.checkbox-container #checkboxWord {
+  display: block;
+  line-height: 0.6;
+}
+.checkbox-container #voteWord {
+  display: block;
+  font-size: 0.25em;
+}
+
+.opinion-form-container {
+  position: relative;
+  width: 100%;
+  margin-top: 20%;
+}
+.opinion-form {
+  position: relative;
   width: 70%;
   height: 20%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .opinion-input {
   width: 80%;
   height: 70px;
+  border: solid black;
 }
 .opinion-text {
   font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   font-size: 1em;
   margin-right: 5px;
+  margin-top: 30px;
 }
+.opinion-text label {
+  margin-right: 20px;
+}
+
 .opinion-button {
   color: white;
   font-family: "HelveticaNeueW02-75", Helvetica, sans-serif;
@@ -189,6 +240,7 @@
   background-color: olivedrab;
   border: none;
   padding:7px;
+  margin-left: 20px;
 }
 
 #answer-controls {

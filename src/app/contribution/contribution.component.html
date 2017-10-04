@@ -1,4 +1,4 @@
-<div [@contributionVisibleState]="contributionVisibleState" class="contribution-container">
+<div [@contributionVisibleState]="contributionVisibleState" class="contribution-container" *ngIf="_contribution !== null">
 
   <div class="contribution" *ngIf="grouping.votingOptions.displayMode === 'Image'" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-votes]="_contribution.totalVotes" [ngStyle]="customStyle">
     <div class="contribution-details" *ngIf="grouping.displayMode !== 'Voting' || grouping.votingOptions.imageCaption">
@@ -14,7 +14,7 @@
 
   <div class="checkbox-container" [@voteSelected]="voteSelectedState">
     <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
-    <span id="voteWord">vote</span>
+    <span id="voteWord">stem</span>
   </div>
 
 </div>

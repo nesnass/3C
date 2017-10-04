@@ -53,6 +53,7 @@ export class ContributionComponent implements OnInit {
 
 
   constructor() {
+    this._contribution = null;
   }
 
   ngOnInit() {

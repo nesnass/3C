@@ -1,5 +1,5 @@
 .contribution-container {
-  border: dashed rgba(0,100,0,0.7) 3px;
+  border: dashed rgba(0,100,0,0.4) 3px;
   border-radius: 15px;
   position: relative;
 }
@@ -74,10 +74,12 @@
 
 .checkbox-container {
   position: absolute;
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   right: -5px;
   top: 5px;
   text-align: center;
   color: rgb(0,100,0);
+  background-color: rgba(255,255,255,0.6);
 }
 
 .checkbox-container #checkboxWord {

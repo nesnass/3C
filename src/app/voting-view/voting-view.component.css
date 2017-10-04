@@ -164,6 +164,33 @@
   left: 100px;
 }
 
+
+.opinion-form {
+  position: absolute;
+  bottom: 5em;
+  left: 2.5em;
+  width: 70%;
+  height: 20%;
+}
+
+.opinion-input {
+  width: 80%;
+  height: 70px;
+}
+.opinion-text {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 1em;
+  margin-right: 5px;
+}
+.opinion-button {
+  color: white;
+  font-family: "HelveticaNeueW02-75", Helvetica, sans-serif;
+  font-size: 1em;
+  background-color: olivedrab;
+  border: none;
+  padding:7px;
+}
+
 #answer-controls {
   background-color: blue;
 }

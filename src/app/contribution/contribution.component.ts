@@ -20,10 +20,10 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     ]),
     trigger('voteSelected', [
       state('small', style({
-        fontSize: '4em'
+        fontSize: '3em'
       })),
       state('large',   style({
-        fontSize: '5em'
+        fontSize: '4em'
       })),
       transition('small => large', animate('500ms ease-in')),
       transition('large => small', animate('500ms ease-out'))
@@ -67,7 +67,7 @@ export class ContributionComponent implements OnInit {
     this.trimmedCaption = this._contribution.caption.length > maxChars ? this._contribution.caption.substr(0, maxChars) + '...'
       : this._contribution.caption;
     const fontSize = this._contribution.caption.length > maxChars ? '0.5em' : '0.5em';
-    const imageUrl = this._contribution.image.url || '';
+    const imageUrl = this._contribution.image.url;
     this.customStyle = { 'background-image': 'url(\'' + imageUrl + '\')', 'font-size': fontSize };
   }
 

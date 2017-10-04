@@ -88,6 +88,11 @@ export class ListingService {
           this._votingContribution2 = subV[Math.floor(Math.random() * subV.length)];
         }
 
+        // There is a case where still one of the contributions is null, in this case try again..
+        if (this._votingContribution1 === null || this._votingContribution2 === null) {
+          this.setRandomVotingContributions();
+        }
+
         // Save the first Chip that matches both Contributions for use in the voting question
         const commonChipId = this._votingContribution1.chips.find((chipId) => {
           return this._votingContribution2.chips.indexOf(chipId) > -1;

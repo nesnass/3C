@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {Headers, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/share';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Contribution, ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse} from '../models';
+import {Contribution, ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse, InputData} from '../models';
 import {LocationStrategy} from '@angular/common';
 
 @Injectable()
@@ -58,6 +58,15 @@ export class ListingBackendService {
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
     return this.http.put(this._apiUrl + 'listings/contributions', contribution, {headers}).share();
+  }
+
+  // Own opinion
+
+  postOpinion(opinion: InputData) {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+
+    return this.http.post(this._apiUrl + 'listings/contributions', opinion, {headers}).share();
   }
 
   // Groupings

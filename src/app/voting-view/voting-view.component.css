@@ -53,6 +53,7 @@
 /*  Question - Grouping Caption Title & Subtitle */
 .voting-questionblock {
   position: absolute;
+  min-width: 470px;
   top: 0;
   right: 0;
 }
@@ -238,6 +239,10 @@
 
   .serendipitous-questionmark {
     padding-bottom: 30%;
+  }
+
+  .voting-questionblock {
+    min-width: 200px;
   }
 
 }

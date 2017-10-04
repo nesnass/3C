@@ -17,39 +17,57 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       })),
       transition('invisible => visible', animate('500ms ease-in')),
       transition('visible => invisible', animate('500ms ease-out'))
+    ]),
+    trigger('voteSelected', [
+      state('small', style({
+        fontSize: '4em'
+      })),
+      state('large',   style({
+        fontSize: '5em'
+      })),
+      transition('small => large', animate('500ms ease-in')),
+      transition('large => small', animate('500ms ease-out'))
     ])
   ]
 })
 export class ContributionComponent implements OnInit {
   private trimmedCaption = '';
   private _contribution: Contribution;
-  private backgroundStyle;
+  private customStyle;
 
   @Input() contributionVisibleState: string;
+  @Input() voteSelectedState: string;
   @Input() grouping: Grouping;
 
+
   @Input() set contribution(theContribution: Contribution) {
-    this._contribution = theContribution;
-    if (typeof this._contribution !== 'undefined' && typeof this.grouping !== 'undefined') {
-      this.setupContribution();
+    if (typeof theContribution !== 'undefined') {
+      this._contribution = theContribution;
+      if (typeof this._contribution !== 'undefined' && typeof this.grouping !== 'undefined') {
+        this.setupContribution();
+      }
+      this.contributionChange.emit(theContribution);
     }
-    this.contributionChange.emit(theContribution);
   }
   @Output() contributionChange: EventEmitter<Contribution> = new EventEmitter<Contribution>();
 
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit() {
+    this.voteSelectedState = 'small';
     // console.log('object evt: %O', this.grouping);
   }
 
   setupContribution() {
     const maxChars = (this.grouping.displayMode === 'Voting' && this.grouping.votingOptions.displayMode === 'Caption As Image')
       ? 200 : 100;
-    this.backgroundStyle = { 'background-image': 'url(\'' + this._contribution.image.url + '\')'};
     this.trimmedCaption = this._contribution.caption.length > maxChars ? this._contribution.caption.substr(0, maxChars) + '...'
       : this._contribution.caption;
+    const fontSize = this._contribution.caption.length > maxChars ? '0.5em' : '0.5em';
+    const imageUrl = this._contribution.image.url || '';
+    this.customStyle = { 'background-image': 'url(\'' + imageUrl + '\')', 'font-size': fontSize };
   }
 
 }

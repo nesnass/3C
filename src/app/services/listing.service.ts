@@ -71,7 +71,7 @@ export class ListingService {
       // Filter the collection based on the first selection's category
       subV = v.filter((c) => {
         return c.chips.some((cId) => {
-          return this._votingContribution1.chips.indexOf(cId) > -1;
+          return this._votingContribution1.chips.indexOf(cId) > -1 && this._votingContribution1._id !== c._id;
         });
       });
 

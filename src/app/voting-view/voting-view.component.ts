@@ -3,13 +3,11 @@ import {ActivatedRoute} from '@angular/router';
 import {ListingService} from '../services/listing.service';
 import {Contribution, InputData} from '../models';
 import 'rxjs/add/operator/take';
-import {NettskjemaService} from '../services/nettskjema.service';
 
 @Component({
   selector: 'app-voting-view',
   templateUrl: './voting-view.component.html',
   styleUrls: ['./voting-view.component.css'],
-  providers: [NettskjemaService]
 })
 export class VotingViewComponent implements OnInit {
   showVoting = false;
@@ -22,17 +20,10 @@ export class VotingViewComponent implements OnInit {
 
   inputData: InputData;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService, private nettskjemaService: NettskjemaService) {
+  constructor(private route: ActivatedRoute, private listingService: ListingService) {
     this.position = 'none';
     this.inputData = new InputData();
     this.route.params.subscribe( params => this.position = params.position );
-    this.nettskjemaService.attemptToGetToken()
-      .subscribe( res => {
-          console.log('Got Nettskjema token: ' + res);
-          this.nettskjemaService.setToken(res);
-          this.submitForm();
-        }
-      );
   }
 
   ngOnInit() {
@@ -75,12 +66,10 @@ export class VotingViewComponent implements OnInit {
   }
 
   submitForm() {
-    console.log('Inputdata: ' + this.inputData.text);
-    console.log('bor: ' + this.inputData.living);
-
     if (!(this.inputData.text === '')) {
-      this.nettskjemaService.postData(this.inputData, (data) => {
-        console.log('Attempted Nettskjema submission: ' + data);
+      this.listingService.addOpinion(this.inputData, () => {
+        // reset input field. TODO: reset whole page
+        this.inputData = new InputData();
       });
     }
   }

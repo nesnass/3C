@@ -14,13 +14,12 @@
       <p class="opinion-text">Ønsker du heller å gi din egen mening? Skriv her:</p>
       <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required></textarea>
       <div class="opinion-text">
-        <p class="opinion-text">Jeg...:</p>
-        <label>Bor<input [(ngModel)]="inputData.living" type="checkbox" name="living"> </label>
-        <label>Studerer<input [(ngModel)]="inputData.studying" type="checkbox" name="student"> </label>
-        <label>Jobber<input [(ngModel)]="inputData.working" type="checkbox" name="working"> </label>
-        <label>Annet<input [(ngModel)]="inputData.other" type="checkbox" name="other"> </label>
+        <label>Jeg ...: Bor<input [(ngModel)]="inputData.status.living" type="checkbox" name="living"> </label>
+        <label>Studerer<input [(ngModel)]="inputData.status.studying" type="checkbox" name="student"> </label>
+        <label>Jobber<input [(ngModel)]="inputData.status.working" type="checkbox" name="working"> </label>
+        <label>Annet<input [(ngModel)]="inputData.status.other" type="checkbox" name="other"> </label>
+        <button type="submit" class="opinion-button" (click)="submitForm()">Send</button>
       </div>
-      <button type="submit" class="opinion-button" (click)="submitForm()">Send</button>
       <p class="text-footnote">For spørsmål, kontakt: <a href="mailto:ole.smordal@uv.uio.no">Ole Smørdal (ole.smordal@uv.uio.no)</a></p>
     </form>
   </div>

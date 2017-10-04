@@ -146,20 +146,26 @@ export const titleDescriptionModes = [
 
 export class InputData {
   text: string;
-  living: boolean;
-  studying: boolean;
-  working: boolean;
-  other: boolean;
+  status: {
+    living: boolean;
+    studying: boolean;
+    working: boolean;
+    other: boolean;
+  };
+  votingChipId: string;
 
   constructor() {
     this.text = '';
-    this.living = false;
-    this.studying = false;
-    this.working = false;
-    this.other = false;
+    this.status = {
+      living: false,
+      studying: false,
+      working: false,
+      other: false
+    };
+    this.votingChipId = '';
   }
 
-  asFormData(): FormData {
+  /*asFormData(): FormData {
     const fd = new FormData();
     fd.append('answersAsMap[852800].textAnswer', this.text);
     fd.append('answersAsMap[852801].answerOptions', '1854978', this.living.toString());
@@ -167,6 +173,10 @@ export class InputData {
     fd.append('answersAsMap[852801].answerOptions', '1854980', this.working.toString());
     fd.append('answersAsMap[852801].answerOptions', '1854981', this.other.toString());
     return fd;
+  }*/
+
+  setChip(chipId: string) {
+    this.votingChipId = chipId;
   }
 };
 

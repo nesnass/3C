@@ -1,13 +1,11 @@
 .contribution-container {
-  border: dashed rgba(0,100,0,0.4) 3px;
-  border-radius: 15px;
   position: relative;
 }
 
 .contribution {
   position: relative;
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
   overflow: hidden;
   border-radius: 15px;
   background-position: center;
@@ -47,6 +45,8 @@
 }
 
 .contribution-caption-as-image {
+  border: dashed rgba(0,100,0,0.4) 3px;
+  border-radius: 15px;
   position: relative;
   font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   color: black;
@@ -58,6 +58,7 @@
   font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   margin: 0;
   display: inline;
+  word-break: normal;
 }
 .contribution-caption-quotation {
   position: absolute;
@@ -92,5 +93,5 @@
 }
 .checkbox-container #voteWord {
   display: block;
-  font-size: 0.25em;
+  font-size: 0.3em;
 }

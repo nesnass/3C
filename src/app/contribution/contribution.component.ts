@@ -39,7 +39,6 @@ export class ContributionComponent implements OnInit {
   @Input() voteSelectedState: string;
   @Input() grouping: Grouping;
 
-
   @Input() set contribution(theContribution: Contribution) {
     if (typeof theContribution !== 'undefined') {
       this._contribution = theContribution;
@@ -63,10 +62,10 @@ export class ContributionComponent implements OnInit {
 
   setupContribution() {
     const maxChars = (this.grouping.displayMode === 'Voting' && this.grouping.votingOptions.displayMode === 'Caption As Image')
-      ? 200 : 100;
+      ? 300 : 100;
     this.trimmedCaption = this._contribution.caption.length > maxChars ? this._contribution.caption.substr(0, maxChars) + '...'
       : this._contribution.caption;
-    const fontSize = this._contribution.caption.length > maxChars ? '0.5em' : '0.5em';
+    const fontSize = this._contribution.caption.length > maxChars ? '0.3em' : '0.5em';
     const imageUrl = this._contribution.image.url;
     this.customStyle = { 'background-image': 'url(\'' + imageUrl + '\')', 'font-size': fontSize };
   }

@@ -8,11 +8,11 @@
     </div>
   </div>
 
-  <div class="contribution-caption-as-image" *ngIf="grouping.votingOptions.displayMode === 'Caption As Image'">
+  <div class="contribution-caption-as-image" *ngIf="grouping.displayMode === 'Voting' && grouping.votingOptions.displayMode === 'Caption As Image'">
     <div class="contribution-caption-quotation">&#8220;</div><p [ngStyle]="{'font-size': trimmedCaption.length > 50 ? '1.2em' : '3em'}">{{trimmedCaption}}</p><br>
   </div>
 
-  <div class="checkbox-container" [@voteSelected]="voteSelectedState" fxLayout="column" fxLayoutAlign="start center">
+  <div class="checkbox-container" *ngIf="grouping.displayMode === 'Voting'" [@voteSelected]="voteSelectedState" fxLayout="column" fxLayoutAlign="start center">
     <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
     <span id="voteWord">stem</span>
   </div>

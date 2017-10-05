@@ -1,12 +1,48 @@
 var Contribution = require('../control/models.js').Contribution;
 var Grouping = require('../control/models.js').Grouping;
 var Chip = require('../control/models.js').Chip;
+var Settings = require('../control/models').Settings;
 var Common = require('../control/common');
 var express = require('express');
 var router = express.Router();
 
 var FormData = require('form-data');
 var https = require('https');
+
+// ************************* Settings ****************************
+
+/**
+ * Return Settings
+ */
+router.get('/settings', function (req, res) {
+  Settings.findOne({}, function (error, foundSettings) {
+    if (error || foundSettings === null) {
+      if (error) {
+        console.log("Error finding Settings");
+        res.status(500);
+      } else if (!error && foundSettings === null) {
+        foundSettings = new Settings().save();
+        res.status(200).json({data: foundSettings});
+      }
+    } else {
+      res.status(200).json({data: foundSettings});
+    }
+  })
+});
+
+/**
+ * Update Settings
+ */
+router.put('/settings', function (req, res) {
+  Settings.findOneAndUpdate({}, req.body, { upsert: true, returnNewDocument: true }, function (error, foundSet) {
+    if (error || foundSet === null) {
+      console.log("Error finding Settings");
+      res.status(500);
+    } else {
+      res.status(200).json({data: foundSet});
+    }
+  })
+});
 
 
 // ************************* Chips ****************************

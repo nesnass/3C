@@ -139,6 +139,14 @@
   width: 130px;
 }
 
+.custom-voting-close {
+  position: absolute;
+  left: 80%;
+  top: 10%;
+}
+.custom-voting-close img {
+  width: 60px;
+}
 
 /* Buttons for both, neither, own contribution */
 .voting-buttonblock {
@@ -301,6 +309,33 @@
 }
 
 @media all and (max-width: 1024px) {
+  .text-mainHeading {
+    font-size: 2em;
+    margin: 10px 5px;
+  }
+
+  .serendipitous-categoryTitle {
+    padding: 5% 3%;
+    font-size: 2em;
+  }
+
+  .serendipitous-categorySubtitle {
+    padding: 5% 3%;
+    font-size: 1.5em;
+  }
+
+  .serendipitous-questionmark {
+    padding-bottom: 30%;
+  }
+
+  .voting-questionblock {
+    min-width: 200px;
+  }
+
+}
+
+
+@media all and (max-width: 450px) {
   .text-mainHeading {
     font-size: 2em;
     margin: 10px 5px;

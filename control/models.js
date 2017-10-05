@@ -153,3 +153,12 @@ var voteSchema = Schema({
 
 module.exports.Vote = mongoose.model('Vote', voteSchema);
 
+// 'Settings' are used to store defaults
+// They should be labelled by the source album, location or timeframe
+var settingsSchema = Schema({
+  defaultGroupingId:                    { type: String },         // The Grouping we go to when landing at the main site URL
+  defaultLoadPage:                      { type: String }          // A shortcut to the URL for the default page
+});
+
+module.exports.Settings = mongoose.model('Settings', settingsSchema);
+

@@ -34,6 +34,10 @@ export class CreatorComponent implements OnInit {
     }
   }
 
+  updateDefaultGroupingId() {
+    this.listingService.updateSettings();
+  }
+
   deleteAtServer(grouping: Grouping) {
     this.listingService.deleteGrouping(grouping);
   }

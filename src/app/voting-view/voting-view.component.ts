@@ -107,6 +107,7 @@ export class VotingViewComponent implements OnInit {
     } else {
       clearTimeout(this.backTimer);
       this.showCustomVoting = false;
+      this.showVoting = true;
     }
   }
 

@@ -11,7 +11,7 @@
 
 
   <div class="custom-voting-button-container">
-    <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="showCustomVoting = true; showVoting = false;">
+    <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="toggleCustomVote()">
       <span>Jeg vil bidra med et nytt innspill</span>
       <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
         <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
@@ -69,7 +69,7 @@
     <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
   </div>
 
-  <div class="custom-voting-close" (click)="showCustomVoting = false; showVoting = true;">
+  <div class="custom-voting-close" (click)="toggleCustomVote()">
     <img src="assets/img/close_opacity40.png">
   </div>
 
@@ -77,13 +77,13 @@
     <div class="opinion-form">
       <form id="voting_form">
         <p class="opinion-text">Ønsker du heller å gi din egen mening? Skriv her:</p>
-        <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required></textarea>
+        <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required (change)="resetTimeout()"></textarea>
         <div class="opinion-text">
           <span>Jeg...&nbsp;</span>
-          <label>Bor<input [(ngModel)]="inputData.status.living" type="checkbox" name="living"> </label>
-          <label>Studerer<input [(ngModel)]="inputData.status.studying" type="checkbox" name="student"> </label>
-          <label>Jobber<input [(ngModel)]="inputData.status.working" type="checkbox" name="working"> </label>
-          <label>Annet<input [(ngModel)]="inputData.status.other" type="checkbox" name="other"> </label>
+          <label>Bor<input [(ngModel)]="inputData.status.living" type="checkbox" name="living" (change)="resetTimeout()"> </label>
+          <label>Studerer<input [(ngModel)]="inputData.status.studying" type="checkbox" name="student" (change)="resetTimeout()"> </label>
+          <label>Jobber<input [(ngModel)]="inputData.status.working" type="checkbox" name="working" (change)="resetTimeout()"> </label>
+          <label>Annet<input [(ngModel)]="inputData.status.other" type="checkbox" name="other" (change)="resetTimeout()"> </label>
           <button type="submit" class="opinion-button" (click)="submitForm()">Send</button>
         </div>
         <p class="text-footnote">For spørsmål, kontakt: Ole Smørdal at ole.smordal@uv.uio.no</p>

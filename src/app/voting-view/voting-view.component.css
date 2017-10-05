@@ -333,3 +333,30 @@
   }
 
 }
+
+
+@media all and (max-width: 450px) {
+  .text-mainHeading {
+    font-size: 2em;
+    margin: 10px 5px;
+  }
+
+  .serendipitous-categoryTitle {
+    padding: 5% 3%;
+    font-size: 2em;
+  }
+
+  .serendipitous-categorySubtitle {
+    padding: 5% 3%;
+    font-size: 1.5em;
+  }
+
+  .serendipitous-questionmark {
+    padding-bottom: 30%;
+  }
+
+  .voting-questionblock {
+    min-width: 200px;
+  }
+
+}

@@ -24,6 +24,8 @@ export class VotingViewComponent implements OnInit {
   voteSelectedStateC1: string;
   voteSelectedStateC2: string;
 
+  backTimer = null;
+
   constructor(private route: ActivatedRoute, private listingService: ListingService) {
     this.position = 'none';
     this.inputData = new InputData();
@@ -81,10 +83,30 @@ export class VotingViewComponent implements OnInit {
     if (!(this.inputData.text === '')) {
       this.listingService.addOpinion(this.inputData, () => {
         // reset input field. TODO: reset whole page
+        clearTimeout(this.backTimer);
         this.inputData = new InputData();
         this.showCustomVoting = false;
         this.showVoting = true;
       });
+    }
+  }
+
+  resetTimeout() {
+    clearTimeout(this.backTimer);
+    this.backTimer = setTimeout(() => {
+      this.showCustomVoting = false;
+      this.showVoting = true;
+    }, 20000);
+  }
+
+  toggleCustomVote() {
+    if (!this.showCustomVoting) {
+      this.showVoting = false;
+      this.showCustomVoting = true;
+      this.resetTimeout();
+    } else {
+      clearTimeout(this.backTimer);
+      this.showCustomVoting = false;
     }
   }
 

@@ -49,6 +49,10 @@ export class Contribution {
       originalHeight: 0,
       url: ''
     };
+    this.user = {
+      profile_picture: '',
+      username: ''
+    };
     this.setContribution(cData);
     if (grouping !== null) {
       this.setGroupingVotingIndex(grouping);
@@ -183,7 +187,26 @@ export class InputData {
   setChip(chipId: string) {
     this.votingChipId = chipId;
   }
-};
+}
+
+export class Settings {
+  defaultGroupingId: string;
+  defaultLoadPage: string;
+
+  constructor(sData?: {}) {
+    this.defaultGroupingId = '';
+    this.defaultLoadPage = '';
+
+    if (typeof sData !== 'undefined' && sData !== null) {
+      if (sData.hasOwnProperty('defaultGroupingId')) {
+        this.defaultGroupingId = sData['defaultGroupingId'];
+      }
+      if (sData.hasOwnProperty('defaultLoadPage')) {
+        this.defaultLoadPage = sData['defaultLoadPage'];
+      }
+    }
+  }
+}
 
 export class Grouping {
   _id: string;
@@ -253,7 +276,9 @@ export interface GroupingsResponse extends Response {
 export interface GroupingResponse extends Response {
   data: Grouping;
 }
-
+export interface SettingResponse extends Response {
+  data: Settings;
+}
 export interface ContributionsResponse extends Response {
   data: Contribution[];
 }

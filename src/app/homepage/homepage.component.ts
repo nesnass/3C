@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {ListingService} from '../services/listing.service';
 
 @Component({
   selector: 'app-homepage',
@@ -8,10 +9,20 @@ import { Router } from '@angular/router';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor(    private router: Router) { }
+  constructor(private router: Router, private listingService: ListingService) { }
 
   ngOnInit() {
-    this.router.navigate(['/vote/voting1']);
+    const redirectPage = () => {
+      const url = this.listingService.settings.defaultLoadPage;
+      if (url !== '') {
+        this.router.navigate(['/vote/' + url]);
+      } else {
+        setTimeout( () => {
+          redirectPage();
+        }, 2000);
+      }
+    };
+    redirectPage();
   }
 
 }

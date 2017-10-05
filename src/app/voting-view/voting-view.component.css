@@ -139,6 +139,14 @@
   width: 130px;
 }
 
+.custom-voting-close {
+  position: absolute;
+  left: 80%;
+  top: 10%;
+}
+.custom-voting-close img {
+  width: 60px;
+}
 
 /* Buttons for both, neither, own contribution */
 .voting-buttonblock {

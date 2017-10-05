@@ -2,6 +2,12 @@
 
   <md-tab label="Groupings">
 
+    <div class="groupings-header">
+      <md-select placeholder="Default page" style="width: 300px;" [(ngModel)]="listingService.defaultGrouping" (change)="updateDefaultGroupingId()" *ngIf="listingService.defaultGrouping !== null">
+        <md-option *ngFor="let grouping of listingService.groupingsAsValue" [value]="grouping">{{ grouping.categoryTitle }}</md-option>
+      </md-select>
+    </div>
+
     <div fxLayout="row wrap">
       <md-card *ngFor="let grouping of listingService.groupingsReverseSortedByCreationDate | async; let i=index;" class="grouping-card">
 

@@ -365,6 +365,8 @@ export class ListingService {
           this._defaultGrouping = newGroupings.find( (g) => {
             return g._id === this._settings.defaultGroupingId;
           });
+        } else {
+          this._defaultGrouping = new Grouping();
         }
       },
       (err: HttpErrorResponse) => {

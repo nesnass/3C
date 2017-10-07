@@ -110,6 +110,12 @@ export class Contribution {
           username: data['user']['username']
         };
         break;
+      case '3C':
+        data = cData['threeC_data'];
+        if (data.hasOwnProperty('caption')) {
+          this.caption = data['caption']['text'];
+        }
+        break;
       case 'mms':
         data = cData['message_data'];
         this.image = {

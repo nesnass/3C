@@ -9,6 +9,7 @@ var contributionSchema = Schema({
   origin:                       { type: String },           // "instagram", "sms", "mms", "facebook-feed", "facebook-album", "3C" ...etc
   created:                      { type: Date, default: Date.now },
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
+  vetted:                       { type: Boolean, default: true },
   voting: [{
     votes: { type: Number },
     exposures: { type: Number },

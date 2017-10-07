@@ -164,8 +164,8 @@ router.get('/contributions/:mode/:id?', function (req, res) {
   var query;
   if (req.params.id) {   // Find one contrigution by ID
     query = Contribution.find({_id: req.params.id})
-  } else {    // Get all contributions
-    query = Contribution.find({}).sort({"created": 'desc'});
+  } else {    // Get all (vetted) contributions
+    query = Contribution.find({ vetted: true }).sort({"created": 'desc'});
   }
 
   query.lean().exec(function (error, foundSet) {
@@ -211,6 +211,7 @@ router.post('/contributions', function (req, res) {
       var contribution = new Contribution();
       contribution.origin = "3C";
       contribution.chips.push(foundChip._id);
+      contribution.vetted = false;
       contribution.threeC_data.caption.text = req.body['text'];
       contribution.threeC_data.status = {
         living: req.body['status'].living,
@@ -302,5 +303,6 @@ function sendToNettskjema(data, callback) {
   });
 
 }
+
 
 module.exports = router;

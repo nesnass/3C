@@ -1,15 +1,20 @@
-<div [@contributionVisibleState]="contributionVisibleState">
+<div [@contributionVisibleState]="contributionVisibleState" class="contribution-container" *ngIf="_contribution !== null">
 
-  <div class="contribution" *ngIf="grouping.votingOptions.displayMode === 'Image'" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-votes]="_contribution.totalVotes" [ngStyle]="backgroundStyle">
+  <div class="contribution" *ngIf="grouping.votingOptions.displayMode === 'Image'" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-votes]="_contribution.totalVotes" [ngStyle]="customStyle">
     <div class="contribution-details" *ngIf="grouping.displayMode !== 'Voting' || grouping.votingOptions.imageCaption">
       <span class="contribution-voting" *ngIf="grouping.displayMode === 'Voting Results' && grouping.votingOptions.resultsVisible">♥ {{_contribution.totalVotes}}</span><br>
-      <span class="contribution-caption"[ngStyle]="{'font-size': trimmedCaption.length > 50 ? '16pt' : '18pt'}">{{trimmedCaption}}</span><br>
+      <span class="contribution-caption">{{trimmedCaption}}</span><br>
       <!--span class="contribution-username">{{_contribution.user.username}}</span-->
     </div>
   </div>
 
-  <div class="contribution-caption-as-image" *ngIf="grouping.votingOptions.displayMode === 'Caption As Image'">
-    <div class="contribution-caption-quotation">&#8220;</div><p [ngStyle]="{'font-size': trimmedCaption.length > 50 ? '1.7em' : '3em'}">{{trimmedCaption}}</p><br>
+  <div class="contribution-caption-as-image" *ngIf="grouping.displayMode === 'Voting' && grouping.votingOptions.displayMode === 'Caption As Image'">
+    <div class="contribution-caption-quotation">&#8220;</div><p [ngStyle]="{'font-size': trimmedCaption.length > 50 ? '1.2em' : '3em'}">{{trimmedCaption}}</p><br>
+  </div>
+
+  <div class="checkbox-container" *ngIf="grouping.displayMode === 'Voting'" [@voteSelected]="voteSelectedState" fxLayout="column" fxLayoutAlign="start center">
+    <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
+    <span id="voteWord">stem</span>
   </div>
 
 </div>

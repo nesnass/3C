@@ -2,6 +2,7 @@
     Server and Angular App should be started by calling 'node ./bin/www' or 'ng serve'
  */
 
+var utilities = require('./control/utility.js');
 
 /********* load environment variables locally *********/
 require('dotenv').config({ silent: process.env.NODE_ENV === 'production' });
@@ -107,7 +108,7 @@ mongoose.connect(uristring, dbConnectOptions, function (error, result) {
 	}
 });
 
-
+utilities.setVettingFlagOnAll();
 
 process.on('SIGINT', function() {
   mongoose.disconnect();

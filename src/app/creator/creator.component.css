@@ -1,6 +1,6 @@
 .grouping-card {
   margin: 5px;
-  width: 300px;
+  min-width: 300px;
 }
 
 .contribution-card {
@@ -27,4 +27,9 @@
 
 .creator-voting-radio-button {
   margin: 0 10px 10px 0;
+}
+
+.groupings-header {
+  width: 100%;
+  margin: 10px;
 }

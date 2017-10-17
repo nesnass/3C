@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ListingService} from '../services/listing.service';
 import {Contribution, InputData} from '../models';
@@ -11,14 +11,20 @@ import 'rxjs/add/operator/take';
 })
 export class VotingViewComponent implements OnInit {
   showVoting = false;
+  showCustomVoting = false;
   showResults = false;
   contributionVisibleState = 'invisible';
+  voteSelected = 'small';
   position: string;
 
   contribution1: Contribution;
   contribution2: Contribution;
 
   inputData: InputData;
+  voteSelectedStateC1: string;
+  voteSelectedStateC2: string;
+
+  backTimer = null;
 
   constructor(private route: ActivatedRoute, private listingService: ListingService) {
     this.position = 'none';
@@ -27,6 +33,8 @@ export class VotingViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.voteSelectedStateC1 = 'small';
+    this.voteSelectedStateC2 = 'small';
     if (this.position !== 'none') {
       let selectedGrouping = null;
       this.listingService.groupings.subscribe( (groupings) => {
@@ -61,16 +69,45 @@ export class VotingViewComponent implements OnInit {
   }
 
   castVote(c1: boolean, c2: boolean) {
-    this.listingService.castVote(c1, c2);
-    this.getTwoContributions();
+    this.voteSelectedStateC1 = c1 ? 'large' : 'small';
+    this.voteSelectedStateC2 = c2 ? 'large' : 'small';
+    setTimeout(() => {
+      this.voteSelectedStateC1 = 'small';
+      this.voteSelectedStateC2 = 'small';
+      this.listingService.castVote(c1, c2);
+      this.getTwoContributions();
+    }, 1000);
   }
 
   submitForm() {
     if (!(this.inputData.text === '')) {
       this.listingService.addOpinion(this.inputData, () => {
         // reset input field. TODO: reset whole page
+        clearTimeout(this.backTimer);
         this.inputData = new InputData();
+        this.showCustomVoting = false;
+        this.showVoting = true;
       });
+    }
+  }
+
+  resetTimeout() {
+    clearTimeout(this.backTimer);
+    this.backTimer = setTimeout(() => {
+      this.showCustomVoting = false;
+      this.showVoting = true;
+    }, 20000);
+  }
+
+  toggleCustomVote() {
+    if (!this.showCustomVoting) {
+      this.showVoting = false;
+      this.showCustomVoting = true;
+      this.resetTimeout();
+    } else {
+      clearTimeout(this.backTimer);
+      this.showCustomVoting = false;
+      this.showVoting = true;
     }
   }
 

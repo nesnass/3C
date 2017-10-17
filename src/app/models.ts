@@ -44,6 +44,15 @@ export class Contribution {
     this.totalVotes = 0;
     this.groupingVoting = new Voting({});
     this.caption = '';
+    this.image = {
+      originalWidth: 0,
+      originalHeight: 0,
+      url: ''
+    };
+    this.user = {
+      profile_picture: '',
+      username: ''
+    };
     this.setContribution(cData);
     if (grouping !== null) {
       this.setGroupingVotingIndex(grouping);
@@ -100,6 +109,12 @@ export class Contribution {
           profile_picture: data['user']['profile_picture'],
           username: data['user']['username']
         };
+        break;
+      case '3C':
+        data = cData['threeC_data'];
+        if (data.hasOwnProperty('caption')) {
+          this.caption = data['caption']['text'];
+        }
         break;
       case 'mms':
         data = cData['message_data'];
@@ -178,7 +193,26 @@ export class InputData {
   setChip(chipId: string) {
     this.votingChipId = chipId;
   }
-};
+}
+
+export class Settings {
+  defaultGroupingId: string;
+  defaultLoadPage: string;
+
+  constructor(sData?: {}) {
+    this.defaultGroupingId = '';
+    this.defaultLoadPage = '';
+
+    if (typeof sData !== 'undefined' && sData !== null) {
+      if (sData.hasOwnProperty('defaultGroupingId')) {
+        this.defaultGroupingId = sData['defaultGroupingId'];
+      }
+      if (sData.hasOwnProperty('defaultLoadPage')) {
+        this.defaultLoadPage = sData['defaultLoadPage'];
+      }
+    }
+  }
+}
 
 export class Grouping {
   _id: string;
@@ -248,7 +282,9 @@ export interface GroupingsResponse extends Response {
 export interface GroupingResponse extends Response {
   data: Grouping;
 }
-
+export interface SettingResponse extends Response {
+  data: Settings;
+}
 export interface ContributionsResponse extends Response {
   data: Contribution[];
 }

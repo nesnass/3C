@@ -3,7 +3,10 @@ import {Observable} from 'rxjs/Observable';
 import {Headers, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/share';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {Contribution, ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse} from '../models';
+import {
+  Contribution, ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse, InputData, SettingResponse,
+  Settings
+} from '../models';
 import {LocationStrategy} from '@angular/common';
 
 @Injectable()
@@ -60,6 +63,15 @@ export class ListingBackendService {
     return this.http.put(this._apiUrl + 'listings/contributions', contribution, {headers}).share();
   }
 
+  // Own opinion
+
+  postOpinion(opinion: InputData) {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+
+    return this.http.post(this._apiUrl + 'listings/contributions', opinion, {headers}).share();
+  }
+
   // Groupings
 
   getAllGroupings() {
@@ -106,6 +118,18 @@ export class ListingBackendService {
     const getString = this._apiUrl + 'voting/vote/' + grouping_id + '/' + c1_id + '/' +
       (c1_choice ? 'true' : 'false') + '/' + c2_id + '/' + (c2_choice ? 'true' : 'false');
     this.http.get(getString).catch(ListingBackendService.handleError).subscribe();
+  }
+
+  // Settings
+
+  getSettings() {
+    return this.http.get<SettingResponse>(this._apiUrl + 'listings/settings').catch(ListingBackendService.handleError);
+  }
+
+  setSettings(settings: Settings) {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json; charset=utf-8');
+    return this.http.put(this._apiUrl + 'listings/settings', settings, {headers}).catch(ListingBackendService.handleError);
   }
 
 }

@@ -12,7 +12,7 @@
 
 .serendipitous-left-panel {
   height:100%;
-  width: 75%;
+  width: 100%;
 }
 
 .ntnu-logo {
@@ -53,7 +53,7 @@
   padding: 40% 10%;*/
   text-transform: uppercase;
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
-  font-size: 2.5em;
+  font-size: 2em;
   margin: 15px;
   text-align: center;
 }
@@ -78,16 +78,17 @@
   position: relative;
   width: 100%;
   height: 100vh;
+  display: block;
 }
 
 
 @media all and (max-width: 960px) {
 
-  .serendipitous-container {
-    position: relative;
+  .serendipitous-left-panel {
+    height: auto;
     width: 100%;
-    display: block;
   }
+
 
   .text-mainHeading {
     font-size: 2em;

@@ -1,12 +1,48 @@
 var Contribution = require('../control/models.js').Contribution;
 var Grouping = require('../control/models.js').Grouping;
 var Chip = require('../control/models.js').Chip;
+var Settings = require('../control/models').Settings;
 var Common = require('../control/common');
 var express = require('express');
 var router = express.Router();
 
 var FormData = require('form-data');
 var https = require('https');
+
+// ************************* Settings ****************************
+
+/**
+ * Return Settings
+ */
+router.get('/settings', function (req, res) {
+  Settings.findOne({}, function (error, foundSettings) {
+    if (error || foundSettings === null) {
+      if (error) {
+        console.log("Error finding Settings");
+        res.status(500);
+      } else if (!error && foundSettings === null) {
+        foundSettings = new Settings().save();
+        res.status(200).json({data: foundSettings});
+      }
+    } else {
+      res.status(200).json({data: foundSettings});
+    }
+  })
+});
+
+/**
+ * Update Settings
+ */
+router.put('/settings', function (req, res) {
+  Settings.findOneAndUpdate({}, req.body, { upsert: true, returnNewDocument: true }, function (error, foundSet) {
+    if (error || foundSet === null) {
+      console.log("Error finding Settings");
+      res.status(500);
+    } else {
+      res.status(200).json({data: foundSet});
+    }
+  })
+});
 
 
 // ************************* Chips ****************************
@@ -128,8 +164,8 @@ router.get('/contributions/:mode/:id?', function (req, res) {
   var query;
   if (req.params.id) {   // Find one contrigution by ID
     query = Contribution.find({_id: req.params.id})
-  } else {    // Get all contributions
-    query = Contribution.find({}).sort({"created": 'desc'});
+  } else {    // Get all (vetted) contributions
+    query = Contribution.find({ vetted: true }).sort({"created": 'desc'});
   }
 
   query.lean().exec(function (error, foundSet) {
@@ -175,6 +211,7 @@ router.post('/contributions', function (req, res) {
       var contribution = new Contribution();
       contribution.origin = "3C";
       contribution.chips.push(foundChip._id);
+      contribution.vetted = false;
       contribution.threeC_data.caption.text = req.body['text'];
       contribution.threeC_data.status = {
         living: req.body['status'].living,
@@ -266,5 +303,6 @@ function sendToNettskjema(data, callback) {
   });
 
 }
+
 
 module.exports = router;

@@ -7,23 +7,36 @@
   </div>
 
 
-  <iframe class="nettskjema-iframe voting-iframe" src="https://nettskjema.uio.no/answer/86913.html?embed=1" title="bidrag" frameborder="0" width="100%">Hvis du kan lese dette, støtter ikke nettleseren din iframes.</iframe>
+  <!--<iframe class="nettskjema-iframe voting-iframe" src="https://nettskjema.uio.no/answer/86913.html?embed=1" title="bidrag" frameborder="0" width="100%">Hvis du kan lese dette, støtter ikke nettleseren din iframes.</iframe>-->
+
+
 
 
   <div class="voting-questionblock">
+    <p class="voting-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
 
       <img class="voting-pil" src="assets/img/pil.png"/>
 
         <div class="voteContributionDisplayBox1 pulse">
-          <app-contribution [(contribution)]="contribution1" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" (click)="castVote(true, false)"></app-contribution>
+          <app-contribution [(contribution)]="contribution1" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" [voteSelectedState]="voteSelectedStateC1" (click)="castVote(true, false)"></app-contribution>
         </div>
         <div class="voteContributionDisplayBox2 pulse">
-          <app-contribution [(contribution)]="contribution2" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" (click)="castVote(false, true)"></app-contribution>
+          <app-contribution [(contribution)]="contribution2" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" [voteSelectedState]="voteSelectedStateC2" (click)="castVote(false, true)"></app-contribution>
         </div>
 
 
-    <p class="voting-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
     <!--p class="voting-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p-->
+  </div>
+
+
+  <div class="custom-voting-button-container">
+    <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="toggleCustomVote()">
+      <span>Jeg vil bidra med et nytt innspill</span>
+      <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
+        <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
+        <span id="voteWord">stem</span>
+      </div>
+    </div>
   </div>
 
   <div class="voting-textblock3">
@@ -50,7 +63,48 @@
 
 </div>
 
+<div class="votingContainer" *ngIf="showCustomVoting">
 
+  <div class="voting-textblock1">
+    <img src="assets/img/yellow_box.png"/>
+    <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+  </div>
+
+  <div class="custom-voting-close" (click)="toggleCustomVote()">
+    <img src="assets/img/close_opacity40.png">
+  </div>
+
+  <div class="opinion-form-container">
+    <div class="opinion-form">
+      <form id="voting_form">
+        <p class="opinion-text">Ønsker du heller å gi din egen mening? Skriv her:</p>
+        <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required (change)="resetTimeout()"></textarea>
+        <div class="opinion-text">
+          <span>Jeg...&nbsp;</span>
+          <label>Bor<input [(ngModel)]="inputData.status.living" type="checkbox" name="living" (change)="resetTimeout()"> </label>
+          <label>Studerer<input [(ngModel)]="inputData.status.studying" type="checkbox" name="student" (change)="resetTimeout()"> </label>
+          <label>Jobber<input [(ngModel)]="inputData.status.working" type="checkbox" name="working" (change)="resetTimeout()"> </label>
+          <label>Annet<input [(ngModel)]="inputData.status.other" type="checkbox" name="other" (change)="resetTimeout()"> </label>
+          <button type="submit" class="opinion-button" (click)="submitForm()">Send</button>
+        </div>
+        <p class="text-footnote">For spørsmål, kontakt: Ole Smørdal at ole.smordal@uv.uio.no</p>
+      </form>
+    </div>
+  </div>
+
+  <div class="voting-textblock3">
+    <img src="assets/img/yellow_box2.png"/>
+    <!--<p>Du kan også bidra med dine egne observasjoner, innspill og forslag til inspirasjon fra andre byer på facebooksiden framtidscampus.</p>-->
+  </div>
+
+  <div class="voting-textblock4">
+    <p>Dette er del av flere medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
+      NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p>
+    <!--<img src="assets/img/logo_ntnu_gray.png"/>-->
+  </div>
+
+</div>
 
 
 

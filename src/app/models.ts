@@ -31,6 +31,12 @@ export class Contribution {
     username: string;
   };
   caption: string;
+  status: {
+    living: boolean;
+    studying: boolean;
+    working: boolean;
+    other: boolean;
+  };
 
   constructor(cData: {}, grouping: Grouping) {
     this.chips = [];
@@ -38,6 +44,15 @@ export class Contribution {
     this.totalVotes = 0;
     this.groupingVoting = new Voting({});
     this.caption = '';
+    this.image = {
+      originalWidth: 0,
+      originalHeight: 0,
+      url: ''
+    };
+    this.user = {
+      profile_picture: '',
+      username: ''
+    };
     this.setContribution(cData);
     if (grouping !== null) {
       this.setGroupingVotingIndex(grouping);
@@ -95,6 +110,12 @@ export class Contribution {
           username: data['user']['username']
         };
         break;
+      case '3C':
+        data = cData['threeC_data'];
+        if (data.hasOwnProperty('caption')) {
+          this.caption = data['caption']['text'];
+        }
+        break;
       case 'mms':
         data = cData['message_data'];
         this.image = {
@@ -138,7 +159,60 @@ export const titleDescriptionModes = [
   { value: 'Custom', viewValue: 'Custom' }
 ];
 
+export class InputData {
+  text: string;
+  status: {
+    living: boolean;
+    studying: boolean;
+    working: boolean;
+    other: boolean;
+  };
+  votingChipId: string;
 
+  constructor() {
+    this.text = '';
+    this.status = {
+      living: false,
+      studying: false,
+      working: false,
+      other: false
+    };
+    this.votingChipId = '';
+  }
+
+  /*asFormData(): FormData {
+    const fd = new FormData();
+    fd.append('answersAsMap[852800].textAnswer', this.text);
+    fd.append('answersAsMap[852801].answerOptions', '1854978', this.living.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854979', this.studying.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854980', this.working.toString());
+    fd.append('answersAsMap[852801].answerOptions', '1854981', this.other.toString());
+    return fd;
+  }*/
+
+  setChip(chipId: string) {
+    this.votingChipId = chipId;
+  }
+}
+
+export class Settings {
+  defaultGroupingId: string;
+  defaultLoadPage: string;
+
+  constructor(sData?: {}) {
+    this.defaultGroupingId = '';
+    this.defaultLoadPage = '';
+
+    if (typeof sData !== 'undefined' && sData !== null) {
+      if (sData.hasOwnProperty('defaultGroupingId')) {
+        this.defaultGroupingId = sData['defaultGroupingId'];
+      }
+      if (sData.hasOwnProperty('defaultLoadPage')) {
+        this.defaultLoadPage = sData['defaultLoadPage'];
+      }
+    }
+  }
+}
 
 export class Grouping {
   _id: string;
@@ -208,7 +282,9 @@ export interface GroupingsResponse extends Response {
 export interface GroupingResponse extends Response {
   data: Grouping;
 }
-
+export interface SettingResponse extends Response {
+  data: Settings;
+}
 export interface ContributionsResponse extends Response {
   data: Contribution[];
 }

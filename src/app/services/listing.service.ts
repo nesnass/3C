@@ -3,9 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';  import 'rxjs/add/operator/last';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import {Chip, Contribution, Grouping, GroupingResponse, Options} from '../models';
+import {Chip, Contribution, Grouping, GroupingResponse, InputData, Options, Settings} from '../models';
 import {ListingBackendService} from './listingBackend.service';
 import {Observable} from 'rxjs/Observable';
+import {isUndefined} from 'util';
 
 @Injectable()
 export class ListingService {
@@ -17,9 +18,11 @@ export class ListingService {
   private _groupings: BehaviorSubject<Grouping[]> = <BehaviorSubject<Grouping[]>>new BehaviorSubject([]);
   private _chips: Chip[];
   private _selectedGrouping: Grouping;
+  private _defaultGrouping: Grouping;
   private requestContributionsInterval;
   private errorMessage: any;
   private _options: Options;
+  private _settings: Settings;
 
   private _selectedSerendipitousContribution: Contribution;
   private _selectedSerendipitousChips: Chip[];    // Chips are not directly stores inside Contribution
@@ -40,8 +43,9 @@ export class ListingService {
     this._selectedSerendipitousChips = [];
     this._firstMatchingVotingChip = null;
     this._allContributionsLength = 0;
-    this.retrieveChips();
-    this.refreshGroupings();
+    this._defaultGrouping = null;
+    this._settings = new Settings();
+    this.retrieveSettings();
   }
 
   get appUrl() {
@@ -71,7 +75,7 @@ export class ListingService {
       // Filter the collection based on the first selection's category
       subV = v.filter((c) => {
         return c.chips.some((cId) => {
-          return this._votingContribution1.chips.indexOf(cId) > -1;
+          return this._votingContribution1.chips.indexOf(cId) > -1 && this._votingContribution1._id !== c._id;
         });
       });
 
@@ -85,6 +89,11 @@ export class ListingService {
         this._votingContribution2 = null;
         while (this._votingContribution2 === null || this._votingContribution2._id === this._votingContribution1._id) {
           this._votingContribution2 = subV[Math.floor(Math.random() * subV.length)];
+        }
+
+        // There is a case where still one of the contributions is null, in this case try again..
+        if (this._votingContribution1 === null || this._votingContribution2 === null) {
+          this.setRandomVotingContributions();
         }
 
         // Save the first Chip that matches both Contributions for use in the voting question
@@ -158,6 +167,18 @@ export class ListingService {
     return obs;
   }
 
+  addOpinion(newOpinion: InputData, sFunc: any): string {
+    newOpinion.setChip(this._firstMatchingVotingChip._id);
+    this.listingBackendService.postOpinion(newOpinion)
+      .subscribe(res => {
+        if (!(isUndefined(sFunc))) {
+          sFunc();
+        }}, err => {
+        return err;
+      });
+    return '';
+  }
+
   updateGrouping(grouping: Grouping): void {
     this.listingBackendService.updateGrouping(grouping).subscribe();
   }
@@ -200,6 +221,50 @@ export class ListingService {
   get votingQuestion(): string {
     return (this._selectedGrouping.titleDescriptionMode === 'Automatic' && this._firstMatchingVotingChip !== null) ?
       this._firstMatchingVotingChip.label : this._selectedGrouping.categoryTitle;
+  }
+
+  // Server stored settings
+
+  get settings() {
+    return this._settings;
+  }
+
+  set settings(settings: Settings) {
+    this._settings = settings;
+    this.updateSettings();
+  }
+
+  retrieveSettings(): void {
+    this.listingBackendService.getSettings().subscribe(
+      res => {
+        this._settings = new Settings(res.data);
+        this.retrieveChips();
+        this.refreshGroupings();
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message);
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+          this.errorMessage = <any>err;
+        }
+      }
+    );
+  }
+
+  updateSettings(): void {
+    this.listingBackendService.setSettings(this._settings).subscribe();
+  }
+
+  get defaultGrouping(): Grouping {
+    return this._defaultGrouping;
+  }
+
+  set defaultGrouping(grouping: Grouping) {
+    this._defaultGrouping = grouping;
+    this._settings.defaultGroupingId = grouping._id;
+    this._settings.defaultLoadPage = grouping.urlSlug;
+    this.updateSettings();
   }
 
   // Public member functions to interface to data
@@ -296,6 +361,13 @@ export class ListingService {
       res => {
         const newGroupings = (<Object[]>res.data).map((grouping: any) => new Grouping(grouping));
         this._groupings.next(newGroupings);
+        if (this._settings.defaultGroupingId !== '') {
+          this._defaultGrouping = newGroupings.find( (g) => {
+            return g._id === this._settings.defaultGroupingId;
+          });
+        } else {
+          this._defaultGrouping = new Grouping();
+        }
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {

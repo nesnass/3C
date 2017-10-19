@@ -53,6 +53,7 @@
 /*  Question - Grouping Caption Title & Subtitle */
 .voting-questionblock {
   position: absolute;
+  min-width: 470px;
   top: 0;
   right: 0;
 }
@@ -138,6 +139,14 @@
   width: 130px;
 }
 
+.custom-voting-close {
+  position: absolute;
+  left: 80%;
+  top: 10%;
+}
+.custom-voting-close img {
+  width: 60px;
+}
 
 /* Buttons for both, neither, own contribution */
 .voting-buttonblock {
@@ -161,6 +170,85 @@
   width: 100%;
   bottom: 50px;
   left: 100px;
+}
+
+.custom-voting-button-container {
+  position: absolute;
+  bottom: 50px;
+  font-family: "HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  font-size: 1.8em;
+  text-align: justify;
+  width: 100%;
+}
+
+.custom-voting-button {
+  border: dashed rgba(0,100,0,0.4) 3px;
+  border-radius: 15px;
+  width: 470px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  position: relative;
+  padding: 5px;
+}
+.custom-voting-button span {
+  display: inline-block;
+}
+
+.checkbox-container {
+  display: inline-block;
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  text-align: center;
+  color: rgb(0,100,0);
+  background-color: rgba(255,255,255,0.6);
+  font-size: 0.8em;
+  padding-top: 5px;
+}
+
+.checkbox-container #checkboxWord {
+  line-height: 0.6;
+  font-size: 2em;
+}
+.checkbox-container #voteWord {
+  font-size: 0.5em;
+}
+
+.opinion-form-container {
+  position: relative;
+  width: 100%;
+  margin-top: 20%;
+}
+.opinion-form {
+  position: relative;
+  width: 70%;
+  height: 20%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.opinion-input {
+  width: 80%;
+  height: 70px;
+  border: solid black;
+}
+.opinion-text {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  font-size: 1em;
+  margin-right: 5px;
+  margin-top: 30px;
+}
+.opinion-text label {
+  margin-right: 20px;
+}
+
+.opinion-button {
+  color: white;
+  font-family: "HelveticaNeueW02-75", Helvetica, sans-serif;
+  font-size: 1em;
+  background-color: olivedrab;
+  border: none;
+  padding:7px;
+  margin-left: 20px;
 }
 
 #answer-controls {
@@ -239,5 +327,191 @@
   .serendipitous-questionmark {
     padding-bottom: 30%;
   }
+
+  .voting-questionblock {
+    min-width: 200px;
+  }
+
+}
+
+
+@media all and (max-width: 450px) {
+  .text-mainHeading {
+    font-size: 2em;
+    margin: 10px 5px;
+  }
+
+  .serendipitous-categoryTitle {
+    padding: 5% 3%;
+    font-size: 2em;
+  }
+
+  .serendipitous-categorySubtitle {
+    padding: 5% 3%;
+    font-size: 1.5em;
+  }
+
+  .serendipitous-questionmark {
+    padding-bottom: 30%;
+  }
+
+  .voting-questionblock {
+    min-width: 200px;
+  }
+
+
+  .votingContainer {
+    position: relative;
+    overflow-x: hidden;
+    height: auto;
+  }
+
+
+  /*  Intro Text */
+  .voting-textblock1 {
+    position: relative;
+    width: 200px;
+  }
+  .voting-textblock1 img {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    z-index: -1;
+    width: 200px;
+    height: 100px;
+  }
+  .voting-staticTitle {
+    text-transform: uppercase;
+    font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+    font-size: 1em;
+    margin: 15px;
+  }
+
+  .voting-staticSubtitle {
+    font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+    font-size: 1em;
+    /* font-size: 0.8em; */
+    margin: 10px 10px;
+    width: 180px;
+  }
+
+  /*  Question - Grouping Caption Title & Subtitle */
+  .voting-questionblock {
+    position: relative;
+    width: 100%;
+    top: 0;
+  }
+
+
+  /* Image of lines connecting question to Contributions */
+  .voting-pil {
+    display: none;
+  }
+
+  /* A single Contribution item */
+  .voteContributionDisplayBox1 {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  /* A single Contribution item */
+  .voteContributionDisplayBox2 {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  .voting-categoryTitle {
+    /* text-transform: uppercase; */
+    /* font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif; */
+    font-family: Helvetica, sans-serif;
+    font-size: 3em;
+    margin: 0 15px 20px;
+    display: inline-block;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .voting-categorySubtitle {
+    font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+    font-size: 1em;
+    margin: 15px;
+    display: inline-block;
+  }
+
+  .custom-voting-button-container {
+    position: relative;
+    bottom: unset;
+    margin: 20px auto 100px auto;
+    font-family: "HelveticaNeueW02-45Light", Helvetica, sans-serif;
+    font-size: 1.3em;
+    text-align: justify;
+    width: 90%;
+  }
+
+  .custom-voting-button {
+    width: auto;
+  }
+
+  .opinion-form-container {
+    margin-bottom: 100px;
+  }
+  .opinion-form {
+    width: 90%;
+  }
+  .opinion-input {
+    width: 100%;
+  }
+  .opinion-text label {
+    margin-right: 5px;
+  }
+  .opinion-button {
+    margin-top: 30px;
+    font-size: 1.3em;
+  }
+  .text-footnote {
+    margin-top: 30px;
+  }
+
+
+  /*  Info on right */
+  .voting-textblock3 {
+    position: absolute;
+    top: 300px;
+    right: 10px;
+    width: 130px;
+    font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+    font-size: 0.7em;
+    text-align: justify;
+  }
+  .voting-textblock3 img {
+    position: absolute;
+    top: -210px;
+    right: -220px;
+    z-index: -1;
+    width: 400px;
+    height: 450px;
+  }
+
+  /*  Info on bottom right */
+  .voting-textblock4 {
+    position: absolute;
+    bottom: 0;
+    padding: 5px;
+    right: 10px;
+    /* width: 130px; */
+    /* height: 170px; */
+    font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
+    font-size: 0.7em;
+    text-align: justify;
+  }
+  .voting-textblock4 img {
+    opacity: 0.2;
+    width: 130px;
+  }
+
+
+
 
 }

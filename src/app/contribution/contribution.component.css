@@ -1,10 +1,17 @@
+.contribution-container {
+  position: relative;
+}
+
 .contribution {
   position: relative;
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
   overflow: hidden;
-  background-size: cover;
+  border-radius: 15px;
   background-position: center;
+
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .contribution-large {
@@ -38,16 +45,20 @@
 }
 
 .contribution-caption-as-image {
+  border: dashed rgba(0,100,0,0.4) 3px;
+  border-radius: 15px;
   position: relative;
   font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   color: black;
   height: auto;
   width: 300px;
+  padding: 5px 40px 5px 5px;
 }
 .contribution-caption-as-image p {
   font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   margin: 0;
   display: inline;
+  word-break: normal;
 }
 .contribution-caption-quotation {
   position: absolute;
@@ -61,4 +72,40 @@
   font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
   font-size: 0.8em;
   color: white;
+}
+
+.checkbox-container {
+  position: absolute;
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  right: 5px;
+  top: 5px;
+  text-align: center;
+  color: rgb(0,100,0);
+  background-color: rgba(255,255,255,0.6);
+  font-size: 1em;
+  line-height: 0.8;
+  padding: 4px 2px;
+}
+
+.checkbox-container #checkboxWord {
+  display: block;
+  font-size: 1.8em;
+}
+.checkbox-container #voteWord {
+  display: block;
+  font-size: 0.3em;
+}
+
+
+@media all and (max-width: 450px) {
+  .contribution-container {
+    opacity: 1;
+    width: 80%;
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 20px;
+  }
+  .contribution-caption-as-image {
+    width: auto;
+  }
 }

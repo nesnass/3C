@@ -9,6 +9,7 @@ var contributionSchema = Schema({
   origin:                       { type: String },           // "instagram", "sms", "mms", "facebook-feed", "facebook-album", "3C" ...etc
   created:                      { type: Date, default: Date.now },
   chips:                        [ { type: Schema.ObjectId, ref: 'Chip' } ],
+  vetted:                       { type: Boolean, default: true },
   voting: [{
     votes: { type: Number },
     exposures: { type: Number },
@@ -152,4 +153,13 @@ var voteSchema = Schema({
 });
 
 module.exports.Vote = mongoose.model('Vote', voteSchema);
+
+// 'Settings' are used to store defaults
+// They should be labelled by the source album, location or timeframe
+var settingsSchema = Schema({
+  defaultGroupingId:                    { type: String },         // The Grouping we go to when landing at the main site URL
+  defaultLoadPage:                      { type: String }          // A shortcut to the URL for the default page
+});
+
+module.exports.Settings = mongoose.model('Settings', settingsSchema);
 

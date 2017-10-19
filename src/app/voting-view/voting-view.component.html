@@ -30,11 +30,23 @@
 
 
   <div class="custom-voting-button-container">
-    <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="toggleCustomVote()">
-      <span>Jeg vil bidra med et nytt innspill</span>
-      <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
-        <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
-        <span id="voteWord">stem</span>
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
+      <div class="smaller-voting-button" (click)="castVote(true,true)">
+        <span>Enig med begge</span>
+      </div>
+
+      <div class="smaller-voting-button" (click)="castVote(false,false)">
+        <span>Uenig med begge</span>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="toggleCustomVote()">
+        <span>Jeg vil bidra med et nytt innspill</span>
+        <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
+          <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
+          <span id="voteWord">stem</span>
+        </div>
       </div>
     </div>
   </div>

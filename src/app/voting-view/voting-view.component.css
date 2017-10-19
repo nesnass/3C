@@ -184,7 +184,7 @@
 .custom-voting-button {
   border: dashed rgba(0,100,0,0.4) 3px;
   border-radius: 15px;
-  width: 470px;
+  width: 530px;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
@@ -193,6 +193,16 @@
 }
 .custom-voting-button span {
   display: inline-block;
+}
+
+.smaller-voting-button {
+  border: dashed rgba(0,100,0,0.4) 3px;
+  border-radius: 15px;
+  width: 250px;
+  margin-bottom: 5px;
+  background-color: white;
+  position: relative;
+  padding: 4px;
 }
 
 .checkbox-container {

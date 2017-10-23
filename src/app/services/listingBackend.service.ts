@@ -42,6 +42,9 @@ export class ListingBackendService {
     if ((<any>locationStrategy)._platformLocation.location.href.indexOf('localhost') > -1) {
       this._apiUrl = 'http://localhost:8000/';
       this._appUrl = 'http://localhost:4200/#/';
+    } else if ((<any>locationStrategy)._platformLocation.location.href.indexOf('192.168.1.') > -1) {
+      this._apiUrl = 'http://192.168.1.102:8000/';
+      this._appUrl = 'http://192.168.1.102:4200/#/';
     } else {
       this._apiUrl = '/';
       this._appUrl = 'http://' + (<any>locationStrategy)._platformLocation.location.hostname + '/#/';
@@ -50,8 +53,18 @@ export class ListingBackendService {
 
   // Contributions
 
-  getAllContributions() {
-    return this.http.get<ContributionsResponse>(this._apiUrl + 'listings/contributions/data')
+  getAllContributions(queryParams?: any) {
+    const reqOpts = {
+      params: new HttpParams()
+    };
+    for (const key in queryParams) {
+      if (queryParams.hasOwnProperty(key)) {
+        reqOpts.params = reqOpts.params.append(key, queryParams[key]);
+      }
+    }
+
+    reqOpts.params = reqOpts.params.append('id', '');
+    return this.http.get<ContributionsResponse>(this._apiUrl + 'listings/contributions/data', reqOpts)
       // .map(res => <Contribution[]>res.data || [])
       .catch(ListingBackendService.handleError);
   }
@@ -70,6 +83,13 @@ export class ListingBackendService {
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
     return this.http.post(this._apiUrl + 'listings/contributions', opinion, {headers}).share();
+  }
+
+  deleteContribution(deletedContribution: Contribution) {
+    const reqOpts = {
+      params: new HttpParams().set('id', deletedContribution._id)
+    };
+    return this.http.delete(this._apiUrl + 'listings/contributions', reqOpts).share();
   }
 
   // Groupings

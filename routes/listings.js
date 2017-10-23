@@ -165,8 +165,13 @@ router.get('/contributions/:mode/:id?', function (req, res) {
   if (req.params.id) {   // Find one contrigution by ID
     query = Contribution.find({_id: req.params.id})
   } else {    // Get all (vetted) contributions
-    query = Contribution.find({ vetted: true }).sort({"created": 'desc'});
+    if (req.query.iuv === 'true') {
+      query = Contribution.find({}).sort({"created": 'desc'});
+    } else {
+      query = Contribution.find({ vetted: true }).sort({"created": 'desc'});
+    }
   }
+
 
   query.lean().exec(function (error, foundSet) {
     if (error || foundSet === null) {
@@ -190,8 +195,24 @@ router.put('/contributions', function (req, res) {
       console.log("Error finding Contribution");
       res.status(500);
     } else {
+      foundItem.vetted = req.body.vetted;
       foundItem.chips = req.body.chips;
       foundItem.save();
+      res.status(200).json({data: foundItem});
+    }
+  });
+});
+
+/**
+ * Delete contribution data (supply id in params)
+ */
+router.delete('/contributions', function (req, res) {
+  Contribution.findOne({_id: req.query.id}, function (error, foundItem) {
+    if (error || foundItem === null) {
+      console.log("Error finding Contribution");
+      res.status(500);
+    } else {
+      foundItem.remove();
       res.status(200).json({data: foundItem});
     }
   });

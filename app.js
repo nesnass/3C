@@ -108,7 +108,7 @@ mongoose.connect(uristring, dbConnectOptions, function (error, result) {
 	}
 });
 
-utilities.setVettingFlagOnAll();
+// utilities.setVettingFlagOnAll();
 
 process.on('SIGINT', function() {
   mongoose.disconnect();

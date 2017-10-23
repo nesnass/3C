@@ -3,7 +3,7 @@
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
     <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showResults = true; showVoting = false;">Se resultat</button>
   </div>
 
 
@@ -63,12 +63,18 @@
 
 </div>
 
-<div class="votingContainer" *ngIf="showCustomVoting">
+<div class="thankyouContainer" *ngIf="showThankyou">
+  <div class="thankyou">
+    Thank You!
+  </div>
+</div>
+
+<div class="customVotingContainer" *ngIf="showCustomVoting">
 
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
     <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showResults = true; showVoting = false;">Se resultat</button>
   </div>
 
   <div class="custom-voting-close" (click)="toggleCustomVote()">

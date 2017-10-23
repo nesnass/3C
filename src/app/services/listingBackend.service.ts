@@ -53,8 +53,18 @@ export class ListingBackendService {
 
   // Contributions
 
-  getAllContributions() {
-    return this.http.get<ContributionsResponse>(this._apiUrl + 'listings/contributions/data')
+  getAllContributions(queryParams?: any) {
+    const reqOpts = {
+      params: new HttpParams()
+    };
+    for (const key in queryParams) {
+      if (queryParams.hasOwnProperty(key)) {
+        reqOpts.params = reqOpts.params.append(key, queryParams[key]);
+      }
+    }
+
+    reqOpts.params = reqOpts.params.append('id', '');
+    return this.http.get<ContributionsResponse>(this._apiUrl + 'listings/contributions/data', reqOpts)
       // .map(res => <Contribution[]>res.data || [])
       .catch(ListingBackendService.handleError);
   }
@@ -73,6 +83,13 @@ export class ListingBackendService {
     headers.append('Content-Type', 'application/json; charset=utf-8');
 
     return this.http.post(this._apiUrl + 'listings/contributions', opinion, {headers}).share();
+  }
+
+  deleteContribution(deletedContribution: Contribution) {
+    const reqOpts = {
+      params: new HttpParams().set('id', deletedContribution._id)
+    };
+    return this.http.delete(this._apiUrl + 'listings/contributions', reqOpts).share();
   }
 
   // Groupings

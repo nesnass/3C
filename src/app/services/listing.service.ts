@@ -23,6 +23,7 @@ export class ListingService {
   private errorMessage: any;
   private _options: Options;
   private _settings: Settings;
+  private _showUnvettedContributions: boolean;
 
   private _selectedSerendipitousContribution: Contribution;
   private _selectedSerendipitousChips: Chip[];    // Chips are not directly stores inside Contribution
@@ -45,6 +46,7 @@ export class ListingService {
     this._allContributionsLength = 0;
     this._defaultGrouping = null;
     this._settings = new Settings();
+    this._showUnvettedContributions = false;
     this.retrieveSettings();
   }
 
@@ -110,6 +112,11 @@ export class ListingService {
 
   }
 
+  set showUnvettedContributions(setting: boolean) {
+    this._showUnvettedContributions = setting;
+    this.refreshContributions(true);
+  }
+
   get votingContribution1(): Contribution {
     return this._votingContribution1;
   }
@@ -124,6 +131,18 @@ export class ListingService {
     this._selectedSerendipitousChips = this._chips.filter((chip) => {
       return c.chips.indexOf(chip._id) > -1;
     });
+  }
+
+  deleteContribution(contribution: Contribution): Observable<Contribution> {
+    const obs = this.listingBackendService.deleteContribution(contribution);
+    obs.subscribe(
+      () => {
+        const newContributionList: Contribution[] = this._contributions.getValue();
+        newContributionList.splice(newContributionList.indexOf(contribution), 1);
+        this._contributions.next(newContributionList);
+      });
+
+    return obs;
   }
 
   get groupings() {
@@ -148,7 +167,7 @@ export class ListingService {
 
   set grouping(grouping: Grouping) {
     this._selectedGrouping = grouping;
-    this.refreshContributions();
+    this.refreshContributions(true);
   }
 
   get grouping(): Grouping {
@@ -274,7 +293,7 @@ export class ListingService {
    */
   startServerPolling() {
     this.requestContributionsInterval = setInterval(() => {
-      this.refreshContributions();
+      this.refreshContributions(false);
     }, this.serverRefreshIntervalSeconds * 1000);
   }
 
@@ -326,14 +345,17 @@ export class ListingService {
   /**
    * Check for new contributions
    */
-  refreshContributions() {
-    this.listingBackendService.getAllContributions().subscribe(
+  refreshContributions(refreshAllRegardless: boolean) {
+    const options = {
+      iuv: this._showUnvettedContributions
+    };
+    this.listingBackendService.getAllContributions(options).subscribe(
       res => {
         const newContributions = (<Object[]>res.data)
           .map((contribution: any) => new Contribution(contribution, this._selectedGrouping));
 
         // Are there new contributions available? If so, update the collection
-        if (newContributions.length > 0 && this._allContributionsLength !== newContributions.length) {
+        if ((newContributions.length > 0 && this._allContributionsLength !== newContributions.length) || refreshAllRegardless) {
           this._allContributionsLength = newContributions.length;
           const filteredContributions = this.filterContributionsByGrouping(newContributions);
           if (this._selectedGrouping && !this._selectedGrouping.serendipitousOptions.randomSelection) {
@@ -384,5 +406,6 @@ export class ListingService {
     return this.listingBackendService.castVote(this._selectedGrouping._id,
       this._votingContribution1._id, c1, this._votingContribution2._id, c2);
   }
+
 
 }

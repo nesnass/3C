@@ -1,3 +1,6 @@
+.vettingHeader {
+  padding: 10px;
+}
 .vettingContainer {
 
 }
@@ -8,4 +11,29 @@
 
 .contributionsList {
 
+}
+
+mat-list mat-list-item .wrapLine {
+  white-space: normal;
+}
+
+mat-list .increasedHeight {
+  height: 200px !important;
+}
+
+mat-list h3 {
+  background-color: lightgray;
+}
+
+mat-list-item {
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+mat-list-item.mat-list-item-content {
+  height: auto;
+}
+
+.itemSelected {
+  background-color: lightgray;
 }

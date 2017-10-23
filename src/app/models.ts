@@ -18,6 +18,7 @@ export class Contribution {
   origin: string;
   created: Date;
   chips: string[];
+  vetted: boolean;
   voting: Voting[];
   groupingVoting?: Voting;    // Temp value for front end sorting of votes, set to the voting results for the current Grouping only
   totalVotes?: number;
@@ -41,6 +42,7 @@ export class Contribution {
   constructor(cData: {}, grouping: Grouping) {
     this.chips = [];
     this.voting = [];
+    this.vetted = false;
     this.totalVotes = 0;
     this.groupingVoting = new Voting({});
     this.caption = '';
@@ -72,6 +74,7 @@ export class Contribution {
     this._id = cData._id;
     this.origin = cData.origin;
     this.created = new Date(cData.created);
+    this.vetted = cData.vetted;
     this.chips = cData.chips || [];
     if (cData.voting) {
       cData.voting.forEach((v) => {

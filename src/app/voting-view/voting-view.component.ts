@@ -13,6 +13,7 @@ export class VotingViewComponent implements OnInit {
   showVoting = false;
   showCustomVoting = false;
   showResults = false;
+  showThankyou = false;
   contributionVisibleState = 'invisible';
   voteSelected = 'small';
   position: string;
@@ -85,8 +86,12 @@ export class VotingViewComponent implements OnInit {
         // reset input field. TODO: reset whole page
         clearTimeout(this.backTimer);
         this.inputData = new InputData();
-        this.showCustomVoting = false;
-        this.showVoting = true;
+        this.showThankyou = true;
+        setTimeout(() => {
+          this.showCustomVoting = false;
+          this.showThankyou = false;
+          this.showVoting = true;
+        }, 3000);
       });
     }
   }
@@ -102,7 +107,8 @@ export class VotingViewComponent implements OnInit {
   toggleCustomVote() {
     if (!this.showCustomVoting) {
       this.showVoting = false;
-      this.showCustomVoting = true;
+      this.showCustomVoting = false;
+      this.showThankyou = true;
       this.resetTimeout();
     } else {
       clearTimeout(this.backTimer);

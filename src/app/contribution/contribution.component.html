@@ -1,10 +1,10 @@
-<div [@contributionVisibleState]="contributionVisibleState" class="contribution-container" *ngIf="_contribution !== null">
+<div [@contributionVisibleState]="contributionVisibleState" class="contribution-container" *ngIf="contribution !== null">
 
-  <div class="contribution" *ngIf="grouping.votingOptions.displayMode === 'Image'" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-votes]="_contribution.totalVotes" [ngStyle]="customStyle">
+  <div class="contribution" *ngIf="grouping.votingOptions.displayMode === 'Image'" [ngClass]="{'contribution-large': grouping.displayMode === 'Voting'}" [attr.data-votes]="contribution.totalVotes" [ngStyle]="customStyle">
     <div class="contribution-details" *ngIf="grouping.displayMode !== 'Voting' || grouping.votingOptions.imageCaption">
-      <span class="contribution-voting" *ngIf="grouping.displayMode === 'Voting Results' && grouping.votingOptions.resultsVisible">♥ {{_contribution.totalVotes}}</span><br>
+      <span class="contribution-voting" *ngIf="grouping.displayMode === 'Voting Results' && grouping.votingOptions.resultsVisible">♥ {{contribution.totalVotes}}</span><br>
       <span class="contribution-caption">{{trimmedCaption}}</span><br>
-      <!--span class="contribution-username">{{_contribution.user.username}}</span-->
+      <!--span class="contribution-username">{{contribution.user.username}}</span-->
     </div>
   </div>
 

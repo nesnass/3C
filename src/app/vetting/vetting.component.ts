@@ -14,7 +14,7 @@ export class VettingComponent implements OnInit {
   selectedGrouping: Grouping = null;
   contributions: Contribution[];
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) { }
+  constructor(private route: ActivatedRoute, public listingService: ListingService) { }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(

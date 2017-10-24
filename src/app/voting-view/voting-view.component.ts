@@ -69,11 +69,18 @@ export class VotingViewComponent implements OnInit {
   }
 
   castVote(c1: boolean, c2: boolean) {
-    this.voteSelectedStateC1 = c1 ? 'large' : 'small';
+    this.voteSelectedStateC1 = 'large';
+    this.voteSelectedStateC2 = 'large';
+    /*this.voteSelectedStateC1 = c1 ? 'large' : 'small';
     this.voteSelectedStateC2 = c2 ? 'large' : 'small';
+    */
+    this.contribution1.votedOn = c1;
+    this.contribution2.votedOn = c2;
     setTimeout(() => {
       this.voteSelectedStateC1 = 'small';
       this.voteSelectedStateC2 = 'small';
+      this.contribution1.votedOn = false;
+      this.contribution2.votedOn = false;
       this.listingService.castVote(c1, c2);
       this.getTwoContributions();
     }, 1000);

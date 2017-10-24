@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 import {ListingService} from '../services/listing.service';
 import {Contribution, Grouping} from '../models';
 
@@ -13,9 +14,27 @@ export class VettingComponent implements OnInit {
   selectedGrouping: Grouping = null;
   contributions: Contribution[];
 
-  constructor(private listingService: ListingService) { }
+  constructor(private route: ActivatedRoute, private listingService: ListingService) { }
 
   ngOnInit() {
+    this.route.queryParamMap.subscribe(
+      paramsMap => {
+        if (paramsMap.has('pw')) {
+          this.listingService.routePassword = paramsMap.get('pw');
+          this.listingService.auth().subscribe((response) => {
+            console.log(response['data']);
+            if (response['data'] !== 'ok') {
+              this.listingService.navigateToView('');
+            }
+          }, () => {
+            this.listingService.navigateToView('');
+          });
+        } else {
+          this.listingService.navigateToView('');
+        }
+      }
+    );
+
     this.listingService.showUnvettedContributions = true;
     this.groupings = this.listingService.groupingsAsValue;
     this.listingService.contributions.subscribe(
@@ -23,6 +42,7 @@ export class VettingComponent implements OnInit {
         this.contributions = contributions;
       }
     );
+
   }
 
   refresh() {

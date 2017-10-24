@@ -34,14 +34,18 @@ router.get('/settings', function (req, res) {
  * Update Settings
  */
 router.put('/settings', function (req, res) {
-  Settings.findOneAndUpdate({}, req.body, { upsert: true, returnNewDocument: true }, function (error, foundSet) {
-    if (error || foundSet === null) {
-      console.log("Error finding Settings");
-      res.status(500);
-    } else {
-      res.status(200).json({data: foundSet});
-    }
-  })
+  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+    Settings.findOneAndUpdate({}, req.body, {upsert: true, returnNewDocument: true}, function (error, foundSet) {
+      if (error || foundSet === null) {
+        console.log("Error finding Settings");
+        res.status(500);
+      } else {
+        res.status(200).json({data: foundSet});
+      }
+    })
+  } else {
+    res.status(200).json({data: {}, status: 'unauthorised'});
+  }
 });
 
 
@@ -88,67 +92,79 @@ router.get('/groupings/:id?', function (req, res) {
  * Update Grouping data (supply id in body)
  */
 router.put('/groupings', function (req, res) {
-  Grouping.findOne({_id: req.body._id}, function (error, foundItem) {
-    if (error || foundItem === null) {
-      console.log("Error finding Groupings");
-      res.status(500);
-    } else {
-      foundItem.urlSlug = req.body.urlSlug;
-      foundItem.contributions = req.body.contributions;
-      foundItem.titleDescriptionMode = req.body.titleDescriptionMode;
-      foundItem.categoryTitle = req.body.categoryTitle;
-      foundItem.categorySubtitle = req.body.categorySubtitle;
-      foundItem.chips = req.body.chips;
-      foundItem.contributionMode = req.body.contributionMode;
-      foundItem.displayMode = req.body.displayMode;
-      foundItem.votingDisplayMode = req.body.votingDisplayMode;
-      foundItem.votingOptions = req.body.votingOptions;
-      foundItem.serendipitousOptions = req.body.serendipitousOptions;
-      foundItem.save();
-      res.status(200).json({data: foundItem});
-    }
-  });
+  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+    Grouping.findOne({_id: req.body._id}, function (error, foundItem) {
+      if (error || foundItem === null) {
+        console.log("Error finding Groupings");
+        res.status(500);
+      } else {
+        foundItem.urlSlug = req.body.urlSlug;
+        foundItem.contributions = req.body.contributions;
+        foundItem.titleDescriptionMode = req.body.titleDescriptionMode;
+        foundItem.categoryTitle = req.body.categoryTitle;
+        foundItem.categorySubtitle = req.body.categorySubtitle;
+        foundItem.chips = req.body.chips;
+        foundItem.contributionMode = req.body.contributionMode;
+        foundItem.displayMode = req.body.displayMode;
+        foundItem.votingDisplayMode = req.body.votingDisplayMode;
+        foundItem.votingOptions = req.body.votingOptions;
+        foundItem.serendipitousOptions = req.body.serendipitousOptions;
+        foundItem.save();
+        res.status(200).json({data: foundItem});
+      }
+    });
+  } else {
+    res.status(200).json({data: {}, status: 'unauthorised'});
+  }
 });
 
 /**
  * Delete grouping data (supply id in params)
  */
 router.delete('/groupings', function (req, res) {
-  Grouping.findOne({_id: req.query.id}, function (error, foundItem) {
-    if (error || foundItem === null) {
-      console.log("Error finding Groupings");
-      res.status(500);
-    } else {
-      foundItem.remove();
-      res.status(200).json({data: foundItem});
-    }
-  });
+  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+    Grouping.findOne({_id: req.query.id}, function (error, foundItem) {
+      if (error || foundItem === null) {
+        console.log("Error finding Groupings");
+        res.status(500);
+      } else {
+        foundItem.remove();
+        res.status(200).json({data: foundItem});
+      }
+    });
+  } else {
+    res.status(200).json({data: {}, status: 'unauthorised'});
+  }
 });
 
 /**
  * Create Grouping
  */
 router.post('/groupings', function (req, res) {
-  var grouping = new Grouping({
-    urlSlug: req.body.urlSlug,
-    contributions: req.body.contributions,
-    categoryTitle: req.body.categoryTitle,
-    categorySubtitle: req.body.categorySubtitle,
-    titleDescriptionMode: req.body.titleDescriptionMode,
-    contributionMode: req.body.contributionMode,
-    displayMode: req.body.displayMode,
-    votingOptions: req.body.votingOptions,
-    serendipitousOptions: req.body.serendipitousOptions
-  });
+  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+    var grouping = new Grouping({
+      urlSlug: req.body.urlSlug,
+      contributions: req.body.contributions,
+      categoryTitle: req.body.categoryTitle,
+      categorySubtitle: req.body.categorySubtitle,
+      titleDescriptionMode: req.body.titleDescriptionMode,
+      contributionMode: req.body.contributionMode,
+      displayMode: req.body.displayMode,
+      votingOptions: req.body.votingOptions,
+      serendipitousOptions: req.body.serendipitousOptions
+    });
 
-  grouping.save(function (error, newGrouping) {
-    if (error || newGrouping === null) {
-      console.log("Error saving new grouping" + error);
-      res.status(500).json({message: error});
-    } else {
-      res.status(200).send({data: newGrouping});
-    }
-  });
+    grouping.save(function (error, newGrouping) {
+      if (error || newGrouping === null) {
+        console.log("Error saving new grouping" + error);
+        res.status(500).json({message: error});
+      } else {
+        res.status(200).send({data: newGrouping});
+      }
+    });
+  } else {
+    res.status(200).json({data: {}, status: 'unauthorised'});
+  }
 });
 
 
@@ -190,32 +206,40 @@ router.get('/contributions/:mode/:id?', function (req, res) {
  * Update Contribution data (supply id in body)
  */
 router.put('/contributions', function (req, res) {
-  Contribution.findOne({_id: req.body._id}, function (error, foundItem) {
-    if (error || foundItem === null) {
-      console.log("Error finding Contribution");
-      res.status(500);
-    } else {
-      foundItem.vetted = req.body.vetted;
-      foundItem.chips = req.body.chips;
-      foundItem.save();
-      res.status(200).json({data: foundItem});
-    }
-  });
+  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+    Contribution.findOne({_id: req.body._id}, function (error, foundItem) {
+      if (error || foundItem === null) {
+        console.log("Error finding Contribution");
+        res.status(500);
+      } else {
+        foundItem.vetted = req.body.vetted;
+        foundItem.chips = req.body.chips;
+        foundItem.save();
+        res.status(200).json({data: foundItem});
+      }
+    });
+  } else {
+    res.status(200).json({data: {}, status: 'unauthorised'});
+  }
 });
 
 /**
  * Delete contribution data (supply id in params)
  */
 router.delete('/contributions', function (req, res) {
-  Contribution.findOne({_id: req.query.id}, function (error, foundItem) {
-    if (error || foundItem === null) {
-      console.log("Error finding Contribution");
-      res.status(500);
-    } else {
-      foundItem.remove();
-      res.status(200).json({data: foundItem});
-    }
-  });
+  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+    Contribution.findOne({_id: req.query.id}, function (error, foundItem) {
+      if (error || foundItem === null) {
+        console.log("Error finding Contribution");
+        res.status(500);
+      } else {
+        foundItem.remove();
+        res.status(200).json({data: foundItem});
+      }
+    });
+  } else {
+    res.status(200).json({data: {}, status: 'unauthorised'});
+  }
 });
 
 

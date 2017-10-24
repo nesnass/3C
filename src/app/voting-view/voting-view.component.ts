@@ -87,8 +87,8 @@ export class VotingViewComponent implements OnInit {
         clearTimeout(this.backTimer);
         this.inputData = new InputData();
         this.showThankyou = true;
+        this.showCustomVoting = false;
         setTimeout(() => {
-          this.showCustomVoting = false;
           this.showThankyou = false;
           this.showVoting = true;
         }, 3000);
@@ -107,8 +107,7 @@ export class VotingViewComponent implements OnInit {
   toggleCustomVote() {
     if (!this.showCustomVoting) {
       this.showVoting = false;
-      this.showCustomVoting = false;
-      this.showThankyou = true;
+      this.showCustomVoting = true;
       this.resetTimeout();
     } else {
       clearTimeout(this.backTimer);

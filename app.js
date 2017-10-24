@@ -22,6 +22,7 @@ var static_pages = require('./routes/static');
 var listings = require('./routes/listings');
 var voting = require('./routes/voting');
 var mms = require('./routes/mms');
+var auth = require('./routes/authorisation');
 
 var app = express();
 
@@ -52,6 +53,7 @@ app.use('/', static_pages);
 app.use('/mms', mms);
 app.use('/listings', listings);
 app.use('/voting', voting);
+app.use('/auth', auth);
 //app.use('/', express.static(__dirname + '/dist'));
 
 // catch 404 and forward to error handler

@@ -2,7 +2,6 @@ var Contribution = require('../control/models.js').Contribution;
 var Grouping = require('../control/models.js').Grouping;
 var Chip = require('../control/models.js').Chip;
 var Settings = require('../control/models').Settings;
-var Common = require('../control/common');
 var express = require('express');
 var router = express.Router();
 
@@ -34,7 +33,7 @@ router.get('/settings', function (req, res) {
  * Update Settings
  */
 router.put('/settings', function (req, res) {
-  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+  if (req.query['pw'] === process.env.ROUTE_PASSWORD) {
     Settings.findOneAndUpdate({}, req.body, {upsert: true, returnNewDocument: true}, function (error, foundSet) {
       if (error || foundSet === null) {
         console.log("Error finding Settings");
@@ -92,7 +91,7 @@ router.get('/groupings/:id?', function (req, res) {
  * Update Grouping data (supply id in body)
  */
 router.put('/groupings', function (req, res) {
-  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+  if (req.query['pw'] === process.env.ROUTE_PASSWORD) {
     Grouping.findOne({_id: req.body._id}, function (error, foundItem) {
       if (error || foundItem === null) {
         console.log("Error finding Groupings");
@@ -122,7 +121,7 @@ router.put('/groupings', function (req, res) {
  * Delete grouping data (supply id in params)
  */
 router.delete('/groupings', function (req, res) {
-  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+  if (req.query['pw'] === process.env.ROUTE_PASSWORD) {
     Grouping.findOne({_id: req.query.id}, function (error, foundItem) {
       if (error || foundItem === null) {
         console.log("Error finding Groupings");
@@ -141,7 +140,7 @@ router.delete('/groupings', function (req, res) {
  * Create Grouping
  */
 router.post('/groupings', function (req, res) {
-  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+  if (req.query['pw'] === process.env.ROUTE_PASSWORD) {
     var grouping = new Grouping({
       urlSlug: req.body.urlSlug,
       contributions: req.body.contributions,
@@ -206,7 +205,7 @@ router.get('/contributions/:mode/:id?', function (req, res) {
  * Update Contribution data (supply id in body)
  */
 router.put('/contributions', function (req, res) {
-  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+  if (req.query['pw'] === process.env.ROUTE_PASSWORD) {
     Contribution.findOne({_id: req.body._id}, function (error, foundItem) {
       if (error || foundItem === null) {
         console.log("Error finding Contribution");
@@ -227,7 +226,7 @@ router.put('/contributions', function (req, res) {
  * Delete contribution data (supply id in params)
  */
 router.delete('/contributions', function (req, res) {
-  if (req.query['pw'] === Common.Constants.ROUTE_PASSWORD) {
+  if (req.query['pw'] === process.env.ROUTE_PASSWORD) {
     Contribution.findOne({_id: req.query.id}, function (error, foundItem) {
       if (error || foundItem === null) {
         console.log("Error finding Contribution");

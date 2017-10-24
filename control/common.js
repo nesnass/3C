@@ -8,8 +8,7 @@ exports.serverData = {
 exports.Constants = {
     MAIN_TAG: "framtidscampus",
     CRAWLER_REFRESH_INTERVAL_SECONDS: 60,
-    GROUPING_MODES: ["Chips", "Feed", "All"],
-    ROUTE_PASSWORD: "nhsdiS723jPdw@j^ddfss901hsSs923jd"
+    GROUPING_MODES: ["Chips", "Feed", "All"]
 };
 
 exports.StatusMessages = {

@@ -40,8 +40,8 @@
 </div>
 
 
-<div *ngIf="showCarousel" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-  <div fxFlex class="serendipitous-container">
+<div *ngIf="showCarousel" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+  <div class="serendipitous-container" fxFlex="1 12 auto">
     <div fxLayout="column" class="serendipitous-left-panel" fxLayoutAlign="end center">
       <p class="serendipitous-categoryTitle">{{listingService.serendipitousTitle}}</p>
       <p class="serendipitous-categorySubtitle">{{listingService.serendipitousSubtitle}}</p>
@@ -51,6 +51,6 @@
       <img class="ntnu-logo" src="assets/img/logo_ntnu_gray.png"/>
     </div>
   </div>
-  <app-carousel fxFlex></app-carousel>
+  <app-carousel fxFlex="1 1 auto"></app-carousel>
 </div>
 

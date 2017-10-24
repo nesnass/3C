@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';  import 'rxjs/add/operator/last';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {Chip, Contribution, Grouping, GroupingResponse, InputData, Options, Settings} from '../models';
+import {Router} from '@angular/router';
 import {ListingBackendService} from './listingBackend.service';
 import {Observable} from 'rxjs/Observable';
 import {isUndefined} from 'util';
@@ -32,7 +33,9 @@ export class ListingService {
   private _votingContribution2: Contribution;
   private _firstMatchingVotingChip: Chip;
 
-  constructor(private listingBackendService: ListingBackendService) {
+  constructor(private listingBackendService: ListingBackendService,
+              private ngZone: NgZone,
+              private router: Router) {
     this.options = {
         viewMode: 'standard'
     };
@@ -48,6 +51,10 @@ export class ListingService {
     this._settings = new Settings();
     this._showUnvettedContributions = false;
     this.retrieveSettings();
+  }
+
+  set routePassword(pw: string) {
+    this.listingBackendService.routePassword = pw;
   }
 
   get appUrl() {
@@ -405,6 +412,20 @@ export class ListingService {
   castVote(c1: boolean, c2: boolean) {
     return this.listingBackendService.castVote(this._selectedGrouping._id,
       this._votingContribution1._id, c1, this._votingContribution2._id, c2);
+  }
+
+
+
+
+
+  auth() {
+    return this.listingBackendService.auth();
+  }
+
+  public navigateToView(viewPath) {
+    this.ngZone.run(() => {
+      this.router.navigate([viewPath]);
+    });
   }
 
 

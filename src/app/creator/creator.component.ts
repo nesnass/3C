@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Grouping, contributionModes, displayModes, votingDisplayModes, titleDescriptionModes, Chip} from '../models';
 import { ListingService } from '../services/listing.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-creator',
@@ -14,7 +15,7 @@ export class CreatorComponent implements OnInit {
   votingDisplayModes: {}[];
   titleDescriptionModes: {}[];
 
-  constructor(private listingService: ListingService) {
+  constructor(private route: ActivatedRoute, private listingService: ListingService) {
     this.contributionModes = contributionModes;
     this.displayModes = displayModes;
     this.votingDisplayModes = votingDisplayModes;
@@ -24,6 +25,24 @@ export class CreatorComponent implements OnInit {
   ngOnInit() {
     // this.contributions = this.contributionService.contributionsAsValue;
     // this.groupings = this.contributionService.groupingsAsValue;
+
+    this.route.queryParamMap.subscribe(
+      paramsMap => {
+        if (paramsMap.has('pw')) {
+          this.listingService.routePassword = paramsMap.get('pw');
+          this.listingService.auth().subscribe((response) => {
+            console.log(response['data']);
+            if (response['data'] !== 'ok') {
+              this.listingService.navigateToView('');
+            }
+          }, () => {
+            this.listingService.navigateToView('');
+          });
+        } else {
+          this.listingService.navigateToView('');
+        }
+      }
+    );
   }
 
   updateToServer(item, type) {

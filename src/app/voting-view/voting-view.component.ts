@@ -22,8 +22,7 @@ export class VotingViewComponent implements OnInit {
   contribution2: Contribution;
 
   inputData: InputData;
-  voteSelectedStateC1: string;
-  voteSelectedStateC2: string;
+  voteSelectedState: string;
 
   backTimer = null;
 
@@ -34,8 +33,7 @@ export class VotingViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.voteSelectedStateC1 = 'small';
-    this.voteSelectedStateC2 = 'small';
+    this.voteSelectedState = 'small';
     if (this.position !== 'none') {
       let selectedGrouping = null;
       this.listingService.groupings.subscribe( (groupings) => {
@@ -70,11 +68,13 @@ export class VotingViewComponent implements OnInit {
   }
 
   castVote(c1: boolean, c2: boolean) {
-    this.voteSelectedStateC1 = c1 ? 'large' : 'small';
-    this.voteSelectedStateC2 = c2 ? 'large' : 'small';
+    this.voteSelectedState = 'large';
+    this.contribution1.votedOn = c1;
+    this.contribution2.votedOn = c2;
     setTimeout(() => {
-      this.voteSelectedStateC1 = 'small';
-      this.voteSelectedStateC2 = 'small';
+      this.voteSelectedState = 'small';
+      this.contribution1.votedOn = false;
+      this.contribution2.votedOn = false;
       this.listingService.castVote(c1, c2);
       this.getTwoContributions();
     }, 1000);

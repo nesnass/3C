@@ -50,7 +50,6 @@ export class ContributionComponent implements OnInit {
   }
   @Output() contributionChange: EventEmitter<Contribution> = new EventEmitter<Contribution>();
 
-
   constructor() {
     this._contribution = null;
   }
@@ -58,6 +57,10 @@ export class ContributionComponent implements OnInit {
   ngOnInit() {
     this.voteSelectedState = 'small';
     // console.log('object evt: %O', this.grouping);
+  }
+
+  getVotedOn() {
+    return this._contribution.votedOn;
   }
 
   setupContribution() {

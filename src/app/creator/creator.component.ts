@@ -15,7 +15,7 @@ export class CreatorComponent implements OnInit {
   votingDisplayModes: {}[];
   titleDescriptionModes: {}[];
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) {
+  constructor(private route: ActivatedRoute, public listingService: ListingService) {
     this.contributionModes = contributionModes;
     this.displayModes = displayModes;
     this.votingDisplayModes = votingDisplayModes;

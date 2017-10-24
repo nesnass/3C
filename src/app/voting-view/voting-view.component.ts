@@ -27,7 +27,7 @@ export class VotingViewComponent implements OnInit {
 
   backTimer = null;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) {
+  constructor(private route: ActivatedRoute, public listingService: ListingService) {
     this.position = 'none';
     this.inputData = new InputData();
     this.route.params.subscribe( params => this.position = params.position );

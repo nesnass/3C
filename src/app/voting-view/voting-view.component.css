@@ -11,13 +11,39 @@
 }
 
 .votingContainer {
-  position: fixed;
+  position: absolute;
   word-break: keep-all;
-  width: 100%;
+  width: 100vw;
   height: 100%;
+  overflow: hidden;
 }
 
+.customVotingContainer {
+  position: absolute;
+  word-break: keep-all;
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+}
 
+.thankyouContainer {
+  position: absolute;
+  word-break: keep-all;
+  width: 100vw;
+  overflow: hidden;
+  padding-top: 20%;
+}
+.thankyou {
+  font-family: "HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 2em;
+}
+.thankyou p {
+  color: black;
+}
 
 
 /*  Intro Text */
@@ -106,7 +132,7 @@
 /*  Info on right */
 .voting-textblock3 {
   position: absolute;
-  top: 35%;
+  top: 70%;
   right: 10px;
   width: 130px;
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
@@ -224,9 +250,10 @@
 }
 
 .opinion-form-container {
-  position: relative;
+  position: absolute;
   width: 100%;
-  margin-top: 20%;
+  margin-bottom: 10%;
+  bottom: 0;
 }
 .opinion-form {
   position: relative;
@@ -488,7 +515,7 @@
   /*  Info on right */
   .voting-textblock3 {
     position: absolute;
-    top: 300px;
+    top: 0;
     right: 10px;
     width: 130px;
     font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;

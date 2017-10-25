@@ -54,6 +54,10 @@ export class ContributionComponent implements OnInit {
     this._contribution = null;
   }
 
+  get contribution() {
+    return this._contribution;
+  }
+
   ngOnInit() {
     this.voteSelectedState = 'small';
     // console.log('object evt: %O', this.grouping);

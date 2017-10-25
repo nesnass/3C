@@ -9,7 +9,7 @@ import {ListingService} from './services/listing.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers: [
-    ListingService, Location, {provide: LocationStrategy, useClass: PathLocationStrategy}
+    ListingService, {provide: LocationStrategy, useClass: PathLocationStrategy}
   ]
 })
 export class AppComponent implements OnInit {

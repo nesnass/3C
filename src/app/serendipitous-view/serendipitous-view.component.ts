@@ -30,7 +30,11 @@ export class SerendipitousViewComponent implements OnInit {
         });
         if (selectedGrouping !== null) {
           this.listingService.grouping = selectedGrouping;
-          this.showCarousel = true;
+          if (selectedGrouping.displayMode === 'Voting Results') {
+            this.showDetail = true;
+          } else {
+            this.showCarousel = true;
+          }
         }
       });
     }
@@ -43,10 +47,12 @@ export class SerendipitousViewComponent implements OnInit {
   }
 
   resetDetailTimer() {
-    clearTimeout(this.showDetailTimer);
-    this.showDetailTimer = setTimeout(() => {
-      this.showDetail = false;
-      this.showCarousel = true;
-    }, 20000);
+    if (this.listingService.grouping.displayMode !== 'Voting Results') {
+      clearTimeout(this.showDetailTimer);
+      this.showDetailTimer = setTimeout(() => {
+        this.showDetail = false;
+        this.showCarousel = true;
+      }, 20000);
+    }
   }
 }

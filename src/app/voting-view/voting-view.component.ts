@@ -13,6 +13,7 @@ export class VotingViewComponent implements OnInit {
   showVoting = false;
   showCustomVoting = false;
   showResults = false;
+  showThankyou = false;
   contributionVisibleState = 'invisible';
   voteSelected = 'small';
   position: string;
@@ -25,7 +26,7 @@ export class VotingViewComponent implements OnInit {
   voteSelectedStateC2: string;
   backTimer = null;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) {
+  constructor(private route: ActivatedRoute, public listingService: ListingService) {
     this.position = 'none';
     this.inputData = new InputData();
     this.route.params.subscribe( params => this.position = params.position );
@@ -87,8 +88,12 @@ export class VotingViewComponent implements OnInit {
         // reset input field. TODO: reset whole page
         clearTimeout(this.backTimer);
         this.inputData = new InputData();
+        this.showThankyou = true;
         this.showCustomVoting = false;
-        this.showVoting = true;
+        setTimeout(() => {
+          this.showThankyou = false;
+          this.showVoting = true;
+        }, 3000);
       });
     }
   }

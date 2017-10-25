@@ -3,7 +3,7 @@
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
     <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showResults = true; showVoting = false;">Se resultat</button>
   </div>
 
 
@@ -53,7 +53,7 @@
 
   <div class="voting-textblock3">
     <img src="assets/img/yellow_box2.png"/>
-    <!--<p>Du kan også bidra med dine egne observasjoner, innspill og forslag til inspirasjon fra andre byer på facebooksiden framtidscampus.</p>-->
+    <p>To og to innspill fra nabomøtene vises. Velg eller bidra med eget innspill. Du kan bidra med så mange du vil, og stemme på så mange du vil.</p>
   </div>
 
   <div class="voting-textblock4">
@@ -75,12 +75,19 @@
 
 </div>
 
-<div class="votingContainer" *ngIf="showCustomVoting">
+<div class="thankyouContainer" *ngIf="showThankyou">
+  <div class="thankyou">
+    <h3>Takk for bidrag!</h3>
+    <p>Bidraget vil dukke opp her slik at folk kan stemme på det. Upassende bidrag slettes.</p>
+  </div>
+</div>
+
+<div class="customVotingContainer" *ngIf="showCustomVoting">
 
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
     <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showResults = true; showVoting = false;">Se resultat</button>
   </div>
 
   <div class="custom-voting-close" (click)="toggleCustomVote()">

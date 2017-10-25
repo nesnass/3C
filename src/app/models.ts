@@ -21,7 +21,7 @@ export class Contribution {
   voting: Voting[];
   groupingVoting?: Voting;    // Temp value for front end sorting of votes, set to the voting results for the current Grouping only
   totalVotes?: number;
-  votedOn: boolean;
+  votedNeither: boolean;
   image: {
     originalWidth: number;
     originalHeight: number;
@@ -44,7 +44,7 @@ export class Contribution {
     this.voting = [];
     this.totalVotes = 0;
     this.groupingVoting = new Voting({});
-    this.votedOn = false;
+    this.votedNeither = false;
     this.caption = '';
     this.image = {
       originalWidth: 0,

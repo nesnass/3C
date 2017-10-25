@@ -13,7 +13,7 @@
   </div>
 
   <div class="checkbox-container" *ngIf="grouping.displayMode === 'Voting'" [@voteSelected]="voteSelectedState" fxLayout="column" fxLayoutAlign="start center">
-    <span id="checkboxWord">{{ voteSelectedState === 'large' ? (getVotedOn() === true ? '&#9745;' : '&#9746;') : '&#9744;'}}</span>
+    <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' :  (votedNeither() ? '&#9746;' : '&#9744;')}}</span>
     <span id="voteWord">stem</span>
   </div>
 

@@ -59,8 +59,9 @@ export class ContributionComponent implements OnInit {
     // console.log('object evt: %O', this.grouping);
   }
 
-  getVotedOn() {
-    return this._contribution.votedOn;
+  votedNeither() {
+    console.log(this.voteSelectedState);
+    return this._contribution.votedNeither;
   }
 
   setupContribution() {

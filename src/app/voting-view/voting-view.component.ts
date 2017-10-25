@@ -22,8 +22,8 @@ export class VotingViewComponent implements OnInit {
   contribution2: Contribution;
 
   inputData: InputData;
-  voteSelectedState: string;
-
+  voteSelectedStateC1: string;
+  voteSelectedStateC2: string;
   backTimer = null;
 
   constructor(private route: ActivatedRoute, public listingService: ListingService) {
@@ -33,7 +33,8 @@ export class VotingViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.voteSelectedState = 'small';
+    this.voteSelectedStateC1 = 'small';
+    this.voteSelectedStateC2 = 'small';
     if (this.position !== 'none') {
       let selectedGrouping = null;
       this.listingService.groupings.subscribe( (groupings) => {
@@ -68,13 +69,14 @@ export class VotingViewComponent implements OnInit {
   }
 
   castVote(c1: boolean, c2: boolean) {
-    this.voteSelectedState = 'large';
-    this.contribution1.votedOn = c1;
-    this.contribution2.votedOn = c2;
+    this.voteSelectedStateC1 = c1 ? 'large' : 'small';
+    this.voteSelectedStateC2 = c2 ? 'large' : 'small';
+    this.checkNeither(c1, c2);
     setTimeout(() => {
-      this.voteSelectedState = 'small';
-      this.contribution1.votedOn = false;
-      this.contribution2.votedOn = false;
+      this.voteSelectedStateC1 = 'small';
+      this.voteSelectedStateC2 = 'small';
+      this.contribution1.votedNeither = false;
+      this.contribution2.votedNeither = false;
       this.listingService.castVote(c1, c2);
       this.getTwoContributions();
     }, 1000);
@@ -116,4 +118,10 @@ export class VotingViewComponent implements OnInit {
     }
   }
 
+  checkNeither(c1: boolean, c2: boolean) {
+    if (c1 === false && c2 === false) {
+      this.contribution1.votedNeither = true;
+      this.contribution2.votedNeither = true;
+    }
+  }
 }

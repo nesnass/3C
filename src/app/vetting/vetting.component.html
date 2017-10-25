@@ -17,7 +17,8 @@
   <div fxFlex="60">
     <mat-list>
       <h3 matSubheader>Contributions</h3>
-      <mat-list-item class="increasedHeight" *ngFor="let contribution of contributions">
+      <mat-checkbox [(ngModel)]="includeApprovedItems" >Show Approved Items</mat-checkbox>
+      <mat-list-item class="increasedHeight" *ngFor="let contribution of contributionsFilteredByApproval">
         <div fxLayout="row" style="width: 100%;">
           <div fxFlex="90">
             <p matLine class="wrapLine">{{contribution.caption}}</p>
@@ -25,7 +26,7 @@
           <div fxLayout="column" fxLayoutAlign="space-around end">
             <button style="color: red" (click)="deleteContribution(contribution)">Delete</button>
             <button style="color: blue" (click)="approveContribution(contribution)" *ngIf="!contribution.vetted">Approve</button>
-            <span style="color: blue; font-size: 0.7em" *ngIf="contribution.vetted">approved</span>
+            <span style="color: black; font-size: 0.7em" *ngIf="contribution.vetted">approved</span>
           </div>
         </div>
       </mat-list-item>

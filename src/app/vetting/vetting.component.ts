@@ -13,6 +13,7 @@ export class VettingComponent implements OnInit {
   groupings: Grouping[];
   selectedGrouping: Grouping = null;
   contributions: Contribution[];
+  includeApprovedItems: boolean;
 
   constructor(private route: ActivatedRoute, public listingService: ListingService) { }
 
@@ -43,6 +44,12 @@ export class VettingComponent implements OnInit {
       }
     );
 
+  }
+
+  get contributionsFilteredByApproval() {
+    return this.contributions.filter((c) => {
+      return this.includeApprovedItems ? true : !c.vetted;
+    });
   }
 
   refresh() {

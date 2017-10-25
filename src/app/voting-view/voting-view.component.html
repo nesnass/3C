@@ -18,10 +18,10 @@
       <img class="voting-pil" src="assets/img/pil.png"/>
 
         <div class="voteContributionDisplayBox1 pulse">
-          <app-contribution [(contribution)]="contribution1" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" [voteSelectedState]="voteSelectedStateC1" (click)="castVote(true, false)"></app-contribution>
+          <app-contribution [(contribution)]="contribution1" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" [voteSelectedState]="voteSelectedState" (click)="castVote(true, false)"></app-contribution>
         </div>
         <div class="voteContributionDisplayBox2 pulse">
-          <app-contribution [(contribution)]="contribution2" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" [voteSelectedState]="voteSelectedStateC2" (click)="castVote(false, true)"></app-contribution>
+          <app-contribution [(contribution)]="contribution2" [grouping]="listingService.grouping" [contributionVisibleState]="contributionVisibleState" [voteSelectedState]="voteSelectedState" (click)="castVote(false, true)"></app-contribution>
         </div>
 
 
@@ -30,11 +30,23 @@
 
 
   <div class="custom-voting-button-container">
-    <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="toggleCustomVote()">
-      <span>Jeg vil bidra med et nytt innspill</span>
-      <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
-        <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
-        <span id="voteWord">stem</span>
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
+      <div class="smaller-voting-button" (click)="castVote(true,true)">
+        <span>Enig med begge</span>
+      </div>
+
+      <div class="smaller-voting-button" (click)="castVote(false,false)">
+        <span>Uenig med begge</span>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="toggleCustomVote()">
+        <span>Jeg vil bidra med et nytt innspill</span>
+        <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
+          <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
+          <span id="voteWord">stem</span>
+        </div>
       </div>
     </div>
   </div>

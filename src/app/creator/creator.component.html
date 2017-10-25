@@ -3,9 +3,11 @@
   <mat-tab label="Groupings">
 
     <div class="groupings-header">
-      <mat-select placeholder="Default page" style="width: 300px;" [(ngModel)]="listingService.defaultGrouping" (change)="updateDefaultGroupingId()" *ngIf="listingService.defaultGrouping !== null">
-        <mat-option *ngFor="let grouping of listingService.groupingsAsValue" [value]="grouping">{{ grouping.categoryTitle }}</mat-option>
-      </mat-select>
+      <form>
+          <mat-select matInput placeholder="Default page" style="width: 300px;" name="defaultGrouping" [(ngModel)]="listingService.defaultGrouping" (change)="updateDefaultGroupingId()" *ngIf="listingService.defaultGrouping !== null">
+            <mat-option *ngFor="let grouping of listingService.groupingsAsValue" [value]="grouping">{{ grouping.categoryTitle }}</mat-option>
+          </mat-select>
+      </form>
     </div>
 
     <div fxLayout="row wrap">
@@ -43,22 +45,24 @@
               <p>Subtitle is generated from Album description</p>
             </div>
             <div *ngIf="grouping.titleDescriptionMode === 'Custom'">
-              <mat-input-container>
-                <input mdInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle" autofocus>
-              </mat-input-container><br>
-              <mat-input-container>
-                <input mdInput placeholder="Category Subtitle" [(ngModel)]="grouping.categorySubtitle">
-              </mat-input-container>
+              <mat-form-field>
+                <input matInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle" autofocus>
+              </mat-form-field><br>
+              <mat-form-field>
+                <input matInput placeholder="Category Subtitle" [(ngModel)]="grouping.categorySubtitle">
+              </mat-form-field>
             </div>
             <h2>Display</h2>
-            <mat-input-container>
-              <input mdInput placeholder="URL" [(ngModel)]="grouping.urlSlug">
-            </mat-input-container>
-            <mat-select placeholder="Present view as" [(ngModel)]="grouping.displayMode">
-              <mat-option *ngFor="let mode of displayModes" [value]="mode.viewValue">
-                {{ mode.viewValue }}
-              </mat-option>
-            </mat-select>
+            <mat-form-field>
+              <input matInput placeholder="URL" [(ngModel)]="grouping.urlSlug">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Present view as" [(ngModel)]="grouping.displayMode">
+                <mat-option *ngFor="let mode of displayModes" [value]="mode.viewValue">
+                  {{ mode.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
             <div *ngIf="grouping.displayMode === 'Voting'">
               <h2>Voting Options</h2>
               <mat-radio-group [(ngModel)]="grouping.votingOptions.displayMode">
@@ -75,11 +79,13 @@
             </div>
             <hr>
             <h2>Contributions</h2>
-            <mat-select placeholder="Select Contributions using" [(ngModel)]="grouping.contributionMode">
-              <mat-option *ngFor="let mode of contributionModes" [value]="mode.viewValue">
-                {{ mode.viewValue }}
-              </mat-option>
-            </mat-select>
+            <mat-form-field>
+              <mat-select placeholder="Select Contributions using" [(ngModel)]="grouping.contributionMode">
+                <mat-option *ngFor="let mode of contributionModes" [value]="mode.viewValue">
+                  {{ mode.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
             <div *ngIf="grouping.contributionMode === 'Chips'">
               <p>Show contributions from selected album titles: (click to select)</p>
               <mat-chip-list>

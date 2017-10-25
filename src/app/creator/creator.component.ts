@@ -31,7 +31,6 @@ export class CreatorComponent implements OnInit {
         if (paramsMap.has('pw')) {
           this.listingService.routePassword = paramsMap.get('pw');
           this.listingService.auth().subscribe((response) => {
-            console.log(response['data']);
             if (response['data'] !== 'ok') {
               this.listingService.navigateToView('');
             }

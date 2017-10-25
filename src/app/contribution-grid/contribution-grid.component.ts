@@ -27,7 +27,9 @@ export class ContributionGridComponent implements OnInit {
   ngOnInit() {
     this.grouping = this.listingService.grouping;
     this.wall = this.freewall.freewall;
-    this.contributions = this.listingService.contributionsAsValue;
+    this.listingService.contributions.subscribe((contributions) => {
+      this.contributions = contributions;
+    });
     this.showGrid = true;
     this.wall.reset({
       selector: '.contribution',

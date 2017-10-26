@@ -1,7 +1,26 @@
 import { Response } from '@angular/http';
 import {DomSanitizer} from '@angular/platform-browser';
 
-class Voting {
+// The Vote class stores a voting response list for a particular combination of two Contributions
+export class Vote {
+  groupingId: string;
+  c1Id: string;
+  c2Id: string;
+  votes: [{
+    c1: boolean;
+    c2: boolean;
+  }];
+
+  constructor(data: {}) {
+    this.groupingId = data['grouping'];
+    this.c1Id = data['c1'];
+    this.c2Id = data['c2'];
+    this.votes = data['votes'];
+  }
+}
+
+// This Voting subclass applies to a particular Contribution. It stores a vote total, exposure total for this Contribution
+export class Voting {
   votes: number;
   exposures: number;
   grouping_id: string;
@@ -237,9 +256,11 @@ export class Grouping {
   };
   chips: string[];
   created: Date;
+  active?: boolean;
 
   constructor(gData?: {}) {
     this.chips = [];
+    this.active = false;
     this.titleDescriptionMode = 'Automatic';    // 'Automatic' or 'Custom'
     this.contributionMode = 'Chips';      // 'Chips', 'All', 'Feed'
     this.displayMode = 'Serendipitous';   // 'Serendipitous', 'Voting', 'Voting Results'
@@ -289,6 +310,9 @@ export interface GroupingResponse extends Response {
 }
 export interface SettingResponse extends Response {
   data: Settings;
+}
+export interface VoteResponse extends Response {
+  data: Vote[];
 }
 export interface ContributionsResponse extends Response {
   data: Contribution[];

@@ -5,7 +5,7 @@ import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/a
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {
   Contribution, ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse, InputData, SettingResponse,
-  Settings
+  Settings, VoteResponse
 } from '../models';
 import {LocationStrategy} from '@angular/common';
 
@@ -145,6 +145,10 @@ export class ListingBackendService {
     const getString = this._apiUrl + 'voting/vote/' + grouping_id + '/' + c1_id + '/' +
       (c1_choice ? 'true' : 'false') + '/' + c2_id + '/' + (c2_choice ? 'true' : 'false');
     this.http.get(getString).catch(ListingBackendService.handleError).subscribe();
+  }
+
+  getVotes() {
+    return this.http.get<VoteResponse>(this._apiUrl + 'listings/votes').catch(ListingBackendService.handleError);
   }
 
   // Settings

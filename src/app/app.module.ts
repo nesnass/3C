@@ -31,17 +31,15 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { SmallerViewComponent } from './smaller-view/smaller-view.component';
 import { SerendipitousViewComponent } from './serendipitous-view/serendipitous-view.component';
 import { CreatorComponent } from './creator/creator.component';
-import {VotingViewComponent} from './voting-view/voting-view.component';
+import { VotingViewComponent } from './voting-view/voting-view.component';
 import { ContributionComponent } from './contribution/contribution.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { VettingComponent } from './vetting/vetting.component';
 
 const appRoutes: Routes = [
   { path: 'display/:position', component: SerendipitousViewComponent },
   { path: 'vote/:position', component: VotingViewComponent },
   { path: 'smaller', component: SmallerViewComponent },
   { path: 'creator', component: CreatorComponent },
-  { path: 'vetting', component: VettingComponent },
   { path: '', component: HomepageComponent },
   { path: '**', component: HomepageComponent }
 ];
@@ -53,7 +51,6 @@ const appRoutes: Routes = [
     CarouselComponent,
     SmallerViewComponent,
     SerendipitousViewComponent,
-    VettingComponent,
     VotingViewComponent,
     CreatorComponent,
     ContributionComponent,

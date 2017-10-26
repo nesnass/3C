@@ -100,12 +100,19 @@
 @media all and (max-width: 450px) {
   .contribution-container {
     opacity: 1;
-    width: 80%;
+    width: 90%;
     margin-left: auto;
-    margin-right: 20px;
+    margin-right: auto;
     margin-top: 20px;
   }
   .contribution-caption-as-image {
     width: auto;
+  }
+
+  .contribution {
+    height: 90vw;
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

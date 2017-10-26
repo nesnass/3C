@@ -188,8 +188,9 @@ function syncContributionsFromAlbum(album, chip) {
 
           } else {
 
-            // This photo already exists, update the caption if necessary
+            // This photo already exists, update the caption and image url (Facebook changes a date stamp on images)
             contribution.facebook_data.caption.text = photo.name;
+            contribution.facebook_data.images.url = photo.images[0].source;
             contribution.save();
 
           }

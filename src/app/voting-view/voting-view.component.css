@@ -406,6 +406,7 @@
     position: relative;
     overflow-x: hidden;
     height: auto;
+    width: 100%;
   }
 
 
@@ -488,7 +489,7 @@
     margin: 20px auto 100px auto;
     font-family: "HelveticaNeueW02-45Light", Helvetica, sans-serif;
     font-size: 1.3em;
-    text-align: justify;
+    text-align: center;
     width: 90%;
   }
 
@@ -520,10 +521,10 @@
 
   /*  Info on right */
   .voting-textblock3 {
-    position: absolute;
+    position: relative;
     top: 0;
-    right: 10px;
-    width: 130px;
+    right: 0;
+    width: 100%;
     font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
     font-size: 0.7em;
     text-align: right;
@@ -535,6 +536,9 @@
     z-index: -1;
     width: 330px;
     height: 380px;
+  }
+  .voting-textblock3 p {
+    padding-right: 5px;
   }
 
   /*  Info on bottom right */

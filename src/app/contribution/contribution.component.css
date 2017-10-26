@@ -10,7 +10,7 @@
   border-radius: 15px;
   background-position: center;
 
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 
@@ -29,18 +29,18 @@
   bottom: 0;
   left: 0;
   padding: 2px 5px;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0,0,0,0.6);
 }
 
 .contribution-voting {
   font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
-  font-size: 0.7em;
+  font-size: 2em;
   color: white;
 }
 
 .contribution-caption {
   font-family:"HelveticaNeueW02-45Light", Helvetica, sans-serif;
-  font-size: 16pt;
+  font-size: 3em;
   color: white;
 }
 
@@ -100,12 +100,19 @@
 @media all and (max-width: 450px) {
   .contribution-container {
     opacity: 1;
-    width: 80%;
+    width: 90%;
     margin-left: auto;
-    margin-right: 20px;
+    margin-right: auto;
     margin-top: 20px;
   }
   .contribution-caption-as-image {
     width: auto;
+  }
+
+  .contribution {
+    height: 90vw;
+    width: 90vw;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

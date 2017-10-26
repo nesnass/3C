@@ -1,6 +1,7 @@
 var Contribution = require('../control/models.js').Contribution;
 var Grouping = require('../control/models.js').Grouping;
 var Chip = require('../control/models.js').Chip;
+var Vote = require('../control/models.js').Vote;
 var Settings = require('../control/models').Settings;
 var express = require('express');
 var router = express.Router();
@@ -64,6 +65,23 @@ router.get('/chips', function (req, res) {
   })
 });
 
+
+// ************************* Votes ****************************
+
+/**
+ * Return Votes data
+ */
+router.get('/votes', function (req, res) {
+  Vote.find({}).exec(function (error, foundSet) {
+    if (error || foundSet === null) {
+      console.log("Error finding Votes");
+      res.status(500);
+    } else {
+      res.status(200).json({data: foundSet});
+    }
+  });
+});
+
 // ************************* Groupings ****************************
 
 /**
@@ -71,7 +89,7 @@ router.get('/chips', function (req, res) {
  */
 router.get('/groupings/:id?', function (req, res) {
   var query;
-  if (req.params.id) {   // Find one contrigution by ID
+  if (req.params.id) {   // Find one contribution by ID
     query = Grouping.find({_id: req.params.id})
   } else {    // Get all contributions
     query = Grouping.find({}).sort({"created": 'desc'});

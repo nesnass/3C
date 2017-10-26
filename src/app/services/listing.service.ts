@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';  import 'rxjs/add/operator/last';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import {Chip, Contribution, Grouping, GroupingResponse, InputData, Options, Settings} from '../models';
+import {Chip, Contribution, Grouping, GroupingResponse, InputData, Options, Settings, Vote} from '../models';
 import {Router} from '@angular/router';
 import {ListingBackendService} from './listingBackend.service';
 import {Observable} from 'rxjs/Observable';
@@ -67,6 +67,10 @@ export class ListingService {
 
   get contributions(): Observable<Contribution[]> {
     return this._contributions;
+  }
+
+  get votes() {
+    return this.listingBackendService.getVotes();
   }
 
   get contributionsAsValue(): Contribution[] {

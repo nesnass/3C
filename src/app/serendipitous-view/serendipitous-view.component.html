@@ -27,11 +27,13 @@
   </div>
 
   <div *ngIf="listingService.grouping.displayMode === 'Voting Results'">
-    <p>Med dette “serendipitous display” forsøker vi å gjøre medvirkningstiltak mer virksomme
+    <!--p>Med dette “serendipitous display” forsøker vi å gjøre medvirkningstiltak mer virksomme
       ved å synliggjøre bidragene i såkalte “decition makers” sin umiddelbare kontekst. Hver
       fredag frem til 15. september vil KOHT arkitekter respondere på fem bidrag på facebooksiden <i>framtidscampus</i>.</p>
     <p>Prosjektet er del av medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
-      NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p>
+      NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p-->
+    <p class="text-subHeading">{{listingService.grouping.categoryTitle}}</p>
+    <p>{{listingService.grouping.categorySubtitle}}</p>
     <br>
   </div>
 

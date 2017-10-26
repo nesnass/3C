@@ -28,6 +28,21 @@
     <!--p class="voting-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p-->
   </div>
 
+  <div class="voting-textblock3" >
+    <img src="assets/img/yellow_box2.png"/>
+    <p>To og to<br/>
+
+      innspill fra<br/>
+
+      nabomøter i høst vises.<br/>
+
+      Velg de du synes er best,<br/>
+
+      eller bidra med<br/>
+
+      eget innspill.</p>
+  </div>
+
 
   <div class="custom-voting-button-container">
     <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
@@ -51,12 +66,8 @@
     </div>
   </div>
 
-  <div class="voting-textblock3">
-    <img src="assets/img/yellow_box2.png"/>
-    <p>To og to innspill fra nabomøtene vises. Velg eller bidra med eget innspill. Du kan bidra med så mange du vil, og stemme på så mange du vil.</p>
-  </div>
 
-  <div class="voting-textblock4">
+  <div class="voting-textblock4" >
     <p>Dette er del av flere medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
       NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p>
     <!--<img src="assets/img/logo_ntnu_gray.png"/>-->
@@ -98,7 +109,7 @@
     <div class="opinion-form">
       <form id="voting_form">
         <p class="opinion-text">Ønsker du heller å gi din egen mening? Skriv her:</p>
-        <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required (change)="resetTimeout()"></textarea>
+        <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required (keyup)="resetTimeout()" (change)="resetTimeout()"></textarea>
         <div class="opinion-text">
           <span>Jeg...&nbsp;</span>
           <label>Bor<input [(ngModel)]="inputData.status.living" type="checkbox" name="living" (change)="resetTimeout()"> </label>

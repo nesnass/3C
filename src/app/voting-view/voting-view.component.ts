@@ -93,7 +93,7 @@ export class VotingViewComponent implements OnInit {
         setTimeout(() => {
           this.showThankyou = false;
           this.showVoting = true;
-        }, 3000);
+        }, 23000);
       });
     }
   }

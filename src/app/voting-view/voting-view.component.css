@@ -132,16 +132,17 @@
 /*  Info on right */
 .voting-textblock3 {
   position: absolute;
-  top: 70%;
+  top: 55%;
   right: 10px;
-  width: 130px;
+  width: 190px;
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
-  font-size: 0.7em;
-  text-align: justify;
+  font-size: 1em;
+  text-align: right;
+  line-height: 2em;
 }
 .voting-textblock3 img {
   position: absolute;
-  top: -210px;
+  top: -110px;
   right: -220px;
   z-index: -1;
   width: 400px;
@@ -169,6 +170,7 @@
   position: absolute;
   left: 80%;
   top: 10%;
+  cursor: pointer;
 }
 .custom-voting-close img {
   width: 60px;
@@ -216,6 +218,7 @@
   background-color: white;
   position: relative;
   padding: 5px;
+  cursor: pointer;
 }
 .custom-voting-button span {
   display: inline-block;
@@ -229,6 +232,7 @@
   background-color: white;
   position: relative;
   padding: 4px;
+  cursor: pointer
 }
 
 .checkbox-container {
@@ -286,6 +290,7 @@
   border: none;
   padding:7px;
   margin-left: 20px;
+  cursor: pointer
 }
 
 #answer-controls {
@@ -506,6 +511,7 @@
   .opinion-button {
     margin-top: 30px;
     font-size: 1.3em;
+    cursor: pointer
   }
   .text-footnote {
     margin-top: 30px;
@@ -520,15 +526,15 @@
     width: 130px;
     font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
     font-size: 0.7em;
-    text-align: justify;
+    text-align: right;
   }
   .voting-textblock3 img {
     position: absolute;
-    top: -210px;
+    top: -120px;
     right: -220px;
     z-index: -1;
-    width: 400px;
-    height: 450px;
+    width: 330px;
+    height: 380px;
   }
 
   /*  Info on bottom right */

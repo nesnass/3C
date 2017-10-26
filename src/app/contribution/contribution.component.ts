@@ -64,7 +64,6 @@ export class ContributionComponent implements OnInit {
   }
 
   votedNeither() {
-    console.log(this.voteSelectedState);
     return this._contribution.votedNeither;
   }
 

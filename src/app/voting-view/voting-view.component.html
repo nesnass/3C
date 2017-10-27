@@ -3,7 +3,7 @@
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
     <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showResults = true; showVoting = false;">Se resultat</button>
   </div>
 
 
@@ -28,23 +28,46 @@
     <!--p class="voting-categorySubtitle">{{listingService.grouping.categorySubtitle}}</p-->
   </div>
 
+  <div class="voting-textblock3" >
+    <img src="assets/img/yellow_box2.png"/>
+    <p>To og to<br/>
+
+      innspill fra<br/>
+
+      nabomøter i høst vises.<br/>
+
+      Velg de du synes er best,<br/>
+
+      eller bidra med<br/>
+
+      eget innspill.</p>
+  </div>
+
 
   <div class="custom-voting-button-container">
-    <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="toggleCustomVote()">
-      <span>Jeg vil bidra med et nytt innspill</span>
-      <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
-        <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
-        <span id="voteWord">stem</span>
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
+      <div class="smaller-voting-button" (click)="castVote(true,true)">
+        <span>Enig med begge</span>
+      </div>
+
+      <div class="smaller-voting-button" (click)="castVote(false,false)">
+        <span>Uenig med begge</span>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div class="custom-voting-button" fxLayout="row" fxLayoutAlign="space-between center" (click)="toggleCustomVote()">
+        <span>Jeg vil bidra med et nytt innspill</span>
+        <div class="checkbox-container" fxLayout="column" fxLayoutAlign="end center">
+          <span id="checkboxWord">{{ voteSelectedState === 'large' ? '&#9745;' : '&#9744;'}}</span>
+          <span id="voteWord">stem</span>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="voting-textblock3">
-    <img src="assets/img/yellow_box2.png"/>
-    <!--<p>Du kan også bidra med dine egne observasjoner, innspill og forslag til inspirasjon fra andre byer på facebooksiden framtidscampus.</p>-->
-  </div>
 
-  <div class="voting-textblock4">
+  <div class="voting-textblock4" >
     <p>Dette er del av flere medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
       NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p>
     <!--<img src="assets/img/logo_ntnu_gray.png"/>-->
@@ -63,12 +86,19 @@
 
 </div>
 
-<div class="votingContainer" *ngIf="showCustomVoting">
+<div class="thankyouContainer" *ngIf="showThankyou">
+  <div class="thankyou">
+    <h3>Takk for bidrag!</h3>
+    <p>Bidraget vil dukke opp her slik at folk kan stemme på det. Upassende bidrag slettes.</p>
+  </div>
+</div>
+
+<div class="customVotingContainer" *ngIf="showCustomVoting">
 
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
     <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" md-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showResults = true; showVoting = false;">Se resultat</button>
   </div>
 
   <div class="custom-voting-close" (click)="toggleCustomVote()">
@@ -79,7 +109,7 @@
     <div class="opinion-form">
       <form id="voting_form">
         <p class="opinion-text">Ønsker du heller å gi din egen mening? Skriv her:</p>
-        <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required (change)="resetTimeout()"></textarea>
+        <textarea type="text" class="opinion-input" [(ngModel)]="inputData.text" name="input_text" required (keyup)="resetTimeout()" (change)="resetTimeout()"></textarea>
         <div class="opinion-text">
           <span>Jeg...&nbsp;</span>
           <label>Bor<input [(ngModel)]="inputData.status.living" type="checkbox" name="living" (change)="resetTimeout()"> </label>

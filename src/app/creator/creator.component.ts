@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {Grouping, contributionModes, displayModes, votingDisplayModes, titleDescriptionModes, Chip} from '../models';
+import {
+  Grouping, contributionModes, displayModes, votingDisplayModes, titleDescriptionModes, Chip,
+  Contribution, Vote, Voting
+} from '../models';
 import { ListingService } from '../services/listing.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-creator',
@@ -14,7 +18,16 @@ export class CreatorComponent implements OnInit {
   votingDisplayModes: {}[];
   titleDescriptionModes: {}[];
 
-  constructor(private listingService: ListingService) {
+  // Vetting vars
+  groupings: Grouping[];
+  selectedGrouping: Grouping = null;
+  contributions: Contribution[];
+  includeApprovedItems: boolean;
+
+  // Votes *** NOT CURRENTLY USED October 2017 ***
+  votes: Vote[];
+
+  constructor(private route: ActivatedRoute, public listingService: ListingService) {
     this.contributionModes = contributionModes;
     this.displayModes = displayModes;
     this.votingDisplayModes = votingDisplayModes;
@@ -24,6 +37,44 @@ export class CreatorComponent implements OnInit {
   ngOnInit() {
     // this.contributions = this.contributionService.contributionsAsValue;
     // this.groupings = this.contributionService.groupingsAsValue;
+
+    this.route.queryParamMap.subscribe(
+      paramsMap => {
+        if (paramsMap.has('pw')) {
+          this.listingService.routePassword = paramsMap.get('pw');
+          this.listingService.auth().subscribe((response) => {
+            if (response['data'] !== 'ok') {
+              this.listingService.navigateToView('');
+            }
+          }, () => {
+            this.listingService.navigateToView('');
+          });
+        } else {
+          this.listingService.navigateToView('');
+        }
+      }
+    );
+
+    this.listingService.showUnvettedContributions = true;
+
+    this.listingService.groupings.subscribe(
+      groupings => {
+        this.groupings = groupings;
+      }
+    );
+
+    this.listingService.contributions.subscribe(
+      contributions => {
+        this.contributions = contributions;
+      }
+    );
+
+    // Votes var *** NOT CURRENTLY USED October 2017 ***
+    this.listingService.votes.subscribe(
+      votes => {
+        this.votes = votes;
+      }
+    );
   }
 
   updateToServer(item, type) {
@@ -101,5 +152,59 @@ export class CreatorComponent implements OnInit {
         return 'vote/';
     }
   }
+
+  // --------------   Vetting --------------------
+
+
+  get contributionsFilteredByApproval() {
+    return this.contributions.filter((c) => {
+      return this.includeApprovedItems ? true : !c.vetted;
+    });
+  }
+
+  showContributionsFor(group: Grouping) {
+    this.selectedGrouping = group;
+    this.listingService.grouping = group;
+  }
+
+  deleteContribution(c: Contribution) {
+    this.listingService.deleteContribution(c);
+  }
+
+  approveContribution(c: Contribution) {
+    c.vetted = true;
+    this.listingService.updateContribution(c);
+  }
+
+  // -----------------   Votes ----------------------
+
+
+  get contributionsFilteredByActiveGrouping() {
+    return this.contributions.filter((c) => {
+      return c.groupingVoting.grouping_id === 'active';
+    });
+  }
+
+  // In this case the Voting class is used to accumulate voting results ACROSS grouping IDs.
+  // Therefore the Contribution.groupingVoting.grouping_id will == '';
+  createAggregatedVoteCount() {
+    const selectedGroupingIds = this.groupings.filter((g) => {
+      return g.active;
+    }).map((fg) => {
+      return fg._id;
+    });
+
+    this.contributions.map((c) => {
+      c.groupingVoting = new Voting({votes: 0, exposures: 0, grouping_id: 'inactive'});
+      c.voting.forEach((v) => {
+        if (selectedGroupingIds.indexOf(v.grouping_id) > -1) {
+          c.groupingVoting.votes += v.votes;
+          c.groupingVoting.exposures += v.exposures;
+          c.groupingVoting.grouping_id = 'active';
+        }
+      });
+    });
+  }
+
 
 }

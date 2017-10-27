@@ -1,7 +1,26 @@
 import { Response } from '@angular/http';
 import {DomSanitizer} from '@angular/platform-browser';
 
-class Voting {
+// The Vote class stores a voting response list for a particular combination of two Contributions
+export class Vote {
+  groupingId: string;
+  c1Id: string;
+  c2Id: string;
+  votes: [{
+    c1: boolean;
+    c2: boolean;
+  }];
+
+  constructor(data: {}) {
+    this.groupingId = data['grouping'];
+    this.c1Id = data['c1'];
+    this.c2Id = data['c2'];
+    this.votes = data['votes'];
+  }
+}
+
+// This Voting subclass applies to a particular Contribution. It stores a vote total, exposure total for this Contribution
+export class Voting {
   votes: number;
   exposures: number;
   grouping_id: string;
@@ -18,9 +37,11 @@ export class Contribution {
   origin: string;
   created: Date;
   chips: string[];
+  vetted: boolean;
   voting: Voting[];
   groupingVoting?: Voting;    // Temp value for front end sorting of votes, set to the voting results for the current Grouping only
   totalVotes?: number;
+  votedNeither: boolean;
   image: {
     originalWidth: number;
     originalHeight: number;
@@ -41,8 +62,10 @@ export class Contribution {
   constructor(cData: {}, grouping: Grouping) {
     this.chips = [];
     this.voting = [];
+    this.vetted = false;
     this.totalVotes = 0;
     this.groupingVoting = new Voting({});
+    this.votedNeither = false;
     this.caption = '';
     this.image = {
       originalWidth: 0,
@@ -72,6 +95,7 @@ export class Contribution {
     this._id = cData._id;
     this.origin = cData.origin;
     this.created = new Date(cData.created);
+    this.vetted = cData.vetted;
     this.chips = cData.chips || [];
     if (cData.voting) {
       cData.voting.forEach((v) => {
@@ -232,9 +256,11 @@ export class Grouping {
   };
   chips: string[];
   created: Date;
+  active?: boolean;
 
   constructor(gData?: {}) {
     this.chips = [];
+    this.active = false;
     this.titleDescriptionMode = 'Automatic';    // 'Automatic' or 'Custom'
     this.contributionMode = 'Chips';      // 'Chips', 'All', 'Feed'
     this.displayMode = 'Serendipitous';   // 'Serendipitous', 'Voting', 'Voting Results'
@@ -284,6 +310,9 @@ export interface GroupingResponse extends Response {
 }
 export interface SettingResponse extends Response {
   data: Settings;
+}
+export interface VoteResponse extends Response {
+  data: Vote[];
 }
 export interface ContributionsResponse extends Response {
   data: Contribution[];

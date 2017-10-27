@@ -11,13 +11,39 @@
 }
 
 .votingContainer {
-  position: fixed;
+  position: absolute;
   word-break: keep-all;
-  width: 100%;
+  width: 100vw;
   height: 100%;
+  overflow: hidden;
 }
 
+.customVotingContainer {
+  position: absolute;
+  word-break: keep-all;
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+}
 
+.thankyouContainer {
+  position: absolute;
+  word-break: keep-all;
+  width: 100vw;
+  overflow: hidden;
+  padding-top: 20%;
+}
+.thankyou {
+  font-family: "HelveticaNeueW02-45Light", Helvetica, sans-serif;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 2em;
+}
+.thankyou p {
+  color: black;
+}
 
 
 /*  Intro Text */
@@ -106,16 +132,17 @@
 /*  Info on right */
 .voting-textblock3 {
   position: absolute;
-  top: 35%;
+  top: 55%;
   right: 10px;
-  width: 130px;
+  width: 190px;
   font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
-  font-size: 0.7em;
-  text-align: justify;
+  font-size: 1em;
+  text-align: right;
+  line-height: 2em;
 }
 .voting-textblock3 img {
   position: absolute;
-  top: -210px;
+  top: -110px;
   right: -220px;
   z-index: -1;
   width: 400px;
@@ -143,6 +170,7 @@
   position: absolute;
   left: 80%;
   top: 10%;
+  cursor: pointer;
 }
 .custom-voting-close img {
   width: 60px;
@@ -184,15 +212,27 @@
 .custom-voting-button {
   border: dashed rgba(0,100,0,0.4) 3px;
   border-radius: 15px;
-  width: 470px;
+  width: 530px;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
   position: relative;
   padding: 5px;
+  cursor: pointer;
 }
 .custom-voting-button span {
   display: inline-block;
+}
+
+.smaller-voting-button {
+  border: dashed rgba(0,100,0,0.4) 3px;
+  border-radius: 15px;
+  width: 250px;
+  margin-bottom: 5px;
+  background-color: white;
+  position: relative;
+  padding: 4px;
+  cursor: pointer
 }
 
 .checkbox-container {
@@ -214,9 +254,10 @@
 }
 
 .opinion-form-container {
-  position: relative;
+  position: absolute;
   width: 100%;
-  margin-top: 20%;
+  margin-bottom: 10%;
+  bottom: 0;
 }
 .opinion-form {
   position: relative;
@@ -249,6 +290,7 @@
   border: none;
   padding:7px;
   margin-left: 20px;
+  cursor: pointer
 }
 
 #answer-controls {
@@ -364,6 +406,7 @@
     position: relative;
     overflow-x: hidden;
     height: auto;
+    width: 100%;
   }
 
 
@@ -446,7 +489,7 @@
     margin: 20px auto 100px auto;
     font-family: "HelveticaNeueW02-45Light", Helvetica, sans-serif;
     font-size: 1.3em;
-    text-align: justify;
+    text-align: center;
     width: 90%;
   }
 
@@ -469,6 +512,7 @@
   .opinion-button {
     margin-top: 30px;
     font-size: 1.3em;
+    cursor: pointer
   }
   .text-footnote {
     margin-top: 30px;
@@ -477,21 +521,24 @@
 
   /*  Info on right */
   .voting-textblock3 {
-    position: absolute;
-    top: 300px;
-    right: 10px;
-    width: 130px;
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 100%;
     font-family: "HelveticaNeueW02-UltLight", Helvetica, sans-serif;
     font-size: 0.7em;
-    text-align: justify;
+    text-align: right;
   }
   .voting-textblock3 img {
     position: absolute;
-    top: -210px;
+    top: -120px;
     right: -220px;
     z-index: -1;
-    width: 400px;
-    height: 450px;
+    width: 330px;
+    height: 380px;
+  }
+  .voting-textblock3 p {
+    padding-right: 5px;
   }
 
   /*  Info on bottom right */

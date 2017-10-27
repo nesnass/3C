@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';  import 'rxjs/add/operator/last';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import {Chip, Contribution, Grouping, GroupingResponse, InputData, Options, Settings} from '../models';
+import {Chip, Contribution, Grouping, GroupingResponse, InputData, Options, Settings, Vote} from '../models';
+import {Router} from '@angular/router';
 import {ListingBackendService} from './listingBackend.service';
 import {Observable} from 'rxjs/Observable';
 import {isUndefined} from 'util';
@@ -23,6 +24,7 @@ export class ListingService {
   private errorMessage: any;
   private _options: Options;
   private _settings: Settings;
+  private _showUnvettedContributions: boolean;
 
   private _selectedSerendipitousContribution: Contribution;
   private _selectedSerendipitousChips: Chip[];    // Chips are not directly stores inside Contribution
@@ -31,7 +33,9 @@ export class ListingService {
   private _votingContribution2: Contribution;
   private _firstMatchingVotingChip: Chip;
 
-  constructor(private listingBackendService: ListingBackendService) {
+  constructor(private listingBackendService: ListingBackendService,
+              private ngZone: NgZone,
+              private router: Router) {
     this.options = {
         viewMode: 'standard'
     };
@@ -45,7 +49,12 @@ export class ListingService {
     this._allContributionsLength = 0;
     this._defaultGrouping = null;
     this._settings = new Settings();
+    this._showUnvettedContributions = false;
     this.retrieveSettings();
+  }
+
+  set routePassword(pw: string) {
+    this.listingBackendService.routePassword = pw;
   }
 
   get appUrl() {
@@ -58,6 +67,10 @@ export class ListingService {
 
   get contributions(): Observable<Contribution[]> {
     return this._contributions;
+  }
+
+  get votes() {
+    return this.listingBackendService.getVotes();
   }
 
   get contributionsAsValue(): Contribution[] {
@@ -110,6 +123,11 @@ export class ListingService {
 
   }
 
+  set showUnvettedContributions(setting: boolean) {
+    this._showUnvettedContributions = setting;
+    this.refreshContributions(true);
+  }
+
   get votingContribution1(): Contribution {
     return this._votingContribution1;
   }
@@ -124,6 +142,18 @@ export class ListingService {
     this._selectedSerendipitousChips = this._chips.filter((chip) => {
       return c.chips.indexOf(chip._id) > -1;
     });
+  }
+
+  deleteContribution(contribution: Contribution): Observable<Contribution> {
+    const obs = this.listingBackendService.deleteContribution(contribution);
+    obs.subscribe(
+      () => {
+        const newContributionList: Contribution[] = this._contributions.getValue();
+        newContributionList.splice(newContributionList.indexOf(contribution), 1);
+        this._contributions.next(newContributionList);
+      });
+
+    return obs;
   }
 
   get groupings() {
@@ -148,7 +178,7 @@ export class ListingService {
 
   set grouping(grouping: Grouping) {
     this._selectedGrouping = grouping;
-    this.refreshContributions();
+    this.refreshContributions(true);
   }
 
   get grouping(): Grouping {
@@ -274,7 +304,7 @@ export class ListingService {
    */
   startServerPolling() {
     this.requestContributionsInterval = setInterval(() => {
-      this.refreshContributions();
+      this.refreshContributions(false);
     }, this.serverRefreshIntervalSeconds * 1000);
   }
 
@@ -326,14 +356,17 @@ export class ListingService {
   /**
    * Check for new contributions
    */
-  refreshContributions() {
-    this.listingBackendService.getAllContributions().subscribe(
+  refreshContributions(refreshAllRegardless: boolean) {
+    const options = {
+      iuv: this._showUnvettedContributions
+    };
+    this.listingBackendService.getAllContributions(options).subscribe(
       res => {
         const newContributions = (<Object[]>res.data)
           .map((contribution: any) => new Contribution(contribution, this._selectedGrouping));
 
         // Are there new contributions available? If so, update the collection
-        if (newContributions.length > 0 && this._allContributionsLength !== newContributions.length) {
+        if ((newContributions.length > 0 && this._allContributionsLength !== newContributions.length) || refreshAllRegardless) {
           this._allContributionsLength = newContributions.length;
           const filteredContributions = this.filterContributionsByGrouping(newContributions);
           if (this._selectedGrouping && !this._selectedGrouping.serendipitousOptions.randomSelection) {
@@ -384,5 +417,20 @@ export class ListingService {
     return this.listingBackendService.castVote(this._selectedGrouping._id,
       this._votingContribution1._id, c1, this._votingContribution2._id, c2);
   }
+
+
+
+
+
+  auth() {
+    return this.listingBackendService.auth();
+  }
+
+  public navigateToView(viewPath) {
+    this.ngZone.run(() => {
+      this.router.navigate([viewPath]);
+    });
+  }
+
 
 }

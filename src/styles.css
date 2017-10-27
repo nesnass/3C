@@ -70,3 +70,10 @@ button {
   height: auto;
   max-height: 90vh;
 }*/
+
+
+/* ******Overrides for material styling ****  */
+
+.mat-list .mat-list-item .mat-list-item-content, .mat-nav-list .mat-list-item .mat-list-item-content, .mat-selection-list .mat-list-item .mat-list-item-content {
+  height: auto !important;
+}

@@ -13,6 +13,7 @@ export class VotingViewComponent implements OnInit {
   showVoting = false;
   showCustomVoting = false;
   showResults = false;
+  showThankyou = false;
   contributionVisibleState = 'invisible';
   voteSelected = 'small';
   position: string;
@@ -23,10 +24,9 @@ export class VotingViewComponent implements OnInit {
   inputData: InputData;
   voteSelectedStateC1: string;
   voteSelectedStateC2: string;
-
   backTimer = null;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) {
+  constructor(private route: ActivatedRoute, public listingService: ListingService) {
     this.position = 'none';
     this.inputData = new InputData();
     this.route.params.subscribe( params => this.position = params.position );
@@ -71,9 +71,12 @@ export class VotingViewComponent implements OnInit {
   castVote(c1: boolean, c2: boolean) {
     this.voteSelectedStateC1 = c1 ? 'large' : 'small';
     this.voteSelectedStateC2 = c2 ? 'large' : 'small';
+    this.checkNeither(c1, c2);
     setTimeout(() => {
       this.voteSelectedStateC1 = 'small';
       this.voteSelectedStateC2 = 'small';
+      this.contribution1.votedNeither = false;
+      this.contribution2.votedNeither = false;
       this.listingService.castVote(c1, c2);
       this.getTwoContributions();
     }, 1000);
@@ -85,8 +88,12 @@ export class VotingViewComponent implements OnInit {
         // reset input field. TODO: reset whole page
         clearTimeout(this.backTimer);
         this.inputData = new InputData();
+        this.showThankyou = true;
         this.showCustomVoting = false;
-        this.showVoting = true;
+        setTimeout(() => {
+          this.showThankyou = false;
+          this.showVoting = true;
+        }, 23000);
       });
     }
   }
@@ -111,4 +118,10 @@ export class VotingViewComponent implements OnInit {
     }
   }
 
+  checkNeither(c1: boolean, c2: boolean) {
+    if (c1 === false && c2 === false) {
+      this.contribution1.votedNeither = true;
+      this.contribution2.votedNeither = true;
+    }
+  }
 }

@@ -120,6 +120,9 @@ var groupingSchema = Schema({
     imageCaption: { type: Boolean },
     resultsVisible: { type: Boolean }
   },
+  votingResultsOptions: {
+    groupings: [ { type: Schema.ObjectId, ref: 'Grouping' } ]
+  },
   serendipitousOptions: {
     randomSelection: { type: Boolean }
   },

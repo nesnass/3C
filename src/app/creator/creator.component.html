@@ -63,7 +63,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div *ngIf="grouping.displayMode === 'Voting'">
+            <div *ngIf="grouping.displayMode !== 'Serendipitous'">
               <h2>Voting Options</h2>
               <mat-radio-group [(ngModel)]="grouping.votingOptions.displayMode">
                 <mat-radio-button class="creator-voting-radio-button" *ngFor="let mode of votingDisplayModes" [value]="mode.viewValue">
@@ -72,9 +72,14 @@
               </mat-radio-group>
               <mat-checkbox [(ngModel)]="grouping.votingOptions.imageCaption">Image Caption</mat-checkbox>
               <mat-checkbox [(ngModel)]="grouping.votingOptions.resultsVisible">Results Visible</mat-checkbox>
+              <div *ngIf="grouping.displayMode === 'Voting Results'" fxLayout="column">
+                <h2>Voting Results Options</h2>
+                <h5>Accumulate votes from these groupings</h5>
+                <mat-checkbox class="mat-checkbox-layout-custom" *ngFor="let gs of grouping.votingResultsOptions.groupingsSelectors" [(ngModel)]="gs.selected" (change)="selectVotingResultGrouping(grouping, gs)">{{gs.title}}</mat-checkbox><br>
+              </div>
             </div>
             <div *ngIf="grouping.displayMode === 'Serendipitous'">
-              <h2>Display Options</h2>
+              <h2>Serendipitous Display Options</h2>
               <mat-checkbox [(ngModel)]="grouping.serendipitousOptions.randomSelection">Random Selection</mat-checkbox>
             </div>
             <hr>

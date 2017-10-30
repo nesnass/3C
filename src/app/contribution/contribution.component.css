@@ -13,6 +13,19 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+.contribution-caption-as-image {
+  border: dashed rgba(0,100,0,0.4) 3px;
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  color: black;
+  height: auto;
+  padding: 5px 40px 5px 5px;
+}
+.contribution-caption-as-image p {
+  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
+  margin: 0;
+  display: inline;
+  word-break: normal;
+}
 
 .contribution-large {
   height: 350px;
@@ -44,22 +57,7 @@
   color: white;
 }
 
-.contribution-caption-as-image {
-  border: dashed rgba(0,100,0,0.4) 3px;
-  border-radius: 15px;
-  position: relative;
-  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
-  color: black;
-  height: auto;
-  width: 300px;
-  padding: 5px 40px 5px 5px;
-}
-.contribution-caption-as-image p {
-  font-family:"HelveticaNeueW02-75Bold", Helvetica, sans-serif;
-  margin: 0;
-  display: inline;
-  word-break: normal;
-}
+
 .contribution-caption-quotation {
   position: absolute;
   font-size: 5em;

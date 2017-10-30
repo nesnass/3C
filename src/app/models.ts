@@ -238,6 +238,18 @@ export class Settings {
   }
 }
 
+export class GroupingsSelector {
+  id: string;
+  title: string;
+  selected: boolean;
+
+  constructor(id: string, title: string, selected: boolean) {
+    this.id = id;
+    this.title = title;
+    this.selected = selected;
+  }
+}
+
 export class Grouping {
   _id: string;
   urlSlug: string;
@@ -250,6 +262,10 @@ export class Grouping {
     displayMode: string;
     imageCaption: boolean;
     resultsVisible: boolean;
+  };
+  votingResultsOptions: {
+    groupings: string[];
+    groupingsSelectors?: GroupingsSelector[];
   };
   serendipitousOptions: {
     randomSelection: boolean;
@@ -268,6 +284,10 @@ export class Grouping {
       displayMode: 'Image',      // 'Image', 'Caption'
       imageCaption: true,
       resultsVisible: true
+    };
+    this.votingResultsOptions = {
+      groupings: [],
+      groupingsSelectors: null
     };
     this.serendipitousOptions = {
       randomSelection: false
@@ -288,6 +308,8 @@ export class Grouping {
     this.contributionMode = gData.contributionMode;
     this.displayMode = gData.displayMode;
     this.votingOptions = gData.votingOptions;
+    this.votingResultsOptions = gData.votingResultsOptions;
+    this.votingResultsOptions.groupingsSelectors = [];        // Needed at front end only, set up in Creator
     this.serendipitousOptions = gData.serendipitousOptions;
     this.chips = gData.chips;
   }

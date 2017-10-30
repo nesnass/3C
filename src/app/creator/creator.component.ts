@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   Grouping, contributionModes, displayModes, votingDisplayModes, titleDescriptionModes, Chip,
-  Contribution, Vote, Voting
+  Contribution, Vote, Voting, GroupingsSelector
 } from '../models';
 import { ListingService } from '../services/listing.service';
 import {ActivatedRoute} from '@angular/router';
@@ -60,6 +60,19 @@ export class CreatorComponent implements OnInit {
     this.listingService.groupings.subscribe(
       groupings => {
         this.groupings = groupings;
+
+        // Set up the 'groupingsSelectors' for each Grouping to allow front end check box selection
+        this.groupings.map((grouping) => {
+          this.groupings.forEach((g) => {
+            grouping.votingResultsOptions.groupingsSelectors.push(
+              new GroupingsSelector(
+                g._id,
+                g.categoryTitle || '(' + g._id + ')',
+                grouping.votingResultsOptions.groupings.indexOf(g._id) > -1
+              )
+            );
+          });
+        });
       }
     );
 
@@ -75,6 +88,15 @@ export class CreatorComponent implements OnInit {
         this.votes = votes;
       }
     );
+  }
+
+  selectVotingResultGrouping(grouping: Grouping, gs: GroupingsSelector) {
+    const i = grouping.votingResultsOptions.groupings.indexOf(gs.id);
+    if (gs.selected && i === -1) {
+      grouping.votingResultsOptions.groupings.push(gs.id);
+    } else if (!gs.selected && i > -1) {
+      grouping.votingResultsOptions.groupings.splice(i, 1);
+    }
   }
 
   updateToServer(item, type) {
@@ -176,7 +198,7 @@ export class CreatorComponent implements OnInit {
     this.listingService.updateContribution(c);
   }
 
-  // -----------------   Votes ----------------------
+  // -----------------   Votes Display ----------------------
 
 
   get contributionsFilteredByActiveGrouping() {

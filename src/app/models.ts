@@ -82,13 +82,29 @@ export class Contribution {
     }
   }
 
-  setGroupingVotingIndex(grouping: Grouping) {
-    this.voting.forEach((vote) => {
-      this.totalVotes += vote.votes;
-      if (vote.grouping_id === grouping._id) {
-        this.groupingVoting = new Voting(vote);
-      }
-    });
+  setGroupingVotingIndex(mainGrouping: Grouping) {
+
+    // For Voting Results - Tally votes that match the groupings selected in the mainGrouping
+    if (mainGrouping.displayMode === 'Voting Results') {
+      this.groupingVoting = new Voting({votes: 0, exposures: 0, grouping_id: 'inactive'});
+      this.voting.forEach((v) => {
+        if (mainGrouping.votingResultsOptions.groupings.indexOf(v.grouping_id) > -1) {
+          this.totalVotes += v.votes;
+          this.groupingVoting.votes += v.votes;
+          this.groupingVoting.exposures += v.exposures;
+          this.groupingVoting.grouping_id = 'active';  // a key is needed here to allow filtering these Contributions from others
+        }
+      });
+
+    // Otherwise, tally all of the votes we find, and set up for for a single Grouping
+    } else {
+      this.voting.forEach((vote) => {
+        this.totalVotes += vote.votes;
+        if (vote.grouping_id === mainGrouping._id) {
+          this.groupingVoting = new Voting(vote);
+        }
+      });
+    }
   }
 
   setContribution(cData) {

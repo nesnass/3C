@@ -29,7 +29,7 @@ export class ContributionGridComponent implements OnInit {
     this.wall = this.freewall.freewall;
     this.listingService.contributions.subscribe((contributions) => {
       this._contributions = contributions;
-      this.createAggregatedVoteCount();
+      // this.createAggregatedVoteCount(this.grouping);
     });
     this.showGrid = true;
     this.wall.reset({
@@ -46,7 +46,7 @@ export class ContributionGridComponent implements OnInit {
     });
     setTimeout(() => {        // Largest to smallest
       this.wall.fitWidth();
-    }, 1000);
+    }, 2000);
   }
 
   zoomContribution(contribution: Contribution) {
@@ -59,7 +59,9 @@ export class ContributionGridComponent implements OnInit {
 
   get contributions(): Contribution[] {
     if (this.grouping.displayMode === 'Voting Results') {
-      return this.contributionsFilteredByActiveGroupings;
+      return this._contributions.filter((c) => {
+        return c.groupingVoting.grouping_id === 'active';
+      });
     } else {
       return this._contributions;
     }
@@ -70,16 +72,11 @@ export class ContributionGridComponent implements OnInit {
 
   // -----------------   Votes Display ----------------------
 
-  get contributionsFilteredByActiveGroupings(): Contribution[] {
-    return this._contributions.filter((c) => {
-      return c.groupingVoting.grouping_id === 'active';
-    });
-  }
 
   // In this case the Voting class is used to accumulate voting results ACROSS grouping IDs.
   // Therefore the Contribution.groupingVoting.grouping_id will == '';
-  createAggregatedVoteCount() {
-    const selectedGroupingIds = this.grouping.votingResultsOptions.groupings;
+/*  createAggregatedVoteCount(mainGrouping: Grouping) {
+    const selectedGroupingIds = mainGrouping.votingResultsOptions.groupings;
 
     this._contributions.map((c) => {
       c.groupingVoting = new Voting({votes: 0, exposures: 0, grouping_id: 'inactive'});
@@ -91,6 +88,6 @@ export class ContributionGridComponent implements OnInit {
         }
       });
     });
-  }
+  }*/
 
 }

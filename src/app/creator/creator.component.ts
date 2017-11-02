@@ -62,7 +62,7 @@ export class CreatorComponent implements OnInit {
         this.groupings = groupings;
 
         // Set up the 'groupingsSelectors' for each Grouping to allow front end check box selection
-        this.groupings.map((grouping) => {
+        this.groupings.forEach((grouping) => {
           this.groupings.forEach((g) => {
             grouping.votingResultsOptions.groupingsSelectors.push(
               new GroupingsSelector(

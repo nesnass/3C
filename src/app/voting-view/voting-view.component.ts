@@ -124,4 +124,8 @@ export class VotingViewComponent implements OnInit {
       this.contribution2.votedNeither = true;
     }
   }
+
+  showVotingResults() {
+    this.listingService.redirectToVotingResultsView();
+  }
 }

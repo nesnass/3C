@@ -125,7 +125,8 @@ router.put('/groupings', function (req, res) {
         foundItem.displayMode = req.body.displayMode;
         foundItem.votingDisplayMode = req.body.votingDisplayMode;
         foundItem.votingOptions = req.body.votingOptions;
-        foundItem.votingResultsOptions = req.body.votingResultsOptions;
+        foundItem.votingResultsOptions.groupings = req.body.votingResultsOptions.groupings;
+        foundItem.votingResultsOptions.groupingViewId= req.body.votingResultsOptions.groupingViewId;
         foundItem.serendipitousOptions = req.body.serendipitousOptions;
         foundItem.save();
         res.status(200).json({data: foundItem});

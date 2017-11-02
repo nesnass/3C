@@ -3,14 +3,11 @@
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
     <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showVotingResults()">Se resultat</button>
   </div>
 
 
   <!--<iframe class="nettskjema-iframe voting-iframe" src="https://nettskjema.uio.no/answer/86913.html?embed=1" title="bidrag" frameborder="0" width="100%">Hvis du kan lese dette, støtter ikke nettleseren din iframes.</iframe>-->
-
-
-
 
   <div class="voting-questionblock">
     <p class="voting-categoryTitle">{{listingService.grouping.categoryTitle}}</p>
@@ -31,15 +28,10 @@
   <div class="voting-textblock3" >
     <img src="assets/img/yellow_box2.png"/>
     <p>To og to<br/>
-
       innspill fra<br/>
-
       nabomøter i høst vises.<br/>
-
       Velg de du synes er best,<br/>
-
       eller bidra med<br/>
-
       eget innspill.</p>
   </div>
 
@@ -98,7 +90,7 @@
   <div class="voting-textblock1">
     <img src="assets/img/yellow_box.png"/>
     <p class="voting-staticSubtitle">Velg det innspillet du synes er viktigst at blir hørt!</p>
-    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showResults = true; showVoting = false;">Se resultat</button>
+    <button *ngIf="listingService.grouping.votingOptions.resultsVisible" mat-button (click)="showVotingResults()">Se resultat</button>
   </div>
 
   <div class="custom-voting-close" (click)="toggleCustomVote()">
@@ -135,7 +127,6 @@
   </div>
 
 </div>
-
 
 
 <div *ngIf="showResults">

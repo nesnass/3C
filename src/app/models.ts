@@ -292,6 +292,7 @@ export class Grouping {
 
   constructor(gData?: {}) {
     this.chips = [];
+    this.urlSlug = '';
     this.active = false;
     this.titleDescriptionMode = 'Automatic';    // 'Automatic' or 'Custom'
     this.contributionMode = 'Chips';      // 'Chips', 'All', 'Feed'

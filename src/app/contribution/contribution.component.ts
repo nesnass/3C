@@ -33,7 +33,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 export class ContributionComponent implements OnInit {
   private trimmedCaption = '';
   private _contribution: Contribution;
-  private customStyle;
+  private customStyle = {};
 
   @Input() contributionVisibleState: string;
   @Input() voteSelectedState: string;
@@ -76,7 +76,9 @@ export class ContributionComponent implements OnInit {
     const fontSize = this._contribution.caption.length > maxChars ? '0.3em' : '0.5em';
     const imageUrl = this._contribution.image.url;
     const backgroundSize = this.grouping.displayMode === 'Voting' ? 'contain' : 'cover';
-    this.customStyle = { 'background-image': 'url(\'' + imageUrl + '\')', 'background-size': backgroundSize };
+    if (this.grouping.votingOptions.displayMode === 'Image') {
+      this.customStyle = {'background-image': 'url(\'' + imageUrl + '\')', 'background-size': backgroundSize};
+    }
   }
 
 }

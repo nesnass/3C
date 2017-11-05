@@ -175,6 +175,12 @@ export class CreatorComponent implements OnInit {
     }
   }
 
+  get votingResultsGroupings(): Grouping[]{
+    return this.groupings.filter((grouping) => {
+      return grouping.displayMode === 'Voting Results';
+    });
+  }
+
   // --------------   Vetting --------------------
 
 

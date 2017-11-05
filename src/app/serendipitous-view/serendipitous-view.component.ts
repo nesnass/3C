@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ListingService} from '../services/listing.service';
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-serendipitous-view',
@@ -14,9 +14,10 @@ export class SerendipitousViewComponent implements OnInit {
   showDetailTimer = null;
   position: string;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) {
+  constructor(private route: ActivatedRoute, private listingService: ListingService, private location: Location) {
     this.position = 'none';
     this.route.params.subscribe( params => this.position = params.position );
+    this.location = this.location;
   }
 
   ngOnInit() {
@@ -54,5 +55,9 @@ export class SerendipitousViewComponent implements OnInit {
         this.showCarousel = true;
       }, 20000);
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

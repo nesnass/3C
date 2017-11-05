@@ -418,8 +418,16 @@ export class ListingService {
       this._votingContribution1._id, c1, this._votingContribution2._id, c2);
   }
 
-
-
+  redirectToVotingResultsView() {
+    const votingResultsId = this._selectedGrouping.votingResultsOptions.groupingViewId;
+    let url = 'display/';
+    this._groupings.getValue().forEach((grouping) => {
+      if (votingResultsId === grouping._id) {
+         url = url.concat(grouping.urlSlug);
+      }
+    });
+    this.navigateToView(url);
+  }
 
 
   auth() {

@@ -72,6 +72,13 @@
               </mat-radio-group>
               <mat-checkbox [(ngModel)]="grouping.votingOptions.imageCaption">Image Caption</mat-checkbox>
               <mat-checkbox [(ngModel)]="grouping.votingOptions.resultsVisible">Results Visible</mat-checkbox>
+              <mat-form-field *ngIf="grouping.votingOptions.resultsVisible === true && groupings.length > 0">
+                <mat-select placeholder="Select result view" [(ngModel)]="grouping.votingResultsOptions.groupingViewId">
+                    <mat-option *ngFor="let grouping of votingResultsGroupings" [value]="grouping._id" >
+                      {{grouping.categoryTitle || '(' + grouping._id + ')'}}
+                    </mat-option>s
+                </mat-select>
+              </mat-form-field>
               <div *ngIf="grouping.displayMode === 'Voting Results'" fxLayout="column">
                 <h2>Voting Results Options</h2>
                 <h5>Accumulate votes from these groupings</h5>

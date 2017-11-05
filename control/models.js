@@ -121,7 +121,8 @@ var groupingSchema = Schema({
     resultsVisible: { type: Boolean }
   },
   votingResultsOptions: {
-    groupings: [ { type: Schema.ObjectId, ref: 'Grouping' } ]
+    groupings: [ { type: Schema.ObjectId, ref: 'Grouping' } ],
+    groupingViewId: { type: String }
   },
   serendipitousOptions: {
     randomSelection: { type: Boolean }

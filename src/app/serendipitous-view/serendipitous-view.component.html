@@ -32,13 +32,14 @@
       fredag frem til 15. september vil KOHT arkitekter respondere på fem bidrag på facebooksiden <i>framtidscampus</i>.</p>
     <p>Prosjektet er del av medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
       NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p-->
+    <div class="serendipitous-questionmark">
+      <img src="assets/img/back_black.png" style="cursor:pointer" (click)="goBack()">
+    </div>
     <p class="text-subHeading">{{listingService.grouping.categoryTitle}}</p>
     <p>{{listingService.grouping.categorySubtitle}}</p>
-    <br>
+    <br />
+    <app-contribution-grid id="freewall" class="freewall"></app-contribution-grid>
   </div>
-
-  <app-contribution-grid id="freewall" class="freewall"></app-contribution-grid>
-
 </div>
 
 

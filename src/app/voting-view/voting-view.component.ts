@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ListingService} from '../services/listing.service';
 import {Contribution, InputData} from '../models';
+import { Location } from '@angular/common';
 import 'rxjs/add/operator/take';
 
 @Component({
@@ -26,10 +27,11 @@ export class VotingViewComponent implements OnInit {
   voteSelectedStateC2: string;
   backTimer = null;
 
-  constructor(private route: ActivatedRoute, public listingService: ListingService) {
+  constructor(private route: ActivatedRoute, public listingService: ListingService, private location: Location) {
     this.position = 'none';
     this.inputData = new InputData();
     this.route.params.subscribe( params => this.position = params.position );
+    this.location = location;
   }
 
   ngOnInit() {
@@ -103,6 +105,7 @@ export class VotingViewComponent implements OnInit {
     this.backTimer = setTimeout(() => {
       this.showCustomVoting = false;
       this.showVoting = true;
+      this.showResults = true;
     }, 20000);
   }
 
@@ -127,5 +130,6 @@ export class VotingViewComponent implements OnInit {
 
   showVotingResults() {
     this.listingService.redirectToVotingResultsView();
+
   }
 }

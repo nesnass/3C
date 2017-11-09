@@ -12,6 +12,7 @@ export class SerendipitousViewComponent implements OnInit {
   showDetail = false;
   showCarousel = false;
   showDetailTimer = null;
+  showResultsTimer = null;
   position: string;
 
   constructor(private route: ActivatedRoute, private listingService: ListingService, private location: Location) {
@@ -32,6 +33,7 @@ export class SerendipitousViewComponent implements OnInit {
         if (selectedGrouping !== null) {
           this.listingService.grouping = selectedGrouping;
           if (selectedGrouping.displayMode === 'Voting Results') {
+            this.resetVotingResultsTimer();
             this.showDetail = true;
           } else {
             this.showCarousel = true;
@@ -57,7 +59,17 @@ export class SerendipitousViewComponent implements OnInit {
     }
   }
 
+  resetVotingResultsTimer() {
+    if (this.listingService.grouping.displayMode === 'Voting Results') {
+      clearTimeout(this.showResultsTimer);
+      this.showResultsTimer = setTimeout(() => {
+        this.goBack();
+      }, 20000);
+    }
+  }
+
   goBack() {
+    clearTimeout(this.showResultsTimer);
     this.location.back();
   }
 }

@@ -18,7 +18,7 @@ export class SerendipitousViewComponent implements OnInit {
   constructor(private route: ActivatedRoute, private listingService: ListingService, private location: Location) {
     this.position = 'none';
     this.route.params.subscribe( params => this.position = params.position );
-    this.location = this.location;
+    this.location = location;
   }
 
   ngOnInit() {

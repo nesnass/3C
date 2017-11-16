@@ -60,7 +60,7 @@ export class SerendipitousViewComponent implements OnInit {
   }
 
   resetVotingResultsTimer() {
-    if (this.listingService.grouping.displayMode === 'Voting Results') {
+    if (this.listingService.grouping.displayMode === 'Voting Results' && this.listingService.redirected === true) {
       clearTimeout(this.showResultsTimer);
       this.showResultsTimer = setTimeout(() => {
         this.goBack();
@@ -70,6 +70,7 @@ export class SerendipitousViewComponent implements OnInit {
 
   goBack() {
     clearTimeout(this.showResultsTimer);
+    this.listingService.redirected = false;
     this.location.back();
   }
 }

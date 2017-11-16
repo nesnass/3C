@@ -33,7 +33,7 @@
     <p>Prosjektet er del av medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
       NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p-->
 
-    <div class="serendipitous-questionmark">
+    <div *ngIf="this.listingService.redirected === true" class="serendipitous-questionmark">
       <img src="assets/img/back_black.png" style="cursor:pointer" (click)="goBack()">
     </div>
     <p class="text-subHeading">{{listingService.grouping.categoryTitle}}</p>

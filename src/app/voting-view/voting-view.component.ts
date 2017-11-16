@@ -130,6 +130,5 @@ export class VotingViewComponent implements OnInit {
 
   showVotingResults() {
     this.listingService.redirectToVotingResultsView();
-
   }
 }

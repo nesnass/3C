@@ -18,7 +18,7 @@ export class SerendipitousViewComponent implements OnInit {
   constructor(private route: ActivatedRoute, private listingService: ListingService, private location: Location) {
     this.position = 'none';
     this.route.params.subscribe( params => this.position = params.position );
-    this.location = this.location;
+    this.location = location;
   }
 
   ngOnInit() {
@@ -60,7 +60,7 @@ export class SerendipitousViewComponent implements OnInit {
   }
 
   resetVotingResultsTimer() {
-    if (this.listingService.grouping.displayMode === 'Voting Results') {
+    if (this.listingService.grouping.displayMode === 'Voting Results' && this.listingService.redirected === true) {
       clearTimeout(this.showResultsTimer);
       this.showResultsTimer = setTimeout(() => {
         this.goBack();
@@ -70,6 +70,7 @@ export class SerendipitousViewComponent implements OnInit {
 
   goBack() {
     clearTimeout(this.showResultsTimer);
+    this.listingService.redirected = false;
     this.location.back();
   }
 }

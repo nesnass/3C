@@ -1,5 +1,5 @@
 
-<div *ngIf="showDetail" class="detailContainer Center-Container" (click)="resetDetailTimer()">
+<div *ngIf="showDetail" class="detailContainer Center-Container" (click)="resetDetailTimer(); resetVotingResultsTimer()">
 
   <div *ngIf="listingService.grouping.displayMode === 'Serendipitous'">
     <!--p class="text-mainHeading">#framtidscampus*</p-->
@@ -32,13 +32,15 @@
       fredag frem til 15. september vil KOHT arkitekter respondere på fem bidrag på facebooksiden <i>framtidscampus</i>.</p>
     <p>Prosjektet er del av medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
       NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p-->
+
+    <div *ngIf="this.listingService.redirected === true" class="serendipitous-questionmark">
+      <img src="assets/img/back_black.png" style="cursor:pointer" (click)="goBack()">
+    </div>
     <p class="text-subHeading">{{listingService.grouping.categoryTitle}}</p>
     <p>{{listingService.grouping.categorySubtitle}}</p>
-    <br>
+    <br />
   </div>
-
-  <app-contribution-grid id="freewall" class="freewall"></app-contribution-grid>
-
+  <app-contribution-grid id="freewall" class="freewall"></app-contribution-grid>s
 </div>
 
 

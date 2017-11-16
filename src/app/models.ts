@@ -282,6 +282,7 @@ export class Grouping {
   votingResultsOptions: {
     groupings: string[];
     groupingsSelectors?: GroupingsSelector[];
+    groupingViewId: string;
   };
   serendipitousOptions: {
     randomSelection: boolean;
@@ -304,7 +305,8 @@ export class Grouping {
     };
     this.votingResultsOptions = {
       groupings: [],
-      groupingsSelectors: null
+      groupingsSelectors: null,
+      groupingViewId: ''
     };
     this.serendipitousOptions = {
       randomSelection: false
@@ -325,8 +327,9 @@ export class Grouping {
     this.contributionMode = gData.contributionMode;
     this.displayMode = gData.displayMode;
     this.votingOptions = gData.votingOptions;
-    this.votingResultsOptions = gData.votingResultsOptions;
+    this.votingResultsOptions.groupings = gData.votingResultsOptions.groupings;
     this.votingResultsOptions.groupingsSelectors = [];        // Needed at front end only, set up in Creator
+    this.votingResultsOptions.groupingViewId = gData.votingResultsOptions.groupingViewId;
     this.serendipitousOptions = gData.serendipitousOptions;
     this.chips = gData.chips;
   }

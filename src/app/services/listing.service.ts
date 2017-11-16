@@ -33,6 +33,8 @@ export class ListingService {
   private _votingContribution2: Contribution;
   private _firstMatchingVotingChip: Chip;
 
+  private _redirected: boolean;
+
   constructor(private listingBackendService: ListingBackendService,
               private ngZone: NgZone,
               private router: Router) {
@@ -50,6 +52,7 @@ export class ListingService {
     this._defaultGrouping = null;
     this._settings = new Settings();
     this._showUnvettedContributions = false;
+    this._redirected = false;
     this.retrieveSettings();
   }
 
@@ -75,6 +78,14 @@ export class ListingService {
 
   get contributionsAsValue(): Contribution[] {
     return this._contributions.getValue();
+  }
+
+  get redirected() {
+    return this._redirected;
+  }
+
+  set redirected(value: boolean) {
+    this._redirected = value;
   }
 
   setRandomVotingContributions() {
@@ -418,8 +429,17 @@ export class ListingService {
       this._votingContribution1._id, c1, this._votingContribution2._id, c2);
   }
 
-
-
+  redirectToVotingResultsView() {
+    this._redirected = true;
+    const votingResultsId = this._selectedGrouping.votingResultsOptions.groupingViewId;
+    let url = 'display/';
+    this._groupings.getValue().forEach((grouping) => {
+      if (votingResultsId === grouping._id) {
+         url = url.concat(grouping.urlSlug);
+      }
+    });
+    this.navigateToView(url);
+  }
 
 
   auth() {

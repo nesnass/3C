@@ -108,7 +108,7 @@
   }
 
   .contribution {
-    height: 90vw;
+    height: auto;
     width: 90vw;
     margin-left: auto;
     margin-right: auto;

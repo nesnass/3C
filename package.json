@@ -45,7 +45,6 @@
     "jquery": "^3.2.1",
     "mongoose": "4.6.8",
     "morgan": "~1.8.1",
-    "ng-device-detector": "^4.0.3",
     "ngx-order-pipe": "^1.0.3",
     "pug": "^2.0.0-rc.4",
     "q": "^1.5.1",
@@ -53,7 +52,6 @@
     "rxjs": "^5.5.1",
     "serve-favicon": "^2.4.5",
     "url": "^0.11.0",
-    "useragent": "^2.2.1",
     "web-animations-js": "^2.3.1",
     "zone.js": "^0.8.18"
   },

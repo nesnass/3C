@@ -35,8 +35,22 @@ export class ContributionGridComponent implements OnInit {
     this.wall.reset({
       selector: '.contribution',
       animate: true,
-      cellW: 300,
-      cellH: 300,
+      cellW: function() {
+        let cWidth = 300;
+        if (window.innerWidth <= 360) {
+          cWidth = window.innerWidth - 80;
+        }
+        console.log(cWidth);
+        return cWidth;
+      },
+      cellH: function() {
+        let cHeight = 300;
+        if (window.innerWidth <= 360) {
+          cHeight = window.innerWidth - 80;
+        }
+        console.log(cHeight);
+        return cHeight;
+      },
       onResize: () => {
         this.wall.fitWidth();
       }

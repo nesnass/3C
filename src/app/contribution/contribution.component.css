@@ -99,7 +99,7 @@
   .contribution-container {
     opacity: 1;
     width: 90%;
-    margin-left: auto;
+    /*margin-left: auto;*/
     margin-right: auto;
     margin-top: 20px;
   }
@@ -108,7 +108,7 @@
   }
 
   .contribution {
-    height: auto;
+    height: 90vw;
     width: 90vw;
     margin-left: auto;
     margin-right: auto;

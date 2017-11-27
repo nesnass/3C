@@ -24,11 +24,13 @@ export class Voting {
   votes: number;
   exposures: number;
   grouping_id: string;
+  votedOn: Date;
 
   constructor(vData) {
     this.votes = parseInt(vData.votes, 10);
     this.exposures = parseInt(vData.exposures, 10);
     this.grouping_id = vData.grouping_id || '0';
+    this.votedOn = vData.votedOn;
   }
 }
 

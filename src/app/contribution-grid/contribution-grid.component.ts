@@ -64,10 +64,12 @@ export class ContributionGridComponent implements OnInit {
   }
 
   zoomContribution(contribution: Contribution) {
-    if (this.zoomedContribution === null) {
-      this.zoomedContribution = contribution;
-      this.trimmedCaption = this.zoomedContribution.caption.length > 200 ? this.zoomedContribution.caption.substr(0, 100) + '...'
-        : this.zoomedContribution.caption;
+    if (window.innerWidth >= 500) {
+      if (this.zoomedContribution === null) {
+        this.zoomedContribution = contribution;
+        this.trimmedCaption = this.zoomedContribution.caption.length > 200 ? this.zoomedContribution.caption.substr(0, 100) + '...'
+          : this.zoomedContribution.caption;
+      }
     }
   }
 

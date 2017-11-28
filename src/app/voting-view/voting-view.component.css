@@ -456,6 +456,7 @@
     position: relative;
     top: 0;
     left: 0;
+    bottom: 0;
   }
 
   /* A single Contribution item */
@@ -463,6 +464,7 @@
     position: relative;
     top: 0;
     left: 0;
+    bottom: 0;
   }
 
   .voting-categoryTitle {

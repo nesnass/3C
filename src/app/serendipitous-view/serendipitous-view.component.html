@@ -1,5 +1,5 @@
 
-<div *ngIf="showDetail" class="detailContainer Center-Container" (click)="resetDetailTimer(); resetVotingResultsTimer()">
+<div *ngIf="showDetail" class="detailContainer Center-Container" (click)="resetDetailTimer(); resetVotingResultsTimer()" (touchmove)="resetVotingResultsTimer()">
 
   <div *ngIf="listingService.grouping.displayMode === 'Serendipitous'">
     <!--p class="text-mainHeading">#framtidscampus*</p-->

@@ -1,4 +1,4 @@
-import { Response } from '@angular/http';
+import { HttpResponse } from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 
 // The Vote class stores a voting response list for a particular combination of two Contributions
@@ -357,6 +357,9 @@ export interface SettingResponse extends Response {
 }
 export interface VoteResponse extends Response {
   data: Vote[];
+}
+export interface ChipResponse extends Response {
+  data: Chip[];
 }
 export interface ContributionsResponse extends Response {
   data: Contribution[];

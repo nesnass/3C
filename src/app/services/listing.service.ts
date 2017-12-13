@@ -155,7 +155,7 @@ export class ListingService {
     });
   }
 
-  deleteContribution(contribution: Contribution): Observable<Contribution> {
+  deleteContribution(contribution: Contribution) {
     const obs = this.listingBackendService.deleteContribution(contribution);
     obs.subscribe(
       () => {
@@ -163,8 +163,6 @@ export class ListingService {
         newContributionList.splice(newContributionList.indexOf(contribution), 1);
         this._contributions.next(newContributionList);
       });
-
-    return obs;
   }
 
   get groupings() {
@@ -228,7 +226,7 @@ export class ListingService {
     this.listingBackendService.updateContribution(contribution).subscribe();
   }
 
-  deleteGrouping(grouping: Grouping): Observable<Grouping> {
+  deleteGrouping(grouping: Grouping) {
     const obs = this.listingBackendService.deleteGrouping(grouping);
     obs.subscribe(
       () => {
@@ -236,8 +234,6 @@ export class ListingService {
         newGroupingList.splice(newGroupingList.indexOf(grouping), 1);
         this._groupings.next(newGroupingList);
       });
-
-    return obs;
   }
 
   get options(): Options {

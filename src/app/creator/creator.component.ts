@@ -85,7 +85,7 @@ export class CreatorComponent implements OnInit {
     // Votes var *** NOT CURRENTLY USED October 2017 ***
     this.listingService.votes.subscribe(
       votes => {
-        this.votes = votes;
+        this.votes = votes.data;
       }
     );
   }

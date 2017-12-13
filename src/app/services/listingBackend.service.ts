@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Headers, RequestOptions, Response} from '@angular/http';
 import 'rxjs/add/operator/catch'; import 'rxjs/add/operator/map'; import 'rxjs/add/operator/share';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {
+  ChipResponse,
   Contribution, ContributionsResponse, Grouping, GroupingResponse, GroupingsResponse, InputData, SettingResponse,
   Settings, VoteResponse
 } from '../models';
@@ -17,23 +17,6 @@ export class ListingBackendService {
   private _appUrl = 'http://localhost:4200/';
   private _routeToken = '';
 
-  /**
-   * General handler for server call errors
-   * @param error
-   * @returns {any}
-   */
-  static handleError (error: Response | any) { // In a real world app, you might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
-  }
 
   constructor(http: HttpClient, private locationStrategy: LocationStrategy)  {
     this.http = http;
@@ -79,13 +62,11 @@ export class ListingBackendService {
     }
 
     reqOpts.params = reqOpts.params.append('id', '');
-    return this.http.get<ContributionsResponse>(this._apiUrl + 'listings/contributions/data', reqOpts)
-      // .map(res => <Contribution[]>res.data || [])
-      .catch(ListingBackendService.handleError);
+    return this.http.get<ContributionsResponse>(this._apiUrl + 'listings/contributions/data', reqOpts);
   }
 
   updateContribution(contribution: Contribution): Observable<Grouping> {
-    return this.http.put(this._apiUrl + 'listings/contributions', contribution, this.authorisedRequestOptions).share();
+    return this.http.put<Grouping>(this._apiUrl + 'listings/contributions', contribution, this.authorisedRequestOptions).share();
   }
 
   // Own opinion
@@ -105,17 +86,15 @@ export class ListingBackendService {
   // Groupings
 
   getAllGroupings() {
-    return this.http.get<GroupingsResponse>(this._apiUrl + 'listings/groupings')
-      // .map(res => <Grouping[]>res.data || [])
-      .catch(ListingBackendService.handleError);
+    return this.http.get<GroupingsResponse>(this._apiUrl + 'listings/groupings');
   }
 
   updateGrouping(newGrouping: Grouping): Observable<Grouping> {
-    return this.http.put(this._apiUrl + 'listings/groupings', newGrouping, this.authorisedRequestOptions).share();
+    return this.http.put<Grouping>(this._apiUrl + 'listings/groupings', newGrouping, this.authorisedRequestOptions).share();
   }
 
   createGrouping(newGrouping: Grouping): Observable<GroupingResponse> {
-    return this.http.post(this._apiUrl + 'listings/groupings', newGrouping, this.authorisedRequestOptions);
+    return this.http.post<GroupingResponse>(this._apiUrl + 'listings/groupings', newGrouping, this.authorisedRequestOptions);
   }
 
   deleteGrouping(deletedGrouping: Grouping) {
@@ -131,7 +110,7 @@ export class ListingBackendService {
   // Chips
 
   getChips() {
-    return this.http.get(this._apiUrl + 'listings/chips').catch(ListingBackendService.handleError);
+    return this.http.get<ChipResponse>(this._apiUrl + 'listings/chips');
   }
 
   get appUrl() {
@@ -144,22 +123,21 @@ export class ListingBackendService {
     // voting/vote/:grouping_id/:c1_id/:c1_chosen/:c2_id/:c2_chosen
     const getString = this._apiUrl + 'voting/vote/' + grouping_id + '/' + c1_id + '/' +
       (c1_choice ? 'true' : 'false') + '/' + c2_id + '/' + (c2_choice ? 'true' : 'false');
-    this.http.get(getString).catch(ListingBackendService.handleError).subscribe();
+    this.http.get(getString).subscribe();
   }
 
   getVotes() {
-    return this.http.get<VoteResponse>(this._apiUrl + 'listings/votes').catch(ListingBackendService.handleError);
+    return this.http.get<VoteResponse>(this._apiUrl + 'listings/votes');
   }
 
   // Settings
 
   getSettings() {
-    return this.http.get<SettingResponse>(this._apiUrl + 'listings/settings').catch(ListingBackendService.handleError);
+    return this.http.get<SettingResponse>(this._apiUrl + 'listings/settings');
   }
 
   setSettings(settings: Settings) {
-    return this.http.put(this._apiUrl + 'listings/settings', settings, this.authorisedRequestOptions)
-      .catch(ListingBackendService.handleError);
+    return this.http.put(this._apiUrl + 'listings/settings', settings, this.authorisedRequestOptions);
   }
 
 }

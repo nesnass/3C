@@ -1,4 +1,4 @@
-import { Response } from '@angular/http';
+import { HttpResponse } from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 
 // The Vote class stores a voting response list for a particular combination of two Contributions
@@ -24,11 +24,13 @@ export class Voting {
   votes: number;
   exposures: number;
   grouping_id: string;
+  votedOn: Date;
 
   constructor(vData) {
     this.votes = parseInt(vData.votes, 10);
     this.exposures = parseInt(vData.exposures, 10);
     this.grouping_id = vData.grouping_id || '0';
+    this.votedOn = vData.votedOn;
   }
 }
 
@@ -355,6 +357,9 @@ export interface SettingResponse extends Response {
 }
 export interface VoteResponse extends Response {
   data: Vote[];
+}
+export interface ChipResponse extends Response {
+  data: Chip[];
 }
 export interface ContributionsResponse extends Response {
   data: Contribution[];

@@ -78,6 +78,8 @@ export class ContributionComponent implements OnInit {
     const backgroundSize = this.grouping.displayMode === 'Voting' ? 'contain' : 'cover';
     if (this.grouping.votingOptions.displayMode === 'Image') {
       this.customStyle = {'background-image': 'url(\'' + imageUrl + '\')', 'background-size': backgroundSize};
+    } else if (this.grouping.votingOptions.displayMode === 'Caption As Image') {
+      this.customStyle = {'height': 'auto'};
     }
   }
 

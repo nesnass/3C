@@ -1,5 +1,5 @@
 
-<div *ngIf="showDetail" class="detailContainer Center-Container" (click)="resetDetailTimer()">
+<div *ngIf="showDetail" class="detailContainer Center-Container" (click)="resetDetailTimer(); resetVotingResultsTimer()" (touchmove)="resetVotingResultsTimer()">
 
   <div *ngIf="listingService.grouping.displayMode === 'Serendipitous'">
     <!--p class="text-mainHeading">#framtidscampus*</p-->
@@ -27,21 +27,25 @@
   </div>
 
   <div *ngIf="listingService.grouping.displayMode === 'Voting Results'">
-    <p>Med dette “serendipitous display” forsøker vi å gjøre medvirkningstiltak mer virksomme
+    <!--p>Med dette “serendipitous display” forsøker vi å gjøre medvirkningstiltak mer virksomme
       ved å synliggjøre bidragene i såkalte “decition makers” sin umiddelbare kontekst. Hver
       fredag frem til 15. september vil KOHT arkitekter respondere på fem bidrag på facebooksiden <i>framtidscampus</i>.</p>
     <p>Prosjektet er del av medvirkningstiltak i arbeidet med bycampus, og et samarbeid mellom Trondheim kommune,
-      NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p>
-    <br>
+      NTNU og forskningsprosjektet 3C - Co-constructing City Futures.</p-->
+
+    <div *ngIf="this.listingService.redirected === true" class="serendipitous-questionmark">
+      <img src="assets/img/back_black.png" style="cursor:pointer" (click)="goBack()">
+    </div>
+    <p class="text-subHeading">{{listingService.grouping.categoryTitle}}</p>
+    <p>{{listingService.grouping.categorySubtitle}}</p>
+    <br />
   </div>
-
   <app-contribution-grid id="freewall" class="freewall"></app-contribution-grid>
-
 </div>
 
 
-<div *ngIf="showCarousel" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxFlex>
-  <div fxFlex class="serendipitous-container">
+<div *ngIf="showCarousel" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+  <div class="serendipitous-container" fxFlex="1 12 auto">
     <div fxLayout="column" class="serendipitous-left-panel" fxLayoutAlign="end center">
       <p class="serendipitous-categoryTitle">{{listingService.serendipitousTitle}}</p>
       <p class="serendipitous-categorySubtitle">{{listingService.serendipitousSubtitle}}</p>
@@ -51,6 +55,6 @@
       <img class="ntnu-logo" src="assets/img/logo_ntnu_gray.png"/>
     </div>
   </div>
-  <app-carousel fxFlex></app-carousel>
+  <app-carousel fxFlex="1 1 auto"></app-carousel>
 </div>
 

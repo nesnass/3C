@@ -13,7 +13,8 @@ var contributionSchema = Schema({
   voting: [{
     votes: { type: Number },
     exposures: { type: Number },
-    grouping_id: { type: Schema.ObjectId, ref: 'Grouping'}
+    grouping_id: { type: Schema.ObjectId, ref: 'Grouping'},
+    votedOn: {type: Date, default: Date.now()}
   }],
 	message_data: {
 		number :                    { type: String },           // The sender's mobile number
@@ -119,6 +120,10 @@ var groupingSchema = Schema({
     displayMode: { type: String },                        // 'Image', 'Caption'
     imageCaption: { type: Boolean },
     resultsVisible: { type: Boolean }
+  },
+  votingResultsOptions: {
+    groupings: [ { type: Schema.ObjectId, ref: 'Grouping' } ],
+    groupingViewId: { type: String }
   },
   serendipitousOptions: {
     randomSelection: { type: Boolean }

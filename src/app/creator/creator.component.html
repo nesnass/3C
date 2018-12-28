@@ -1,148 +1,239 @@
-<md-tab-group>
+<mat-tab-group>
 
-  <md-tab label="Groupings">
+  <mat-tab label="Groupings">
 
     <div class="groupings-header">
-      <md-select placeholder="Default page" style="width: 300px;" [(ngModel)]="listingService.defaultGrouping" (change)="updateDefaultGroupingId()" *ngIf="listingService.defaultGrouping !== null">
-        <md-option *ngFor="let grouping of listingService.groupingsAsValue" [value]="grouping">{{ grouping.categoryTitle }}</md-option>
-      </md-select>
+      <form>
+          <mat-select matInput placeholder="Default page" style="width: 300px;" name="defaultGrouping" [(ngModel)]="listingService.defaultGrouping" (change)="updateDefaultGroupingId()" *ngIf="listingService.defaultGrouping !== null">
+            <mat-option *ngFor="let grouping of listingService.groupingsAsValue" [value]="grouping">{{ grouping.categoryTitle }}</mat-option>
+          </mat-select>
+      </form>
     </div>
 
     <div fxLayout="row wrap">
-      <md-card *ngFor="let grouping of listingService.groupingsReverseSortedByCreationDate | async; let i=index;" class="grouping-card">
+      <mat-card *ngFor="let grouping of listingService.groupingsReverseSortedByCreationDate | async; let i=index;" class="grouping-card">
 
         <div *ngIf="itemToEdit !== i">
-          <md-card-header>
-            <div md-card-avatar>
-              <md-icon md-list-icon>{{grouping.displayMode === 'Voting' ? 'check_circle' : 'collections'}}</md-icon>
+          <mat-card-header>
+            <div mat-card-avatar>
+              <mat-icon mat-list-icon>{{grouping.displayMode === 'Voting' ? 'check_circle' : 'collections'}}</mat-icon>
             </div>
-            <md-card-title>{{ grouping.titleDescriptionMode === 'Custom' ? grouping.categoryTitle : 'Generated from Album title'}}</md-card-title>
-            <md-card-subtitle>{{ grouping.titleDescriptionMode === 'Custom' ? grouping.categorySubtitle : 'Generated from Album description'}}</md-card-subtitle>
-          </md-card-header>
-          <md-card-content>
+            <mat-card-title>{{ grouping.titleDescriptionMode === 'Custom' ? grouping.categoryTitle : 'Generated from Album title'}}</mat-card-title>
+            <mat-card-subtitle>{{ grouping.titleDescriptionMode === 'Custom' ? grouping.categorySubtitle : 'Generated from Album description'}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
             <p><a style="word-break: break-all;" href="{{ appUrl() + displayMode(grouping) + grouping.urlSlug}}" [target]="'_blank' + grouping._id">{{ appUrl() + displayMode(grouping) }}<strong>{{grouping.urlSlug}}</strong></a></p>
             <p>Display Mode: <strong>{{grouping.displayMode}}</strong></p>
             <p>Contribution selection: <strong>{{grouping.contributionMode}}</strong></p>
-          </md-card-content>
-          <md-card-actions>
-            <button md-line md-button (click)="itemToEdit = i">Edit</button>
-            <button md-line md-button color="red" (click)="deleteAtServer(grouping)">Delete</button>
-          </md-card-actions>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-line mat-button (click)="itemToEdit = i">Edit</button>
+            <button mat-line mat-button color="red" (click)="deleteAtServer(grouping)">Delete</button>
+          </mat-card-actions>
         </div>
 
         <div *ngIf="itemToEdit === i">
-          <md-card-content fxLayout="column">
+          <mat-card-content fxLayout="column">
             <h2>Title & Description</h2>
-            <md-radio-group [(ngModel)]="grouping.titleDescriptionMode">
-              <md-radio-button class="creator-voting-radio-button" *ngFor="let mode of titleDescriptionModes" [value]="mode.viewValue">
+            <mat-radio-group [(ngModel)]="grouping.titleDescriptionMode">
+              <mat-radio-button class="creator-voting-radio-button" *ngFor="let mode of titleDescriptionModes" [value]="mode.viewValue">
                 {{mode.viewValue}}
-              </md-radio-button>
-            </md-radio-group>
+              </mat-radio-button>
+            </mat-radio-group>
             <div *ngIf="grouping.titleDescriptionMode === 'Automatic'">
               <p>{{grouping.displayMode === 'Voting' ? 'Question' : 'Title'}} is generated from Album title</p>
               <p>Subtitle is generated from Album description</p>
             </div>
             <div *ngIf="grouping.titleDescriptionMode === 'Custom'">
-              <md-input-container>
-                <input mdInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle" autofocus>
-              </md-input-container><br>
-              <md-input-container>
-                <input mdInput placeholder="Category Subtitle" [(ngModel)]="grouping.categorySubtitle">
-              </md-input-container>
+              <mat-form-field>
+                <input matInput placeholder="Category Title" [(ngModel)]="grouping.categoryTitle" autofocus>
+              </mat-form-field><br>
+              <mat-form-field>
+                <input matInput placeholder="Category Subtitle" [(ngModel)]="grouping.categorySubtitle">
+              </mat-form-field>
             </div>
             <h2>Display</h2>
-            <md-input-container>
-              <input mdInput placeholder="URL" [(ngModel)]="grouping.urlSlug">
-            </md-input-container>
-            <md-select placeholder="Present view as" [(ngModel)]="grouping.displayMode">
-              <md-option *ngFor="let mode of displayModes" [value]="mode.viewValue">
-                {{ mode.viewValue }}
-              </md-option>
-            </md-select>
-            <div *ngIf="grouping.displayMode === 'Voting'">
+            <mat-form-field>
+              <input matInput placeholder="URL" [(ngModel)]="grouping.urlSlug">
+            </mat-form-field>
+            <mat-form-field>
+              <mat-select placeholder="Present view as" [(ngModel)]="grouping.displayMode">
+                <mat-option *ngFor="let mode of displayModes" [value]="mode.viewValue">
+                  {{ mode.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="grouping.displayMode !== 'Serendipitous'">
               <h2>Voting Options</h2>
-              <md-radio-group [(ngModel)]="grouping.votingOptions.displayMode">
-                <md-radio-button class="creator-voting-radio-button" *ngFor="let mode of votingDisplayModes" [value]="mode.viewValue">
+              <mat-radio-group [(ngModel)]="grouping.votingOptions.displayMode">
+                <mat-radio-button class="creator-voting-radio-button" *ngFor="let mode of votingDisplayModes" [value]="mode.viewValue">
                   {{mode.viewValue}}
-                </md-radio-button>
-              </md-radio-group>
-              <md-checkbox [(ngModel)]="grouping.votingOptions.imageCaption">Image Caption</md-checkbox>
-              <md-checkbox [(ngModel)]="grouping.votingOptions.resultsVisible">Results Visible</md-checkbox>
+                </mat-radio-button>
+              </mat-radio-group>
+              <mat-checkbox [(ngModel)]="grouping.votingOptions.imageCaption">Image Caption</mat-checkbox>
+              <mat-checkbox [(ngModel)]="grouping.votingOptions.resultsVisible">Results Visible</mat-checkbox>
+              <mat-form-field *ngIf="grouping.votingOptions.resultsVisible === true && groupings.length > 0">
+                <mat-select placeholder="Select result view" [(ngModel)]="grouping.votingResultsOptions.groupingViewId">
+                    <mat-option *ngFor="let grouping of votingResultsGroupings" [value]="grouping._id" >
+                      {{grouping.categoryTitle || '(' + grouping._id + ')'}}
+                    </mat-option>s
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="grouping.displayMode === 'Voting Results'" fxLayout="column">
+                <h2>Voting Results Options</h2>
+                <h5>Accumulate votes from these groupings</h5>
+                <mat-checkbox class="mat-checkbox-layout-custom" *ngFor="let gs of grouping.votingResultsOptions.groupingsSelectors" [(ngModel)]="gs.selected" (change)="selectVotingResultGrouping(grouping, gs)">{{gs.title}}</mat-checkbox><br>
+              </div>
             </div>
             <div *ngIf="grouping.displayMode === 'Serendipitous'">
-              <h2>Display Options</h2>
-              <md-checkbox [(ngModel)]="grouping.serendipitousOptions.randomSelection">Random Selection</md-checkbox>
+              <h2>Serendipitous Display Options</h2>
+              <mat-checkbox [(ngModel)]="grouping.serendipitousOptions.randomSelection">Random Selection</mat-checkbox>
             </div>
             <hr>
             <h2>Contributions</h2>
-            <md-select placeholder="Select Contributions using" [(ngModel)]="grouping.contributionMode">
-              <md-option *ngFor="let mode of contributionModes" [value]="mode.viewValue">
-                {{ mode.viewValue }}
-              </md-option>
-            </md-select>
+            <mat-form-field>
+              <mat-select placeholder="Select Contributions using" [(ngModel)]="grouping.contributionMode">
+                <mat-option *ngFor="let mode of contributionModes" [value]="mode.viewValue">
+                  {{ mode.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
             <div *ngIf="grouping.contributionMode === 'Chips'">
               <p>Show contributions from selected album titles: (click to select)</p>
-              <md-chip-list>
-                <md-basic-chip class="custom-chip" *ngFor="let chip of listingService.chips" [ngStyle]="chipStyle(chip, grouping)" [selected]="grouping.chips.indexOf(chip._id) > -1" (click)="toggleChip(grouping, 'Grouping', chip)">{{chip.label}}</md-basic-chip>
-              </md-chip-list>
+              <mat-chip-list>
+                <mat-basic-chip class="custom-chip" *ngFor="let chip of listingService.chips" [ngStyle]="chipStyle(chip, grouping)" [selected]="grouping.chips.indexOf(chip._id) > -1" (click)="toggleChip(grouping, 'Grouping', chip)">{{chip.label}}</mat-basic-chip>
+              </mat-chip-list>
             </div>
-          </md-card-content>
+          </mat-card-content>
           <hr>
-          <md-card-actions>
-            <button md-button (click)="updateToServer(grouping, 'Grouping'); itemToEdit = -1">Done</button>
-          </md-card-actions>
+          <mat-card-actions>
+            <button mat-button (click)="updateToServer(grouping, 'Grouping'); itemToEdit = -1">Done</button>
+          </mat-card-actions>
         </div>
 
-      </md-card>
+      </mat-card>
 
-      <md-card class="grouping-card">
-        <md-card-header>
-          <md-card-title><a md-button (click)="addGrouping()"><md-icon md-list-icon>add</md-icon>New Grouping</a></md-card-title>
-        </md-card-header>
-        <md-card-content></md-card-content>
-      </md-card>
+      <mat-card class="grouping-card">
+        <mat-card-header>
+          <mat-card-title><a mat-button (click)="addGrouping()"><mat-icon mat-list-icon>add</mat-icon>New Grouping</a></mat-card-title>
+        </mat-card-header>
+        <mat-card-content></mat-card-content>
+      </mat-card>
 
     </div>
-  </md-tab>
+  </mat-tab>
 
 
-  <md-tab label="Contributions">
+  <mat-tab label="Contributions">
 
     <div fxLayout="row wrap">
-      <md-card *ngFor="let contribution of listingService.contributions | async" class="contribution-card">
-        <md-card-header>
-          <div md-card-avatar class="contribution-card-header-image" [ngStyle]="{'background-image': 'url(\'' + contribution.user.profile_picture + '\')' }"></div>
-          <md-card-title>{{contribution.user.username}}</md-card-title>
-          <md-card-subtitle>{{contribution.created.toString()}}</md-card-subtitle>
-        </md-card-header>
-        <img md-card-image [src]="contribution.image.url" alt="The contributed image">
-        <md-card-content>
+      <mat-card *ngFor="let contribution of listingService.contributions | async" class="contribution-card">
+        <mat-card-header>
+          <div mat-card-avatar class="contribution-card-header-image" [ngStyle]="{'background-image': 'url(\'' + contribution.user.profile_picture + '\')' }"></div>
+          <mat-card-title>{{contribution.user.username}}</mat-card-title>
+          <mat-card-subtitle>{{contribution.created.toString()}}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="contribution.image.url" alt="The contributed image">
+        <mat-card-content>
           <p>{{contribution.caption}}</p>
-          <md-chip-list>
-            <md-basic-chip class="custom-chip" *ngFor="let chip of listingService.chips" [ngStyle]="chipStyle(chip, contribution)" [selected]="contribution.chips.indexOf(chip._id) > -1" (click)="toggleChip(contribution, 'Contribution', chip)">{{chip.label}}</md-basic-chip>
-          </md-chip-list>
-        </md-card-content>
-      </md-card>
+          <mat-chip-list>
+            <mat-basic-chip class="custom-chip" *ngFor="let chip of listingService.chips" [ngStyle]="chipStyle(chip, contribution)" [selected]="contribution.chips.indexOf(chip._id) > -1" (click)="toggleChip(contribution, 'Contribution', chip)">{{chip.label}}</mat-basic-chip>
+          </mat-chip-list>
+        </mat-card-content>
+      </mat-card>
     </div>
 
-  </md-tab>
+  </mat-tab>
 
-  <md-tab label="Chips">
+  <mat-tab label="Chips">
 
     <div fxLayout="row wrap">
-      <md-card *ngFor="let chip of listingService.chips" class="chip-card">
-        <md-card-header>
-          <div md-card-avatar class="contribution-card-header-image" [ngStyle]="chipStyle(chip)"></div>
-          <md-card-title>{{chip.label}}</md-card-title>
-          <md-card-subtitle>{{chip.origin}}</md-card-subtitle>
-        </md-card-header>
-        <md-card-content>
+      <mat-card *ngFor="let chip of listingService.chips" class="chip-card">
+        <mat-card-header>
+          <div mat-card-avatar class="contribution-card-header-image" [ngStyle]="chipStyle(chip)"></div>
+          <mat-card-title>{{chip.label}}</mat-card-title>
+          <mat-card-subtitle>{{chip.origin}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
           <p>{{chip.description}}</p>
           <p>{{chip.location}}</p>
-        </md-card-content>
-      </md-card>
+        </mat-card-content>
+      </mat-card>
     </div>
 
-  </md-tab>
+  </mat-tab>
 
-</md-tab-group>
+
+  <mat-tab label="Vetting">
+
+    <div class="vettingContainer" fxLayout="row">
+
+      <div fxFlex="40">
+        <mat-list>
+          <h3 matSubheader>Groupings</h3>
+          <p *ngIf="selectedGrouping">Selected Group: {{selectedGrouping.categoryTitle}}</p><br>
+          <mat-list-item [ngClass]="{'itemSelected' : selectedGrouping === group}" *ngFor="let group of listingService.groupingsAsValue">
+            <p matLine (click)="showContributionsFor(group)">{{group.categoryTitle}}</p>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <div fxFlex="60">
+        <mat-list>
+          <h3 matSubheader>Contributions</h3>
+          <mat-checkbox [(ngModel)]="includeApprovedItems" >Show Approved Items</mat-checkbox>
+          <mat-list-item class="increasedHeight" *ngFor="let contribution of contributionsFilteredByApproval">
+            <div fxLayout="row" style="width: 100%;">
+              <div fxFlex="90">
+                <p matLine class="wrapLine">{{contribution.caption}}</p>
+              </div>
+              <div fxLayout="column" fxLayoutAlign="space-around end">
+                <button style="color: red" (click)="deleteContribution(contribution)">Delete</button>
+                <button style="color: blue" (click)="approveContribution(contribution)" *ngIf="!contribution.vetted">Approve</button>
+                <span style="color: black; font-size: 0.7em" *ngIf="contribution.vetted">approved</span>
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+    </div>
+
+  </mat-tab>
+
+  <mat-tab label="Votes">
+
+    <div class="vettingContainer" fxLayout="row">
+
+      <div fxFlex="40">
+        <mat-list>
+          <h3 matSubheader>Groupings</h3>
+          <p *ngIf="selectedGrouping">Selected Group: {{selectedGrouping.categoryTitle}}</p><br>
+          <mat-list-item [ngClass]="{'itemSelected' : selectedGrouping === group}" *ngFor="let group of listingService.groupingsAsValue">
+            <mat-checkbox [(ngModel)]="group.active" (change)="createAggregatedVoteCount()"></mat-checkbox>
+            <p matLine (click)="showContributionsFor(group)">{{group.categoryTitle}}</p>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+      <div fxFlex="60">
+        <mat-list>
+          <h3 matSubheader>Contributions - Accumulated Votes</h3>
+          <mat-list-item class="increasedHeight" *ngFor="let contribution of contributionsFilteredByActiveGrouping | orderBy : 'groupingVoting.votes' : true">
+            <div fxLayout="row" style="width: 100%;">
+              <div fxFlex="90">
+                <p matLine class="wrapLine">{{contribution.caption}}</p>
+                <p matLine class="wrapLine">Votes: {{contribution.groupingVoting.votes}}</p>
+                <p matLine class="wrapLine">Exposures: {{contribution.groupingVoting.exposures}}</p>
+              </div>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+    </div>
+
+  </mat-tab>
+
+
+</mat-tab-group>

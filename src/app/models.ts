@@ -1,15 +1,36 @@
-import { Response } from '@angular/http';
+import { HttpResponse } from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 
-class Voting {
+// The Vote class stores a voting response list for a particular combination of two Contributions
+export class Vote {
+  groupingId: string;
+  c1Id: string;
+  c2Id: string;
+  votes: [{
+    c1: boolean;
+    c2: boolean;
+  }];
+
+  constructor(data: {}) {
+    this.groupingId = data['grouping'];
+    this.c1Id = data['c1'];
+    this.c2Id = data['c2'];
+    this.votes = data['votes'];
+  }
+}
+
+// This Voting subclass applies to a particular Contribution. It stores a vote total, exposure total for this Contribution
+export class Voting {
   votes: number;
   exposures: number;
   grouping_id: string;
+  votedOn: Date;
 
   constructor(vData) {
     this.votes = parseInt(vData.votes, 10);
     this.exposures = parseInt(vData.exposures, 10);
     this.grouping_id = vData.grouping_id || '0';
+    this.votedOn = vData.votedOn;
   }
 }
 
@@ -18,9 +39,11 @@ export class Contribution {
   origin: string;
   created: Date;
   chips: string[];
+  vetted: boolean;
   voting: Voting[];
   groupingVoting?: Voting;    // Temp value for front end sorting of votes, set to the voting results for the current Grouping only
   totalVotes?: number;
+  votedNeither: boolean;
   image: {
     originalWidth: number;
     originalHeight: number;
@@ -41,8 +64,10 @@ export class Contribution {
   constructor(cData: {}, grouping: Grouping) {
     this.chips = [];
     this.voting = [];
+    this.vetted = false;
     this.totalVotes = 0;
     this.groupingVoting = new Voting({});
+    this.votedNeither = false;
     this.caption = '';
     this.image = {
       originalWidth: 0,
@@ -59,19 +84,36 @@ export class Contribution {
     }
   }
 
-  setGroupingVotingIndex(grouping: Grouping) {
-    this.voting.forEach((vote) => {
-      this.totalVotes += vote.votes;
-      if (vote.grouping_id === grouping._id) {
-        this.groupingVoting = new Voting(vote);
-      }
-    });
+  setGroupingVotingIndex(mainGrouping: Grouping) {
+
+    // For Voting Results - Tally votes that match the groupings selected in the mainGrouping
+    if (mainGrouping.displayMode === 'Voting Results') {
+      this.groupingVoting = new Voting({votes: 0, exposures: 0, grouping_id: 'inactive'});
+      this.voting.forEach((v) => {
+        if (mainGrouping.votingResultsOptions.groupings.indexOf(v.grouping_id) > -1) {
+          this.totalVotes += v.votes;
+          this.groupingVoting.votes += v.votes;
+          this.groupingVoting.exposures += v.exposures;
+          this.groupingVoting.grouping_id = 'active';  // a key is needed here to allow filtering these Contributions from others
+        }
+      });
+
+    // Otherwise, tally all of the votes we find, and set up for for a single Grouping
+    } else {
+      this.voting.forEach((vote) => {
+        this.totalVotes += vote.votes;
+        if (vote.grouping_id === mainGrouping._id) {
+          this.groupingVoting = new Voting(vote);
+        }
+      });
+    }
   }
 
   setContribution(cData) {
     this._id = cData._id;
     this.origin = cData.origin;
     this.created = new Date(cData.created);
+    this.vetted = cData.vetted;
     this.chips = cData.chips || [];
     if (cData.voting) {
       cData.voting.forEach((v) => {
@@ -214,6 +256,18 @@ export class Settings {
   }
 }
 
+export class GroupingsSelector {
+  id: string;
+  title: string;
+  selected: boolean;
+
+  constructor(id: string, title: string, selected: boolean) {
+    this.id = id;
+    this.title = title;
+    this.selected = selected;
+  }
+}
+
 export class Grouping {
   _id: string;
   urlSlug: string;
@@ -227,14 +281,22 @@ export class Grouping {
     imageCaption: boolean;
     resultsVisible: boolean;
   };
+  votingResultsOptions: {
+    groupings: string[];
+    groupingsSelectors?: GroupingsSelector[];
+    groupingViewId: string;
+  };
   serendipitousOptions: {
     randomSelection: boolean;
   };
   chips: string[];
   created: Date;
+  active?: boolean;
 
   constructor(gData?: {}) {
     this.chips = [];
+    this.urlSlug = '';
+    this.active = false;
     this.titleDescriptionMode = 'Automatic';    // 'Automatic' or 'Custom'
     this.contributionMode = 'Chips';      // 'Chips', 'All', 'Feed'
     this.displayMode = 'Serendipitous';   // 'Serendipitous', 'Voting', 'Voting Results'
@@ -242,6 +304,11 @@ export class Grouping {
       displayMode: 'Image',      // 'Image', 'Caption'
       imageCaption: true,
       resultsVisible: true
+    };
+    this.votingResultsOptions = {
+      groupings: [],
+      groupingsSelectors: null,
+      groupingViewId: ''
     };
     this.serendipitousOptions = {
       randomSelection: false
@@ -262,6 +329,9 @@ export class Grouping {
     this.contributionMode = gData.contributionMode;
     this.displayMode = gData.displayMode;
     this.votingOptions = gData.votingOptions;
+    this.votingResultsOptions.groupings = gData.votingResultsOptions.groupings;
+    this.votingResultsOptions.groupingsSelectors = [];        // Needed at front end only, set up in Creator
+    this.votingResultsOptions.groupingViewId = gData.votingResultsOptions.groupingViewId;
     this.serendipitousOptions = gData.serendipitousOptions;
     this.chips = gData.chips;
   }
@@ -284,6 +354,12 @@ export interface GroupingResponse extends Response {
 }
 export interface SettingResponse extends Response {
   data: Settings;
+}
+export interface VoteResponse extends Response {
+  data: Vote[];
+}
+export interface ChipResponse extends Response {
+  data: Chip[];
 }
 export interface ContributionsResponse extends Response {
   data: Contribution[];

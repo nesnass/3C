@@ -33,7 +33,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 export class ContributionComponent implements OnInit {
   private trimmedCaption = '';
   private _contribution: Contribution;
-  private customStyle;
+  private customStyle = {};
 
   @Input() contributionVisibleState: string;
   @Input() voteSelectedState: string;
@@ -50,9 +50,12 @@ export class ContributionComponent implements OnInit {
   }
   @Output() contributionChange: EventEmitter<Contribution> = new EventEmitter<Contribution>();
 
-
   constructor() {
     this._contribution = null;
+  }
+
+  get contribution() {
+    return this._contribution;
   }
 
   ngOnInit() {
@@ -60,14 +63,24 @@ export class ContributionComponent implements OnInit {
     // console.log('object evt: %O', this.grouping);
   }
 
+  votedNeither() {
+    return this._contribution.votedNeither;
+  }
+
   setupContribution() {
-    const maxChars = (this.grouping.displayMode === 'Voting' && this.grouping.votingOptions.displayMode === 'Caption As Image')
+    const maxChars = ((this.grouping.displayMode === 'Voting' && this.grouping.votingOptions.displayMode === 'Caption As Image')
+    || (this.grouping.displayMode === 'Voting Results' && this.grouping.votingOptions.displayMode === 'Image'))
       ? 400 : 100;
     this.trimmedCaption = this._contribution.caption.length > maxChars ? this._contribution.caption.substr(0, maxChars) + '...'
       : this._contribution.caption;
     const fontSize = this._contribution.caption.length > maxChars ? '0.3em' : '0.5em';
     const imageUrl = this._contribution.image.url;
-    this.customStyle = { 'background-image': 'url(\'' + imageUrl + '\')', 'font-size': fontSize };
+    const backgroundSize = this.grouping.displayMode === 'Voting' ? 'contain' : 'cover';
+    if (this.grouping.votingOptions.displayMode === 'Image') {
+      this.customStyle = {'background-image': 'url(\'' + imageUrl + '\')', 'background-size': backgroundSize};
+    } else if (this.grouping.votingOptions.displayMode === 'Caption As Image') {
+      this.customStyle = {'height': 'auto'};
+    }
   }
 
 }

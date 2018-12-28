@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ListingService} from '../services/listing.service';
 import {Contribution, InputData} from '../models';
+import { Location } from '@angular/common';
 import 'rxjs/add/operator/take';
 
 @Component({
@@ -13,6 +14,7 @@ export class VotingViewComponent implements OnInit {
   showVoting = false;
   showCustomVoting = false;
   showResults = false;
+  showThankyou = false;
   contributionVisibleState = 'invisible';
   voteSelected = 'small';
   position: string;
@@ -23,13 +25,13 @@ export class VotingViewComponent implements OnInit {
   inputData: InputData;
   voteSelectedStateC1: string;
   voteSelectedStateC2: string;
-
   backTimer = null;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) {
+  constructor(private route: ActivatedRoute, public listingService: ListingService, private location: Location) {
     this.position = 'none';
     this.inputData = new InputData();
     this.route.params.subscribe( params => this.position = params.position );
+    this.location = location;
   }
 
   ngOnInit() {
@@ -71,9 +73,12 @@ export class VotingViewComponent implements OnInit {
   castVote(c1: boolean, c2: boolean) {
     this.voteSelectedStateC1 = c1 ? 'large' : 'small';
     this.voteSelectedStateC2 = c2 ? 'large' : 'small';
+    this.checkNeither(c1, c2);
     setTimeout(() => {
       this.voteSelectedStateC1 = 'small';
       this.voteSelectedStateC2 = 'small';
+      this.contribution1.votedNeither = false;
+      this.contribution2.votedNeither = false;
       this.listingService.castVote(c1, c2);
       this.getTwoContributions();
     }, 1000);
@@ -85,8 +90,12 @@ export class VotingViewComponent implements OnInit {
         // reset input field. TODO: reset whole page
         clearTimeout(this.backTimer);
         this.inputData = new InputData();
+        this.showThankyou = true;
         this.showCustomVoting = false;
-        this.showVoting = true;
+        setTimeout(() => {
+          this.showThankyou = false;
+          this.showVoting = true;
+        }, 10000);
       });
     }
   }
@@ -96,6 +105,7 @@ export class VotingViewComponent implements OnInit {
     this.backTimer = setTimeout(() => {
       this.showCustomVoting = false;
       this.showVoting = true;
+      this.showResults = true;
     }, 20000);
   }
 
@@ -111,4 +121,14 @@ export class VotingViewComponent implements OnInit {
     }
   }
 
+  checkNeither(c1: boolean, c2: boolean) {
+    if (c1 === false && c2 === false) {
+      this.contribution1.votedNeither = true;
+      this.contribution2.votedNeither = true;
+    }
+  }
+
+  showVotingResults() {
+    this.listingService.redirectToVotingResultsView();
+  }
 }

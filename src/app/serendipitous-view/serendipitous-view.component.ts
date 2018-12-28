@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {ListingService} from '../services/listing.service';
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-serendipitous-view',
@@ -12,11 +12,13 @@ export class SerendipitousViewComponent implements OnInit {
   showDetail = false;
   showCarousel = false;
   showDetailTimer = null;
+  showResultsTimer = null;
   position: string;
 
-  constructor(private route: ActivatedRoute, private listingService: ListingService) {
+  constructor(private route: ActivatedRoute, private listingService: ListingService, private location: Location) {
     this.position = 'none';
     this.route.params.subscribe( params => this.position = params.position );
+    this.location = location;
   }
 
   ngOnInit() {
@@ -30,7 +32,12 @@ export class SerendipitousViewComponent implements OnInit {
         });
         if (selectedGrouping !== null) {
           this.listingService.grouping = selectedGrouping;
-          this.showCarousel = true;
+          if (selectedGrouping.displayMode === 'Voting Results') {
+            this.resetVotingResultsTimer();
+            this.showDetail = true;
+          } else {
+            this.showCarousel = true;
+          }
         }
       });
     }
@@ -43,10 +50,27 @@ export class SerendipitousViewComponent implements OnInit {
   }
 
   resetDetailTimer() {
-    clearTimeout(this.showDetailTimer);
-    this.showDetailTimer = setTimeout(() => {
-      this.showDetail = false;
-      this.showCarousel = true;
-    }, 20000);
+    if (this.listingService.grouping.displayMode !== 'Voting Results') {
+      clearTimeout(this.showDetailTimer);
+      this.showDetailTimer = setTimeout(() => {
+        this.showDetail = false;
+        this.showCarousel = true;
+      }, 20000);
+    }
+  }
+
+  resetVotingResultsTimer() {
+    if (this.listingService.grouping.displayMode === 'Voting Results' && this.listingService.redirected === true) {
+      clearTimeout(this.showResultsTimer);
+      this.showResultsTimer = setTimeout(() => {
+        this.goBack();
+      }, 20000);
+    }
+  }
+
+  goBack() {
+    clearTimeout(this.showResultsTimer);
+    this.listingService.redirected = false;
+    this.location.back();
   }
 }
